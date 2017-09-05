@@ -9,8 +9,9 @@ namespace CarShareApi.Models.Services
 {
     public interface ICarService
     {
-        CarViewModel Find(int id);
-        List<CarViewModel> FindAll();
-        List<CarViewModel> FindByLocation(double lat, double lng);
+        CarViewModel FindCar(int id);
+        List<CarViewModel> FindAllCars();
+        List<CarViewModel> FindCarsByLocation(double lat, double lng);
+        void DeleteCar(int id);
     }
 }

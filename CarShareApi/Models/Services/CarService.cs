@@ -15,7 +15,7 @@ namespace CarShareApi.Models.Services
         {
             CarRepository = carRepository;
         }
-        public List<CarViewModel> FindByLocation(double lat, double lng)
+        public List<CarViewModel> FindCarsByLocation(double lat, double lng)
         {
             var cars = CarRepository.FindAll();
             var result = new List<CarViewModel>();
@@ -30,12 +30,12 @@ namespace CarShareApi.Models.Services
             return result.OrderBy(x=>x.Distance).ToList();
         }
 
-        public CarViewModel Find(int id)
+        public CarViewModel FindCar(int id)
         {
             return new CarViewModel(CarRepository.Find(id));
         }
 
-        public List<CarViewModel> FindAll()
+        public List<CarViewModel> FindAllCars()
         {
             return CarRepository.FindAll().Select(x => new CarViewModel(x)).ToList();
         }
@@ -58,6 +58,11 @@ namespace CarShareApi.Models.Services
             var d = 2 * r * Math.Asin(Math.Sqrt(q));
 
             return d;
+        }
+
+        public void DeleteCar(int id)
+        {
+            CarRepository.Delete(id);
         }
     }
 }
