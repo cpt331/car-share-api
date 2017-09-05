@@ -7,75 +7,75 @@ using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CarShareApi;
 using CarShareApi.Controllers;
+using CarShareApi.ViewModels;
 
 namespace CarShareApi.Tests.Controllers
 {
     [TestClass]
-    public class ValuesControllerTest
+    public class CarsControllerTest
     {
         [TestMethod]
         public void Get()
         {
             // Arrange
-            ValuesController controller = new ValuesController();
+            CarsController controller = new CarsController();
 
             // Act
-            IEnumerable<string> result = controller.Get();
+            IEnumerable<CarViewModel> result = controller.Get();
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(2, result.Count());
-            Assert.AreEqual("value1", result.ElementAt(0));
-            Assert.AreEqual("value2", result.ElementAt(1));
+            Assert.AreEqual(3, result.Count());
+            
         }
 
         [TestMethod]
         public void GetById()
         {
             // Arrange
-            ValuesController controller = new ValuesController();
+            CarsController controller = new CarsController();
 
             // Act
-            string result = controller.Get(5);
+            var result = controller.Get(2);
 
             // Assert
-            Assert.AreEqual("value", result);
+            Assert.AreEqual("Model X", result.Model);
         }
 
-        [TestMethod]
-        public void Post()
-        {
-            // Arrange
-            ValuesController controller = new ValuesController();
+        //[TestMethod]
+        //public void Post()
+        //{
+        //    // Arrange
+        //    CarsController controller = new CarsController();
 
-            // Act
-            controller.Post("value");
+        //    // Act
+        //    controller.Post("value");
 
-            // Assert
-        }
+        //    // Assert
+        //}
 
-        [TestMethod]
-        public void Put()
-        {
-            // Arrange
-            ValuesController controller = new ValuesController();
+        //[TestMethod]
+        //public void Put()
+        //{
+        //    // Arrange
+        //    CarsController controller = new CarsController();
 
-            // Act
-            controller.Put(5, "value");
+        //    // Act
+        //    controller.Put(5, "value");
 
-            // Assert
-        }
+        //    // Assert
+        //}
 
-        [TestMethod]
-        public void Delete()
-        {
-            // Arrange
-            ValuesController controller = new ValuesController();
+        //[TestMethod]
+        //public void Delete()
+        //{
+        //    // Arrange
+        //    CarsController controller = new CarsController();
 
-            // Act
-            controller.Delete(5);
+        //    // Act
+        //    controller.Delete(5);
 
-            // Assert
-        }
+        //    // Assert
+        //}
     }
 }
