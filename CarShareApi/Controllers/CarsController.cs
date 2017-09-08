@@ -1,5 +1,6 @@
 ﻿using CarShareApi.Models;
 using CarShareApi.Models.Repositories;
+using CarShareApi.Models.Repositories.Implementations;
 using CarShareApi.Models.Services;
 using CarShareApi.ViewModels;
 using System;
@@ -11,6 +12,7 @@ using System.Web.Http;
 
 namespace CarShareApi.Controllers
 {
+    [Authorize]
     public class CarsController : ApiController
     {
         private ICarService CarService;
