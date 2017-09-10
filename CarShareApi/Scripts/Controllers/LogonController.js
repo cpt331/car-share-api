@@ -1,5 +1,5 @@
 ﻿
-angular.module('CarShareApp').controller('LogonController', function ($scope,$http) {
+angular.module('CarShareApp').controller('LogonController', function ($scope, $rootScope ,$http) {
     // create a message to display in our view
     $scope.Loading = false;
     $scope.LogonRequest = { Email: '', Password: '' };
@@ -16,7 +16,8 @@ angular.module('CarShareApp').controller('LogonController', function ($scope,$ht
                 console.log(res);
 
                 //but we do receive json funnily enough
-                $scope.AccessToken = res.data.access_token;
+                $scope.Token = res.data;
+                $rootScope.Token = res.data;
                 $scope.Loading = false;
             }
             , function (error) {

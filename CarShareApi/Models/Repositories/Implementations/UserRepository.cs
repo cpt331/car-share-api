@@ -13,10 +13,10 @@ namespace CarShareApi.Models.Repositories.Implementations
         {
             Users = new List<User>
             {
-                new User { Id = 1, Email = "user1@gmail.com", Password = "password1" },
-                new User { Id = 2, Email = "user2@gmail.com", Password = "password2" },
-                new User { Id = 3, Email = "user3@gmail.com", Password = "password3" },
-                new User { Id = 4, Email = "user4@gmail.com", Password = "password4" }
+                new User { Id = 1, Firstname = "Homer", Lastname = "Simpson", Email="user1@gmail.com", Password = "password1" },
+                new User { Id = 2, Firstname = "Frank", Lastname = "Grimes",  Email = "user2@gmail.com", Password = "password2" },
+                new User { Id = 3, Firstname = "Marge", Lastname = "Simpson", Email = "user3@gmail.com", Password = "password3" },
+                new User { Id = 4, Firstname = "Sideshow", Lastname = "Bob",  Email = "user4@gmail.com", Password = "password4" }
             };
         }
         public User Add(User item)

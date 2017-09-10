@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.Owin.Security;
 
 namespace CarShareApi.Models.Providers
 {
@@ -21,6 +22,7 @@ namespace CarShareApi.Models.Providers
         {
             context.Validated();
         }
+
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
@@ -38,12 +40,36 @@ namespace CarShareApi.Models.Providers
                 return;
             }
 
+            var user = UserService.FindUser(response.Id.Value);
             var identity = CreateIdentity(
-                UserService.FindUser(response.Id.Value), 
+                user, 
                 context.Options.AuthenticationType);
 
-            context.Validated(identity);
+            var props = new AuthenticationProperties(new Dictionary<string, string>
+            {
+                {
+                    "Name", $"{user.Firstname} {user.Lastname}"
+                },
+                {
+                    "Email", user.Email
+                },
+                {
+                    "Id", user.Id.ToString()
+                }
+            });
 
+            context.Validated(new AuthenticationTicket(identity, props));
+
+        }
+
+        public override Task TokenEndpoint(OAuthTokenEndpointContext context)
+        {
+            foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
+            {
+                context.AdditionalResponseParameters.Add(property.Key, property.Value);
+            }
+
+            return Task.FromResult<object>(null);
         }
 
         private ClaimsIdentity CreateIdentity(User user, string type)

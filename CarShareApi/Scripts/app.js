@@ -5,41 +5,46 @@ var app = angular.module('CarShareApp', ['ngRoute']);
 app.config(function ($routeProvider) {
     $routeProvider
 
-        // route for the home page
-        .when('/', {
-            templateUrl: '../Pages/Home.html',
-            controller: 'mainController'
-        })
 
         // route for the home page
-        .when('/logon', {
-            templateUrl: '../Pages/Logon.html',
-            controller: 'LogonController'
-        })
+        .when('/logon',
+            {
+                templateUrl: '../Pages/Logon.html',
+                controller: 'LogonController'
+            })
 
         // route for the about page
-        .when('/about', {
-            templateUrl: '../Pages/About.html',
-            controller: 'aboutController'
+        .when('/about',
+            {
+                templateUrl: '../Pages/About.html',
+                controller: 'AboutController'
+            })
+
+        // route for the cars page
+        .when('/cars',
+            {
+                templateUrl: '../Pages/Cars.html',
+                controller: 'CarsController'
         })
 
-        // route for the contact page
-        .when('/contact', {
-            templateUrl: '../Pages/Contact.html',
-            controller: 'contactController'
-        });
+        // route for the car detail page
+        .when('/cars/:carId',
+            {
+                templateUrl: '../Pages/Car.html',
+                controller: 'CarController'
+            })
+
+
+        // route for the home page
+        .otherwise(
+            {
+                templateUrl: '../Pages/Home.html',
+                controller: 'HomeController'
+            });
 });
 
 // create the controller and inject Angular's $scope
-app.controller('mainController', function ($scope) {
+app.controller('HomeController', function ($scope) {
     // create a message to display in our view
-    $scope.message = 'Everyone come and see how good I look!';
-});
-
-app.controller('aboutController', function ($scope) {
-    $scope.message = 'Look! I am an about page.';
-});
-
-app.controller('contactController', function ($scope) {
-    $scope.message = 'Contact us! JK. This is just a demo.';
+  
 });
