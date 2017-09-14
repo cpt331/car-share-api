@@ -1,4 +1,4 @@
-﻿namespace CarShareApi.Models.Services
+﻿namespace CarShareApi.Models.ViewModels
 {
     public class LogonResponse
     {

@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -97,6 +98,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web.Cors, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.0.0\lib\net45\System.Web.Cors.dll</HintPath>
     </Reference>
@@ -230,6 +232,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CarsController.cs" />
     <Compile Include="Models\Car.cs" />
+    <Compile Include="Models\Encryption.cs" />
     <Compile Include="Models\Providers\CarShareAuthorisationServerProvider.cs" />
     <Compile Include="Models\Repositories\Implementations\CarRepository.cs" />
     <Compile Include="Models\Repositories\Data\CarShareContext.cs" />
@@ -241,10 +244,10 @@
     <Compile Include="Models\Services\ICarService.cs" />
     <Compile Include="Models\Services\Implementations\UserService.cs" />
     <Compile Include="Models\Services\IUserService.cs" />
-    <Compile Include="Models\Services\LogonRequest.cs" />
-    <Compile Include="Models\Services\LogonResponse.cs" />
-    <Compile Include="Models\Services\RegisterRequest.cs" />
-    <Compile Include="Models\Services\RegisterResponse.cs" />
+    <Compile Include="ViewModels\LogonRequest.cs" />
+    <Compile Include="ViewModels\LogonResponse.cs" />
+    <Compile Include="ViewModels\RegisterRequest.cs" />
+    <Compile Include="ViewModels\RegisterResponse.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserPrincipal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
