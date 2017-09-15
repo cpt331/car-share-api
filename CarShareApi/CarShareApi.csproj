@@ -288,11 +288,13 @@
     <Content Include="Pages\About.html" />
     <Content Include="Pages\Home.html" />
     <Content Include="index.html" />
+    <Content Include="Pages\Register.html" />
     <Content Include="Pages\Logon.html" />
     <Content Include="Scripts\App.js" />
     <Content Include="Scripts\Controllers\AboutController.js" />
     <Content Include="Scripts\Controllers\CarController.js" />
     <Content Include="Scripts\Controllers\CarsController.js" />
+    <Content Include="Scripts\Controllers\RegisterController.js" />
     <Content Include="Scripts\Controllers\LogonController.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
