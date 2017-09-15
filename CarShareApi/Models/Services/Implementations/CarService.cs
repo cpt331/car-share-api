@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace CarShareApi.Models.Services
+namespace CarShareApi.Models.Services.Implementations
 {
     public class CarService : ICarService
     {

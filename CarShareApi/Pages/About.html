@@ -1,0 +1,17 @@
+﻿
+<div class="container">
+    <div class="well">
+        <h1>About Page</h1>
+
+        <div ng-show="!LoggedOn">
+
+            <p>go logon first!</p>
+        </div>
+
+        <div ng-show="LoggedOn">
+
+            <p>Your access token is</p>
+            <textarea class="form-control" rows="6">{{Token}}</textarea>
+        </div>
+    </div>
+</div>

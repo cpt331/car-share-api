@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html ng-app="CarShareApp">
+<head>
+    <!-- SCROLLS -->
+    <!-- load bootstrap and fontawesome via CDN -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
+    <link rel="stylesheet" href="./Content/Site.css" />
+
+    <!-- SPELLS -->
+    <!-- load angular and angular route via CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+    <script src="./Scripts/app.js"></script>
+    <script src="./Scripts/Controllers/LogonController.js"></script>
+    <script src="./Scripts/Controllers/CarsController.js"></script>
+    <script src="./Scripts/Controllers/CarController.js"></script>
+    <script src="./Scripts/Controllers/AboutController.js"></script>
+</head>
+<body>
+
+    <!-- HEADER AND NAVBAR -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">Car Share App Example</a>
+                </div>
+
+                <ul class="nav navbar-nav navbar-right" ng-show="Token">
+                    
+                    <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+                    <li><a href="#cars"><i class="fa fa-car"></i> Cars</a></li>
+                    <li><a href="#about"><i class="fa fa-shield"></i> About</a></li>
+                    <li><a href="#logon"><i class="fa fa-user"></i> Logon</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right" ng-show="!Token">
+                    <li><a href="#logon"><i class="fa fa-user"></i> Logon</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT AND INJECTED VIEWS -->
+    <div id="main">
+       
+        <!-- angular templating -->
+        <!-- this is where content will be injected -->
+        <div ng-view></div>
+    </div>
+<footer class="container">
+    <p>{{Token.Name}}</p>
+</footer>
+</body>
+</html>

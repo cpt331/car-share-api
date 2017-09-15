@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace CarShareApi.Models.Repositories
+namespace CarShareApi.Models.Repositories.Implementations
 {
     public class CarRepository : ICarRepository
     {
@@ -50,7 +50,7 @@ namespace CarShareApi.Models.Repositories
 
         public Car Find(int id)
         {
-            return Cars.Single(x => x.Id == id);
+            return Cars.FirstOrDefault(x => x.Id == id);
         }
 
         public List<Car> FindAll()
