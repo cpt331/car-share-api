@@ -28,7 +28,7 @@ namespace CarShareApi.Controllers
 
         /// <summary>
         /// Return a list of all cars
-        /// </summary> 
+        /// </summary>
         /// <returns></returns>
         public IEnumerable<CarViewModel> Get()
         {
