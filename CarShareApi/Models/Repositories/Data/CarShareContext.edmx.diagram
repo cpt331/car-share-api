@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8ef8182be0274e4da5bf6109318e9a08" Name="Diagram1">
+        <EntityTypeShape EntityType="CarShareModel.Booking" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarShareModel.BookingStatu" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarShareModel.Car" Width="1.5" PointX="3" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarShareModel.CarCategory" Width="1.5" PointX="0.75" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarShareModel.CardType" Width="1.5" PointX="6" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarShareModel.CarRego" Width="1.5" PointX="5.25" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarShareModel.CarStatu" Width="1.5" PointX="0.75" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarShareModel.PaymentMethod" Width="1.5" PointX="8.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarShareModel.Receipt" Width="1.5" PointX="7.5" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarShareModel.Registration" Width="1.5" PointX="5.25" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarShareModel.TransactionHistory" Width="1.5" PointX="9.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarShareModel.TransactionStatu" Width="1.5" PointX="7.5" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarShareModel.User" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarShareModel.UserStatu" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <AssociationConnector Association="CarShareModel.FK_Booking_BookingStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="CarShareModel.FK_Booking_Car" ManuallyRouted="false" />
+        <AssociationConnector Association="CarShareModel.FK_Booking_TransactionHistory" ManuallyRouted="false" />
+        <AssociationConnector Association="CarShareModel.FK_Booking_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="CarShareModel.FK_Receipt_Booking" ManuallyRouted="false" />
+        <AssociationConnector Association="CarShareModel.FK_Car_Car" ManuallyRouted="false" />
+        <AssociationConnector Association="CarShareModel.FK_Car_CarCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="CarShareModel.FK_CarRego_Car" ManuallyRouted="false" />
+        <AssociationConnector Association="CarShareModel.FK_CarCategory_CarCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="CarShareModel.FK_PaymentMethod_CardType" ManuallyRouted="false" />
+        <AssociationConnector Association="CarShareModel.FK_PaymentMethod_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="CarShareModel.FK_TransactionHistory_Receipt" ManuallyRouted="false" />
+        <AssociationConnector Association="CarShareModel.FK_Registrations_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="CarShareModel.FK_TransactionHistory_TransactionStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="CarShareModel.FK_Users_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="CarShareModel.FK_UserStatus_User" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

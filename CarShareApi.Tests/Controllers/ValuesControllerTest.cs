@@ -25,7 +25,7 @@ namespace CarShareApi.Tests.Controllers
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(3, result.Count());
+            Assert.IsTrue(result.Any());
             
         }
 

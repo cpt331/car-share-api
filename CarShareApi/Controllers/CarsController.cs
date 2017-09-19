@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.Controllers
 {
@@ -19,7 +20,7 @@ namespace CarShareApi.Controllers
         private ICarService CarService;
         public CarsController()
         {
-            CarService = new CarService(new CarRepository());
+            CarService = new CarService(new CarRepository(new CarShareContext()));
         }
         public CarsController(ICarService carService)
         {

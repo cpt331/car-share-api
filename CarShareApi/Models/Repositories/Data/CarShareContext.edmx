@@ -1,0 +1,1046 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CarShareModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="BookingID" />
+          </Key>
+          <Property Name="BookingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VehicleID" Type="int" Nullable="false" />
+          <Property Name="TransactionID" Type="int" Nullable="false" />
+          <Property Name="AccountID" Type="int" Nullable="false" />
+          <Property Name="BookingStatus" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CheckOut" Type="date" Nullable="false" />
+          <Property Name="CheckIn" Type="date" />
+        </EntityType>
+        <EntityType Name="BookingStatus">
+          <Key>
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="VehicleID" />
+          </Key>
+          <Property Name="VehicleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Make" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Model" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CarCategory" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Transmission" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LatPos" Type="decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="LongPos" Type="decimal" Precision="9" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CarCategory">
+          <Key>
+            <PropertyRef Name="Category" />
+          </Key>
+          <Property Name="Category" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BillingRate" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CardType">
+          <Key>
+            <PropertyRef Name="CardType" />
+          </Key>
+          <Property Name="CardType" Type="varchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CarRego">
+          <Key>
+            <PropertyRef Name="VehicleID" />
+          </Key>
+          <Property Name="VehicleID" Type="int" Nullable="false" />
+          <Property Name="RegistrationNum" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="ExpiryDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CarStatus">
+          <Key>
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentMethod">
+          <Key>
+            <PropertyRef Name="AccountID" />
+          </Key>
+          <Property Name="AccountID" Type="int" Nullable="false" />
+          <Property Name="CardNumber" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="CardName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Expiry" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="CVV" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="CardType" Type="varchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Receipt">
+          <Key>
+            <PropertyRef Name="ReceiptID" />
+          </Key>
+          <Property Name="ReceiptID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookingID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AddressLine1" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AddressLine2" Type="varchar" MaxLength="100" />
+          <Property Name="Suburb" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Postcode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="CarDescription" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="BillingRate" Type="money" Nullable="false" />
+          <Property Name="BilledAmount" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Registrations">
+          <Key>
+            <PropertyRef Name="AccountID" />
+          </Key>
+          <Property Name="AccountID" Type="int" Nullable="false" />
+          <Property Name="DriversLicenceID" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DriversLicenceState" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="AddressLine1" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AddressLine2" Type="varchar" MaxLength="100" />
+          <Property Name="Suburb" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Postcode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="DateOfBirth" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransactionHistory">
+          <Key>
+            <PropertyRef Name="TransactionID" />
+          </Key>
+          <Property Name="TransactionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TransactionDate" Type="datetime" Nullable="false" />
+          <Property Name="ReceiptID" Type="int" Nullable="false" />
+          <Property Name="TimeBilled" Type="int" Nullable="false" />
+          <Property Name="BillingRate" Type="money" Nullable="false" />
+          <Property Name="Amount" Type="money" Nullable="false" />
+          <Property Name="TransactionStatus" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Reference" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="PaymentMethod" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransactionStatus">
+          <Key>
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="AccountID" />
+          </Key>
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AccountID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserStatus">
+          <Key>
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Booking_BookingStatus">
+          <End Role="BookingStatus" Type="Self.BookingStatus" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingStatus">
+              <PropertyRef Name="Status" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="BookingStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_Car">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="VehicleID" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="VehicleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_TransactionHistory">
+          <End Role="TransactionHistory" Type="Self.TransactionHistory" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionHistory">
+              <PropertyRef Name="TransactionID" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="TransactionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="AccountID" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_Car">
+          <End Role="CarStatus" Type="Self.CarStatus" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarStatus">
+              <PropertyRef Name="Status" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_CarCategory">
+          <End Role="CarCategory" Type="Self.CarCategory" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarCategory">
+              <PropertyRef Name="Category" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="CarCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarCategory_CarCategory">
+          <End Role="CarCategory" Type="Self.CarCategory" Multiplicity="1" />
+          <End Role="CarCategory1" Type="Self.CarCategory" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="CarCategory">
+              <PropertyRef Name="Category" />
+            </Principal>
+            <Dependent Role="CarCategory1">
+              <PropertyRef Name="Category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarRego_Car">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="CarRego" Type="Self.CarRego" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="VehicleID" />
+            </Principal>
+            <Dependent Role="CarRego">
+              <PropertyRef Name="VehicleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentMethod_CardType">
+          <End Role="CardType" Type="Self.CardType" Multiplicity="1" />
+          <End Role="PaymentMethod" Type="Self.PaymentMethod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CardType">
+              <PropertyRef Name="CardType" />
+            </Principal>
+            <Dependent Role="PaymentMethod">
+              <PropertyRef Name="CardType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentMethod_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="PaymentMethod" Type="Self.PaymentMethod" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="AccountID" />
+            </Principal>
+            <Dependent Role="PaymentMethod">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipt_Booking">
+          <End Role="Booking" Type="Self.Booking" Multiplicity="1" />
+          <End Role="Receipt" Type="Self.Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="BookingID" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="BookingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Registrations_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Registrations" Type="Self.Registrations" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="AccountID" />
+            </Principal>
+            <Dependent Role="Registrations">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionHistory_Receipt">
+          <End Role="Receipt" Type="Self.Receipt" Multiplicity="1" />
+          <End Role="TransactionHistory" Type="Self.TransactionHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Receipt">
+              <PropertyRef Name="ReceiptID" />
+            </Principal>
+            <Dependent Role="TransactionHistory">
+              <PropertyRef Name="ReceiptID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionHistory_TransactionStatus">
+          <End Role="TransactionStatus" Type="Self.TransactionStatus" Multiplicity="1" />
+          <End Role="TransactionHistory" Type="Self.TransactionHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionStatus">
+              <PropertyRef Name="Status" />
+            </Principal>
+            <Dependent Role="TransactionHistory">
+              <PropertyRef Name="TransactionStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Users1">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Users1" Type="Self.Users" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="AccountID" />
+            </Principal>
+            <Dependent Role="Users1">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserStatus_User">
+          <End Role="UserStatus" Type="Self.UserStatus" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserStatus">
+              <PropertyRef Name="Status" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarShareModelStoreContainer">
+          <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookingStatus" EntityType="Self.BookingStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Car" EntityType="Self.Car" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarCategory" EntityType="Self.CarCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CardType" EntityType="Self.CardType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarRego" EntityType="Self.CarRego" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarStatus" EntityType="Self.CarStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Receipt" EntityType="Self.Receipt" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Registrations" EntityType="Self.Registrations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionHistory" EntityType="Self.TransactionHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionStatus" EntityType="Self.TransactionStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserStatus" EntityType="Self.UserStatus" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Booking_BookingStatus" Association="Self.FK_Booking_BookingStatus">
+            <End Role="BookingStatus" EntitySet="BookingStatus" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Car" Association="Self.FK_Booking_Car">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_TransactionHistory" Association="Self.FK_Booking_TransactionHistory">
+            <End Role="TransactionHistory" EntitySet="TransactionHistory" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Users" Association="Self.FK_Booking_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_Car" Association="Self.FK_Car_Car">
+            <End Role="CarStatus" EntitySet="CarStatus" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_CarCategory" Association="Self.FK_Car_CarCategory">
+            <End Role="CarCategory" EntitySet="CarCategory" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarCategory_CarCategory" Association="Self.FK_CarCategory_CarCategory">
+            <End Role="CarCategory" EntitySet="CarCategory" />
+            <End Role="CarCategory1" EntitySet="CarCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarRego_Car" Association="Self.FK_CarRego_Car">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="CarRego" EntitySet="CarRego" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentMethod_CardType" Association="Self.FK_PaymentMethod_CardType">
+            <End Role="CardType" EntitySet="CardType" />
+            <End Role="PaymentMethod" EntitySet="PaymentMethod" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentMethod_Users" Association="Self.FK_PaymentMethod_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PaymentMethod" EntitySet="PaymentMethod" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipt_Booking" Association="Self.FK_Receipt_Booking">
+            <End Role="Booking" EntitySet="Booking" />
+            <End Role="Receipt" EntitySet="Receipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Registrations_Users" Association="Self.FK_Registrations_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Registrations" EntitySet="Registrations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionHistory_Receipt" Association="Self.FK_TransactionHistory_Receipt">
+            <End Role="Receipt" EntitySet="Receipt" />
+            <End Role="TransactionHistory" EntitySet="TransactionHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionHistory_TransactionStatus" Association="Self.FK_TransactionHistory_TransactionStatus">
+            <End Role="TransactionStatus" EntitySet="TransactionStatus" />
+            <End Role="TransactionHistory" EntitySet="TransactionHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Users1" Association="Self.FK_Users_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Users1" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserStatus_User" Association="Self.FK_UserStatus_User">
+            <End Role="UserStatus" EntitySet="UserStatus" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CarShareModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="BookingID" />
+          </Key>
+          <Property Name="BookingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VehicleID" Type="Int32" Nullable="false" />
+          <Property Name="TransactionID" Type="Int32" Nullable="false" />
+          <Property Name="AccountID" Type="Int32" Nullable="false" />
+          <Property Name="BookingStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CheckOut" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CheckIn" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="BookingStatu" Relationship="Self.FK_Booking_BookingStatus" FromRole="Booking" ToRole="BookingStatus" />
+          <NavigationProperty Name="Car" Relationship="Self.FK_Booking_Car" FromRole="Booking" ToRole="Car" />
+          <NavigationProperty Name="TransactionHistory" Relationship="Self.FK_Booking_TransactionHistory" FromRole="Booking" ToRole="TransactionHistory" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Booking_Users" FromRole="Booking" ToRole="Users" />
+          <NavigationProperty Name="Receipts" Relationship="Self.FK_Receipt_Booking" FromRole="Booking" ToRole="Receipt" />
+        </EntityType>
+        <EntityType Name="BookingStatu">
+          <Key>
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_Booking_BookingStatus" FromRole="BookingStatus" ToRole="Booking" />
+        </EntityType>
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="VehicleID" />
+          </Key>
+          <Property Name="VehicleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Make" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CarCategory" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Transmission" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LatPos" Type="Decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="LongPos" Type="Decimal" Precision="9" Scale="6" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_Booking_Car" FromRole="Car" ToRole="Booking" />
+          <NavigationProperty Name="CarStatu" Relationship="Self.FK_Car_Car" FromRole="Car" ToRole="CarStatus" />
+          <NavigationProperty Name="CarCategory1" Relationship="Self.FK_Car_CarCategory" FromRole="Car" ToRole="CarCategory" />
+          <NavigationProperty Name="CarRego" Relationship="Self.FK_CarRego_Car" FromRole="Car" ToRole="CarRego" />
+        </EntityType>
+        <EntityType Name="CarCategory">
+          <Key>
+            <PropertyRef Name="Category" />
+          </Key>
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BillingRate" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Car_CarCategory" FromRole="CarCategory" ToRole="Car" />
+          <NavigationProperty Name="CarCategory1" Relationship="Self.FK_CarCategory_CarCategory" FromRole="CarCategory" ToRole="CarCategory1" />
+          <NavigationProperty Name="CarCategory2" Relationship="Self.FK_CarCategory_CarCategory" FromRole="CarCategory1" ToRole="CarCategory" />
+        </EntityType>
+        <EntityType Name="CardType">
+          <Key>
+            <PropertyRef Name="CardType1" />
+          </Key>
+          <Property Name="CardType1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PaymentMethods" Relationship="Self.FK_PaymentMethod_CardType" FromRole="CardType" ToRole="PaymentMethod" />
+        </EntityType>
+        <EntityType Name="CarRego">
+          <Key>
+            <PropertyRef Name="VehicleID" />
+          </Key>
+          <Property Name="VehicleID" Type="Int32" Nullable="false" />
+          <Property Name="RegistrationNum" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ExpiryDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Car" Relationship="Self.FK_CarRego_Car" FromRole="CarRego" ToRole="Car" />
+        </EntityType>
+        <EntityType Name="CarStatu">
+          <Key>
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Car_Car" FromRole="CarStatus" ToRole="Car" />
+        </EntityType>
+        <EntityType Name="PaymentMethod">
+          <Key>
+            <PropertyRef Name="AccountID" />
+          </Key>
+          <Property Name="AccountID" Type="Int32" Nullable="false" />
+          <Property Name="CardNumber" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CardName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Expiry" Type="String" MaxLength="7" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CVV" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CardType" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CardType1" Relationship="Self.FK_PaymentMethod_CardType" FromRole="PaymentMethod" ToRole="CardType" />
+          <NavigationProperty Name="User" Relationship="Self.FK_PaymentMethod_Users" FromRole="PaymentMethod" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Receipt">
+          <Key>
+            <PropertyRef Name="ReceiptID" />
+          </Key>
+          <Property Name="ReceiptID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AddressLine1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AddressLine2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Suburb" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Postcode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CarDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BillingRate" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="BilledAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Booking" Relationship="Self.FK_Receipt_Booking" FromRole="Receipt" ToRole="Booking" />
+          <NavigationProperty Name="TransactionHistories" Relationship="Self.FK_TransactionHistory_Receipt" FromRole="Receipt" ToRole="TransactionHistory" />
+        </EntityType>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="AccountID" />
+          </Key>
+          <Property Name="AccountID" Type="Int32" Nullable="false" />
+          <Property Name="DriversLicenceID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DriversLicenceState" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AddressLine1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AddressLine2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Suburb" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Postcode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Registrations_Users" FromRole="Registrations" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="TransactionHistory">
+          <Key>
+            <PropertyRef Name="TransactionID" />
+          </Key>
+          <Property Name="TransactionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ReceiptID" Type="Int32" Nullable="false" />
+          <Property Name="TimeBilled" Type="Int32" Nullable="false" />
+          <Property Name="BillingRate" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="TransactionStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Reference" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PaymentMethod" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_Booking_TransactionHistory" FromRole="TransactionHistory" ToRole="Booking" />
+          <NavigationProperty Name="Receipt" Relationship="Self.FK_TransactionHistory_Receipt" FromRole="TransactionHistory" ToRole="Receipt" />
+          <NavigationProperty Name="TransactionStatu" Relationship="Self.FK_TransactionHistory_TransactionStatus" FromRole="TransactionHistory" ToRole="TransactionStatus" />
+        </EntityType>
+        <EntityType Name="TransactionStatu">
+          <Key>
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TransactionHistories" Relationship="Self.FK_TransactionHistory_TransactionStatus" FromRole="TransactionStatus" ToRole="TransactionHistory" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="AccountID" />
+          </Key>
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AccountID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_Booking_Users" FromRole="Users" ToRole="Booking" />
+          <NavigationProperty Name="PaymentMethod" Relationship="Self.FK_PaymentMethod_Users" FromRole="Users" ToRole="PaymentMethod" />
+          <NavigationProperty Name="Registration" Relationship="Self.FK_Registrations_Users" FromRole="Users" ToRole="Registrations" />
+          <NavigationProperty Name="Users1" Relationship="Self.FK_Users_Users1" FromRole="Users" ToRole="Users1" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_Users_Users1" FromRole="Users1" ToRole="Users" />
+          <NavigationProperty Name="UserStatu" Relationship="Self.FK_UserStatus_User" FromRole="Users" ToRole="UserStatus" />
+        </EntityType>
+        <EntityType Name="UserStatu">
+          <Key>
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_UserStatus_User" FromRole="UserStatus" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_Booking_BookingStatus">
+          <End Role="BookingStatus" Type="Self.BookingStatu" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingStatus">
+              <PropertyRef Name="Status" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="BookingStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_Car">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="VehicleID" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="VehicleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_TransactionHistory">
+          <End Role="TransactionHistory" Type="Self.TransactionHistory" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionHistory">
+              <PropertyRef Name="TransactionID" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="TransactionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="AccountID" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipt_Booking">
+          <End Role="Booking" Type="Self.Booking" Multiplicity="1" />
+          <End Role="Receipt" Type="Self.Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="BookingID" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="BookingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_Car">
+          <End Role="CarStatus" Type="Self.CarStatu" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarStatus">
+              <PropertyRef Name="Status" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_CarCategory">
+          <End Role="CarCategory" Type="Self.CarCategory" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarCategory">
+              <PropertyRef Name="Category" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="CarCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarRego_Car">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="CarRego" Type="Self.CarRego" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="VehicleID" />
+            </Principal>
+            <Dependent Role="CarRego">
+              <PropertyRef Name="VehicleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarCategory_CarCategory">
+          <End Role="CarCategory" Type="Self.CarCategory" Multiplicity="1" />
+          <End Role="CarCategory1" Type="Self.CarCategory" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="CarCategory">
+              <PropertyRef Name="Category" />
+            </Principal>
+            <Dependent Role="CarCategory1">
+              <PropertyRef Name="Category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentMethod_CardType">
+          <End Role="CardType" Type="Self.CardType" Multiplicity="1" />
+          <End Role="PaymentMethod" Type="Self.PaymentMethod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CardType">
+              <PropertyRef Name="CardType1" />
+            </Principal>
+            <Dependent Role="PaymentMethod">
+              <PropertyRef Name="CardType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentMethod_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="PaymentMethod" Type="Self.PaymentMethod" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="AccountID" />
+            </Principal>
+            <Dependent Role="PaymentMethod">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionHistory_Receipt">
+          <End Role="Receipt" Type="Self.Receipt" Multiplicity="1" />
+          <End Role="TransactionHistory" Type="Self.TransactionHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Receipt">
+              <PropertyRef Name="ReceiptID" />
+            </Principal>
+            <Dependent Role="TransactionHistory">
+              <PropertyRef Name="ReceiptID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Registrations_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Registrations" Type="Self.Registration" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="AccountID" />
+            </Principal>
+            <Dependent Role="Registrations">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionHistory_TransactionStatus">
+          <End Role="TransactionStatus" Type="Self.TransactionStatu" Multiplicity="1" />
+          <End Role="TransactionHistory" Type="Self.TransactionHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionStatus">
+              <PropertyRef Name="Status" />
+            </Principal>
+            <Dependent Role="TransactionHistory">
+              <PropertyRef Name="TransactionStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Users1">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Users1" Type="Self.User" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="AccountID" />
+            </Principal>
+            <Dependent Role="Users1">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserStatus_User">
+          <End Role="UserStatus" Type="Self.UserStatu" Multiplicity="1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserStatus">
+              <PropertyRef Name="Status" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarShareContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bookings" EntityType="Self.Booking" />
+          <EntitySet Name="BookingStatus" EntityType="Self.BookingStatu" />
+          <EntitySet Name="Cars" EntityType="Self.Car" />
+          <EntitySet Name="CarCategories" EntityType="Self.CarCategory" />
+          <EntitySet Name="CardTypes" EntityType="Self.CardType" />
+          <EntitySet Name="CarRegoes" EntityType="Self.CarRego" />
+          <EntitySet Name="CarStatus" EntityType="Self.CarStatu" />
+          <EntitySet Name="PaymentMethods" EntityType="Self.PaymentMethod" />
+          <EntitySet Name="Receipts" EntityType="Self.Receipt" />
+          <EntitySet Name="Registrations" EntityType="Self.Registration" />
+          <EntitySet Name="TransactionHistories" EntityType="Self.TransactionHistory" />
+          <EntitySet Name="TransactionStatus" EntityType="Self.TransactionStatu" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UserStatus" EntityType="Self.UserStatu" />
+          <AssociationSet Name="FK_Booking_BookingStatus" Association="Self.FK_Booking_BookingStatus">
+            <End Role="BookingStatus" EntitySet="BookingStatus" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Car" Association="Self.FK_Booking_Car">
+            <End Role="Car" EntitySet="Cars" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_TransactionHistory" Association="Self.FK_Booking_TransactionHistory">
+            <End Role="TransactionHistory" EntitySet="TransactionHistories" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Users" Association="Self.FK_Booking_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipt_Booking" Association="Self.FK_Receipt_Booking">
+            <End Role="Booking" EntitySet="Bookings" />
+            <End Role="Receipt" EntitySet="Receipts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_Car" Association="Self.FK_Car_Car">
+            <End Role="CarStatus" EntitySet="CarStatus" />
+            <End Role="Car" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_CarCategory" Association="Self.FK_Car_CarCategory">
+            <End Role="CarCategory" EntitySet="CarCategories" />
+            <End Role="Car" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarRego_Car" Association="Self.FK_CarRego_Car">
+            <End Role="Car" EntitySet="Cars" />
+            <End Role="CarRego" EntitySet="CarRegoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarCategory_CarCategory" Association="Self.FK_CarCategory_CarCategory">
+            <End Role="CarCategory" EntitySet="CarCategories" />
+            <End Role="CarCategory1" EntitySet="CarCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentMethod_CardType" Association="Self.FK_PaymentMethod_CardType">
+            <End Role="CardType" EntitySet="CardTypes" />
+            <End Role="PaymentMethod" EntitySet="PaymentMethods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentMethod_Users" Association="Self.FK_PaymentMethod_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PaymentMethod" EntitySet="PaymentMethods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionHistory_Receipt" Association="Self.FK_TransactionHistory_Receipt">
+            <End Role="Receipt" EntitySet="Receipts" />
+            <End Role="TransactionHistory" EntitySet="TransactionHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Registrations_Users" Association="Self.FK_Registrations_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Registrations" EntitySet="Registrations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionHistory_TransactionStatus" Association="Self.FK_TransactionHistory_TransactionStatus">
+            <End Role="TransactionStatus" EntitySet="TransactionStatus" />
+            <End Role="TransactionHistory" EntitySet="TransactionHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Users1" Association="Self.FK_Users_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Users1" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserStatus_User" Association="Self.FK_UserStatus_User">
+            <End Role="UserStatus" EntitySet="UserStatus" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CarShareModelStoreContainer" CdmEntityContainer="CarShareContext">
+          <EntitySetMapping Name="Bookings">
+            <EntityTypeMapping TypeName="CarShareModel.Booking">
+              <MappingFragment StoreEntitySet="Booking">
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
+                <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
+                <ScalarProperty Name="CheckOut" ColumnName="CheckOut" />
+                <ScalarProperty Name="CheckIn" ColumnName="CheckIn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookingStatus">
+            <EntityTypeMapping TypeName="CarShareModel.BookingStatu">
+              <MappingFragment StoreEntitySet="BookingStatus">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cars">
+            <EntityTypeMapping TypeName="CarShareModel.Car">
+              <MappingFragment StoreEntitySet="Car">
+                <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
+                <ScalarProperty Name="Make" ColumnName="Make" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="CarCategory" ColumnName="CarCategory" />
+                <ScalarProperty Name="Transmission" ColumnName="Transmission" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="LatPos" ColumnName="LatPos" />
+                <ScalarProperty Name="LongPos" ColumnName="LongPos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarCategories">
+            <EntityTypeMapping TypeName="CarShareModel.CarCategory">
+              <MappingFragment StoreEntitySet="CarCategory">
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="BillingRate" ColumnName="BillingRate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CardTypes">
+            <EntityTypeMapping TypeName="CarShareModel.CardType">
+              <MappingFragment StoreEntitySet="CardType">
+                <ScalarProperty Name="CardType1" ColumnName="CardType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarRegoes">
+            <EntityTypeMapping TypeName="CarShareModel.CarRego">
+              <MappingFragment StoreEntitySet="CarRego">
+                <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
+                <ScalarProperty Name="RegistrationNum" ColumnName="RegistrationNum" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarStatus">
+            <EntityTypeMapping TypeName="CarShareModel.CarStatu">
+              <MappingFragment StoreEntitySet="CarStatus">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentMethods">
+            <EntityTypeMapping TypeName="CarShareModel.PaymentMethod">
+              <MappingFragment StoreEntitySet="PaymentMethod">
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
+                <ScalarProperty Name="CardName" ColumnName="CardName" />
+                <ScalarProperty Name="Expiry" ColumnName="Expiry" />
+                <ScalarProperty Name="CVV" ColumnName="CVV" />
+                <ScalarProperty Name="CardType" ColumnName="CardType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Receipts">
+            <EntityTypeMapping TypeName="CarShareModel.Receipt">
+              <MappingFragment StoreEntitySet="Receipt">
+                <ScalarProperty Name="ReceiptID" ColumnName="ReceiptID" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="Suburb" ColumnName="Suburb" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="CarDescription" ColumnName="CarDescription" />
+                <ScalarProperty Name="BillingRate" ColumnName="BillingRate" />
+                <ScalarProperty Name="BilledAmount" ColumnName="BilledAmount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Registrations">
+            <EntityTypeMapping TypeName="CarShareModel.Registration">
+              <MappingFragment StoreEntitySet="Registrations">
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="DriversLicenceID" ColumnName="DriversLicenceID" />
+                <ScalarProperty Name="DriversLicenceState" ColumnName="DriversLicenceState" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="Suburb" ColumnName="Suburb" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionHistories">
+            <EntityTypeMapping TypeName="CarShareModel.TransactionHistory">
+              <MappingFragment StoreEntitySet="TransactionHistory">
+                <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="ReceiptID" ColumnName="ReceiptID" />
+                <ScalarProperty Name="TimeBilled" ColumnName="TimeBilled" />
+                <ScalarProperty Name="BillingRate" ColumnName="BillingRate" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="TransactionStatus" ColumnName="TransactionStatus" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionStatus">
+            <EntityTypeMapping TypeName="CarShareModel.TransactionStatu">
+              <MappingFragment StoreEntitySet="TransactionStatus">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="CarShareModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserStatus">
+            <EntityTypeMapping TypeName="CarShareModel.UserStatu">
+              <MappingFragment StoreEntitySet="UserStatus">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

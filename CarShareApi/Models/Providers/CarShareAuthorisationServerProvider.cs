@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using CarShareApi.Models.Repositories.Data;
 using Microsoft.Owin.Security;
 using CarShareApi.Models.ViewModels;
 
@@ -60,13 +61,13 @@ namespace CarShareApi.Models.Providers
             var props = new AuthenticationProperties(new Dictionary<string, string>
             {
                 {
-                    "Name", $"{user.Firstname} {user.Lastname}"
+                    "Name", $"{user.FirstName} {user.LastName}"
                 },
                 {
                     "Email", user.Email
                 },
                 {
-                    "Id", user.Id.ToString()
+                    "Id", user.AccountID.ToString()
                 }
             });
 
@@ -89,9 +90,9 @@ namespace CarShareApi.Models.Providers
         {
             //creates a claims identity based on the supplied user
             var identity = new ClaimsIdentity(new[] {
-                new Claim(ClaimTypes.Name, $"{user.Firstname} {user.Lastname}"),
+                new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.PrimarySid, user.Id.ToString()),
+                new Claim(ClaimTypes.PrimarySid, user.AccountID.ToString()),
                 new Claim(ClaimTypes.Role, "User")
             }, type);
             return identity;

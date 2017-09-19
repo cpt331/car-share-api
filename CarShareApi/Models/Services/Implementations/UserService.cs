@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using CarShareApi.ViewModels;
 using CarShareApi.Models.Repositories;
+using CarShareApi.Models.Repositories.Data;
 using CarShareApi.Models.ViewModels;
 
 namespace CarShareApi.Models.Services.Implementations
@@ -26,7 +27,7 @@ namespace CarShareApi.Models.Services.Implementations
                 {
                     return new LogonResponse
                     {
-                        Id = user.Id,
+                        Id = user.AccountID,
                         Success = true,
                         Message = "Logon was successful."
                     };
@@ -60,11 +61,11 @@ namespace CarShareApi.Models.Services.Implementations
             
             var user = new User
             {
-                Id = 12345,
-                Firstname = "X",
-                Lastname = "Y",
+                FirstName = request.FirstName,
+                LastName =request.LastName,
                 Email = request.Email,
-                Password = Encryption.EncryptString(request.Password)
+                Password = Encryption.EncryptString(request.Password),
+                Status = "Active"
             };
 
             UserRepository.Add(user);
