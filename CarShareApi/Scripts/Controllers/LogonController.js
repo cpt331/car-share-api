@@ -3,6 +3,7 @@ angular.module('CarShareApp').controller('LogonController', function ($scope, $r
     // create a message to display in our view
     $scope.Loading = false;
     $scope.LogonRequest = { Email: '', Password: '' };
+    $scope.Error = null;
     $scope.Logon = function () {
         $scope.Loading = true;
 
@@ -14,7 +15,7 @@ angular.module('CarShareApp').controller('LogonController', function ($scope, $r
             { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
             .then(function (res) {
                 console.log(res);
-
+                $scope.Error = null;
                 //but we do receive json funnily enough
                 $scope.Token = res.data;
                 $rootScope.Token = res.data;
@@ -22,6 +23,7 @@ angular.module('CarShareApp').controller('LogonController', function ($scope, $r
             }
             , function (error) {
                 console.log(error);
+                $scope.Error = error.data;
                 $scope.Loading = false;
             });
     };

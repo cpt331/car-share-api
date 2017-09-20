@@ -1,0 +1,20 @@
+﻿insert into bookingstatus ([status]) values ('Cancelled')
+insert into bookingstatus ([status]) values ('Pending')
+insert into bookingstatus ([status]) values ('Confirmed')
+
+insert into cardtype (cardtype) values ('Visa')
+insert into cardtype (cardtype) values ('Mastercard')
+insert into cardtype (cardtype) values ('AMEX')
+
+insert into userstatus ([status]) values ('Inactive')
+insert into userstatus ([status]) values ('Active')
+
+insert into carstatus ([status]) values ('Inactive')
+insert into carstatus ([status]) values ('Active')
+
+insert into car (make   , model   ,  carcategory, transmission, [status],LatPos    , LongPos) 
+values			('Tesla','Model X', 'SUV'       , 'AT'        , 'Active',-33.868171,151.20746752    )
+insert into car (make   , model   ,  carcategory, transmission, [status],LatPos    , LongPos) 
+values			('Tesla','Model S', 'Sedan'       , 'MN'        , 'Active',-33.868171,151.30746752    )
+insert into car (make   , model   ,  carcategory, transmission, [status],LatPos    , LongPos) 
+values			('Tesla','Model 3', 'Hatch'       , 'AT'        , 'Active',-33.468171,151.20746752    )

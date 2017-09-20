@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using CarShareApi.Models.Repositories.Data;
 
 [assembly: OwinStartup(typeof(CarShareApi.Startup))]
 namespace CarShareApi
@@ -40,7 +41,7 @@ namespace CarShareApi
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
-                Provider = new CarShareAuthorisationServerProvider(new UserService(new UserRepository()))
+                Provider = new CarShareAuthorisationServerProvider(new UserService(new UserRepository(new CarShareContext())))
             };
 
             // Token Generation

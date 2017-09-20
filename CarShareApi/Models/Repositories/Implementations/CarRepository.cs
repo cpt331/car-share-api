@@ -1,68 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using CarShareApi.Models.Repositories.Data;
+
 
 namespace CarShareApi.Models.Repositories.Implementations
 {
     public class CarRepository : ICarRepository
     {
-        public List<Car> Cars { get; set; }
-        public CarRepository()
+        private CarShareContext Context { get; set; }
+        public CarRepository(CarShareContext context)
         {
-            Cars = new List<Car>() {
-                new Car {
-                    Id = 1,
-                    Model = "Model S",
-                    Manufacturer = "Tesla",
-                    Year = 2017,
-                    Lat = 33,
-                    Lng = 150.5
-                },
-                new Car {
-                    Id = 2,
-                    Model = "Model X",
-                    Manufacturer = "Tesla",
-                    Year = 2017,
-                    Lat = 33,
-                    Lng = 150.8
-                },
-                new Car {
-                    Id = 3,
-                    Model = "Model 3",
-                    Manufacturer = "Tesla",
-                    Year = 2017,
-                    Lat = 33,
-                    Lng = 150.3
-                }
-            };
+            Context = context;
         }
         public Car Add(Car item)
         {
-            Cars.Add(item);
-            return item;
+            var car = Context.Cars.Add(item);
+            Context.SaveChanges();
+            return car;
         }
 
         public void Delete(int id)
         {
-            Cars.RemoveAll(x => x.Id == id);
+            var car = Context.Cars.FirstOrDefault(x => x.VehicleID == id);
+            if (car != null)
+            {
+                Context.Entry(car).State = EntityState.Deleted;
+                Context.SaveChanges();
+            }
         }
 
         public Car Find(int id)
         {
-            return Cars.FirstOrDefault(x => x.Id == id);
+            var car = Context.Cars.FirstOrDefault(x => x.VehicleID == id);
+            return car;
         }
 
         public List<Car> FindAll()
         {
-            return Cars;
+            return Context.Cars.ToList();
         }
 
 
         public Car Update(Car item)
         {
-            Cars.RemoveAll(x => x.Id == item.Id);
-            Cars.Add(item);
+            Context.Entry(item).State = EntityState.Modified;
+            Context.SaveChanges();
             return item;
         }
     }

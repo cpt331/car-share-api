@@ -47,10 +47,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -99,6 +99,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Cors, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.0.0\lib\net45\System.Web.Cors.dll</HintPath>
     </Reference>
@@ -231,11 +232,66 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CarsController.cs" />
-    <Compile Include="Models\Car.cs" />
     <Compile Include="Models\Encryption.cs" />
     <Compile Include="Models\Providers\CarShareAuthorisationServerProvider.cs" />
+    <Compile Include="Models\Repositories\Data\Booking.cs">
+      <DependentUpon>CarShareContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Repositories\Data\BookingStatu.cs">
+      <DependentUpon>CarShareContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Repositories\Data\Car.cs">
+      <DependentUpon>CarShareContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Repositories\Data\CarCategory.cs">
+      <DependentUpon>CarShareContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Repositories\Data\CardType.cs">
+      <DependentUpon>CarShareContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Repositories\Data\CarRego.cs">
+      <DependentUpon>CarShareContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Repositories\Data\CarShareContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CarShareContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Repositories\Data\CarShareContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CarShareContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Repositories\Data\CarShareContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CarShareContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Repositories\Data\CarStatu.cs">
+      <DependentUpon>CarShareContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Repositories\Data\PaymentMethod.cs">
+      <DependentUpon>CarShareContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Repositories\Data\Receipt.cs">
+      <DependentUpon>CarShareContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Repositories\Data\Registration.cs">
+      <DependentUpon>CarShareContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Repositories\Data\TransactionHistory.cs">
+      <DependentUpon>CarShareContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Repositories\Data\TransactionStatu.cs">
+      <DependentUpon>CarShareContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Repositories\Data\User.cs">
+      <DependentUpon>CarShareContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Repositories\Data\UserStatu.cs">
+      <DependentUpon>CarShareContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Repositories\Implementations\CarRepository.cs" />
-    <Compile Include="Models\Repositories\Data\CarShareContext.cs" />
     <Compile Include="Models\Repositories\ICarRepository.cs" />
     <Compile Include="Models\Repositories\IRepository.cs" />
     <Compile Include="Models\Repositories\IUserRepository.cs" />
@@ -248,7 +304,6 @@
     <Compile Include="ViewModels\LogonResponse.cs" />
     <Compile Include="ViewModels\RegisterRequest.cs" />
     <Compile Include="ViewModels\RegisterResponse.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserPrincipal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -283,16 +338,29 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Models\Repositories\Data\CarShareContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CarShareContext.edmx</DependentUpon>
+      <LastGenOutput>CarShareContext.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Repositories\Data\CarShareContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CarShareContext.edmx</DependentUpon>
+      <LastGenOutput>CarShareContext.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Repositories\Data\SqlSeedingScripts.txt" />
     <Content Include="Pages\Car.html" />
     <Content Include="Pages\Cars.html" />
     <Content Include="Pages\About.html" />
     <Content Include="Pages\Home.html" />
     <Content Include="index.html" />
+    <Content Include="Pages\Register.html" />
     <Content Include="Pages\Logon.html" />
     <Content Include="Scripts\App.js" />
     <Content Include="Scripts\Controllers\AboutController.js" />
     <Content Include="Scripts\Controllers\CarController.js" />
     <Content Include="Scripts\Controllers\CarsController.js" />
+    <Content Include="Scripts\Controllers\RegisterController.js" />
     <Content Include="Scripts\Controllers\LogonController.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -319,6 +387,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Models\Repositories\Data\CarShareContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CarShareContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Models\Repositories\Data\CarShareContext.edmx.diagram">
+      <DependentUpon>CarShareContext.edmx</DependentUpon>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

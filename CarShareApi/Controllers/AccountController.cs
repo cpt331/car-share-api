@@ -15,6 +15,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Configuration;
 using System.Web.Http;
+using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.Controllers
 {
@@ -26,7 +27,7 @@ namespace CarShareApi.Controllers
         private IUserService UserService;
         public AccountController()
         {
-            UserService = new UserService(new UserRepository());
+            UserService = new UserService(new UserRepository(new CarShareContext()));
         }
         public AccountController(IUserService userService)
         {
@@ -100,9 +101,9 @@ namespace CarShareApi.Controllers
         private ClaimsIdentity CreateIdentity(User user)
         {
             var identity = new ClaimsIdentity(new[] {
-                new Claim(ClaimTypes.Name, $"{user.Firstname} {user.Lastname}"),
+                new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.PrimarySid, user.Id.ToString()),
+                new Claim(ClaimTypes.PrimarySid, user.AccountID.ToString()),
                 new Claim(ClaimTypes.Role, "User")
             }, DefaultAuthenticationTypes.ApplicationCookie);
             return identity;

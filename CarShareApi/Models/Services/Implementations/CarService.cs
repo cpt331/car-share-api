@@ -21,7 +21,7 @@ namespace CarShareApi.Models.Services.Implementations
             var result = new List<CarViewModel>();
             foreach(var car in cars)
             {
-                var distance = Haversine(lat, car.Lat, lng, car.Lng);
+                var distance = Haversine(lat, (double)car.LatPos, lng, (double)car.LongPos);
                 result.Add(new CarViewModel(car)
                 {
                     Distance = distance

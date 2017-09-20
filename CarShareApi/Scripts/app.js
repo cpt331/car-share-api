@@ -13,6 +13,13 @@ app.config(function ($routeProvider) {
                 controller: 'LogonController'
             })
 
+        // route for the home page
+        .when('/register',
+        {
+            templateUrl: '../Pages/Register.html',
+            controller: 'RegisterController'
+        })
+
         // route for the about page
         .when('/about',
             {
