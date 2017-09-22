@@ -12,6 +12,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using CarShareApi.Models.Repositories.Data;
+using System.Web.Http.Cors;
 
 [assembly: OwinStartup(typeof(CarShareApi.Startup))]
 namespace CarShareApi
@@ -24,11 +25,11 @@ namespace CarShareApi
 
 
             ConfigureOAuth(app);
-
+            EnableCrossSiteRequests(config);
             WebApiConfig.Register(config);
             app.UseWebApi(config);
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-
+            
             //app.UseCookieAuthentication(new CookieAuthenticationOptions
             //{
             //    AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie
@@ -48,6 +49,14 @@ namespace CarShareApi
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
+        }
+        private static void EnableCrossSiteRequests(HttpConfiguration config)
+        {
+            var cors = new EnableCorsAttribute(
+                origins: "*",
+                headers: "*",
+                methods: "*");
+            config.EnableCors(cors);
         }
     }
 }
