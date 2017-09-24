@@ -16,6 +16,8 @@ using System.Security.Claims;
 using System.Web.Configuration;
 using System.Web.Http;
 using CarShareApi.Models.Repositories.Data;
+using Newtonsoft.Json;
+using NLog;
 
 namespace CarShareApi.Controllers
 {
@@ -27,6 +29,8 @@ namespace CarShareApi.Controllers
     public class AccountController : ApiController
     {
         private IUserService UserService;
+        private static Logger Logger = LogManager.GetCurrentClassLogger();
+
         public AccountController()
         {
             UserService = new UserService(new UserRepository(new CarShareContext()));
@@ -43,6 +47,7 @@ namespace CarShareApi.Controllers
         [HttpGet, Route("api/account/list")]
         public List<User> List()
         {
+
             //check application is in debug mode before returning this list
             CompilationSection compilationSection = (CompilationSection)System.Configuration.ConfigurationManager.GetSection(@"system.web/compilation");
             bool isDebugEnabled = compilationSection.Debug;
@@ -61,20 +66,29 @@ namespace CarShareApi.Controllers
         [HttpPost, Route("api/account/register")]
         public RegisterResponse Register(RegisterRequest request)
         {
+            Logger.Debug("Register Request Received: {0}", JsonConvert.SerializeObject(request, Formatting.Indented));
+
+            RegisterResponse response;
             //use in built data annotations to ensure model has binded correctly
             if (!ModelState.IsValid)
             {
                 var errors = ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(x => x.ErrorMessage));
-                return new RegisterResponse
+                response = new RegisterResponse
                 {
                     Success = false,
                     Message = "Form has validation errors",
                     Errors = errors.ToArray()
                 };
+                
             }
-
-            //send request to the user service and return the response (success or fail)
-            var response = UserService.Register(request);
+            else
+            {
+                //send request to the user service and return the response (success or fail)
+                response = UserService.Register(request);
+                
+            }
+            Logger.Debug("Sent Register Response: {0}",
+                JsonConvert.SerializeObject(response, Formatting.Indented));
             return response;
         }
 
