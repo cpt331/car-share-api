@@ -18,10 +18,10 @@ namespace CarShareApi.Controllers
     public class CarsController : ApiController
     {
         private ICarService CarService;
-        public CarsController()
-        {
-            CarService = new CarService(new CarRepository(new CarShareContext()));
-        }
+        //public CarsController()
+        //{
+        //    CarService = new CarService(new CarRepository(new CarShareContext()));
+        //}
         public CarsController(ICarService carService)
         {
             CarService = carService;

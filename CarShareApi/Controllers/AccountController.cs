@@ -31,10 +31,10 @@ namespace CarShareApi.Controllers
         private IUserService UserService;
         private static Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public AccountController()
-        {
-            UserService = new UserService(new UserRepository(new CarShareContext()));
-        }
+        //public AccountController()
+        //{
+        //    UserService = new UserService(new UserRepository(new CarShareContext()));
+        //}
         public AccountController(IUserService userService)
         {
             UserService = userService;
