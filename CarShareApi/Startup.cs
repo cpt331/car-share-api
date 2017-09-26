@@ -12,42 +12,62 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using CarShareApi.Models.Repositories.Data;
+using System.Web.Http.Cors;
+using CarShareApi.Models;
+using CarShareApi.Models.Repositories;
+using CarShareApi.Models.Services;
+using Microsoft.Practices.Unity;
 
 [assembly: OwinStartup(typeof(CarShareApi.Startup))]
 namespace CarShareApi
 {
     public class Startup
     {
+        public virtual HttpConfiguration GetInjectionConfiguration()
+        {
+            var configuration = new HttpConfiguration();
+            var container = new UnityContainer();
+            container.RegisterType<IUserRepository, UserRepository>(new TransientLifetimeManager());
+            container.RegisterType<ICarRepository, CarRepository>(new TransientLifetimeManager());
+            container.RegisterType<IUserService, UserService>(new TransientLifetimeManager());
+            container.RegisterType<ICarService, CarService>(new TransientLifetimeManager());
+
+            configuration.DependencyResolver = new UnityResolver(container);
+
+            return configuration;
+        }
+
         public void Configuration(IAppBuilder app)
         {
-            HttpConfiguration config = new HttpConfiguration();
+            //use dependency injection for services
+            var config = GetInjectionConfiguration();
 
-
-            ConfigureOAuth(app);
-
-            WebApiConfig.Register(config);
-            app.UseWebApi(config);
-            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-
-            //app.UseCookieAuthentication(new CookieAuthenticationOptions
-            //{
-            //    AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie
-            //});
-        }
-        public void ConfigureOAuth(IAppBuilder app)
-        {
-            var OAuthServerOptions = new OAuthAuthorizationServerOptions()
+            var openAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
-                Provider = new CarShareAuthorisationServerProvider(new UserService(new UserRepository(new CarShareContext())))
+                Provider = new CarShareAuthorisationServerProvider((IUserService)config.DependencyResolver.GetService(typeof(IUserService)))
             };
 
             // Token Generation
-            app.UseOAuthAuthorizationServer(OAuthServerOptions);
+            app.UseOAuthAuthorizationServer(openAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
+
+            EnableCrossSiteRequests(config);
+            WebApiConfig.Register(config);
+            app.UseWebApi(config);
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+            
+        }
+        private static void EnableCrossSiteRequests(HttpConfiguration config)
+        {
+            var cors = new EnableCorsAttribute(
+                origins: "*",
+                headers: "*",
+                methods: "*");
+            config.EnableCors(cors);
         }
     }
 }

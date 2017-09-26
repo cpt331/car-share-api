@@ -9,6 +9,8 @@ using System.Web;
 using CarShareApi.Models.Repositories.Data;
 using Microsoft.Owin.Security;
 using CarShareApi.Models.ViewModels;
+using Newtonsoft.Json;
+using NLog;
 
 namespace CarShareApi.Models.Providers
 {
@@ -19,6 +21,8 @@ namespace CarShareApi.Models.Providers
 
         //class is constructed by passing in a user service
         private IUserService UserService { get; set; }
+        private static Logger Logger = LogManager.GetCurrentClassLogger();
+
         public CarShareAuthorisationServerProvider(IUserService userService)
         {
             UserService = userService;
@@ -34,6 +38,12 @@ namespace CarShareApi.Models.Providers
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
+            Logger.Debug("Logon Request Received: {0}", JsonConvert.SerializeObject(new LogonRequest
+            {
+                Email = context.UserName,
+                Password = context.Password
+            }, Formatting.Indented));
+
             //allow requests from all domains (unsecure)
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
 
@@ -44,10 +54,14 @@ namespace CarShareApi.Models.Providers
                 Password = context.Password
             });
 
+            Logger.Debug("Sent Logon Response: {0}",
+                JsonConvert.SerializeObject(response, Formatting.Indented));
+
             //return error if not successful
             if (!response.Success || !response.Id.HasValue)
             {
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
+
                 return;
             }
 
@@ -71,9 +85,15 @@ namespace CarShareApi.Models.Providers
                 }
             });
 
-            //validate request and return token
-            context.Validated(new AuthenticationTicket(identity, props));
 
+            var ticket = new AuthenticationTicket(identity, props);
+
+           
+
+            //validate request and return token
+            context.Validated(ticket);
+
+           
         }
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
@@ -83,6 +103,8 @@ namespace CarShareApi.Models.Providers
             {
                 context.AdditionalResponseParameters.Add(property.Key, property.Value);
             }
+
+
             return Task.FromResult<object>(null);
         }
 
