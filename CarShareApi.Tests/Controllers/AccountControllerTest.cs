@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using CarShareApi.Controllers;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Services.Implementations;
 using CarShareApi.Models.ViewModels;
 using CarShareApi.Tests.Fakes;
+using Microsoft.Owin.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CarShareApi.Tests.Controllers
@@ -49,32 +54,73 @@ namespace CarShareApi.Tests.Controllers
         [TestInitialize]
         public void SetupTests()
         {
+            var configuration = new HttpConfiguration();
             UserRepository = new FakeUserRepository();
             UserService = new UserService(UserRepository);
             Controller = new AccountController(UserService);
-            Controller.Configuration = new HttpConfiguration();
+            Controller.Configuration = configuration;
+            TestStartupConfiguration.HttpConfiguration = configuration;
+            TestStartupConfiguration.UserRepository = UserRepository;
+            TestStartupConfiguration.UserService = UserService;
+            
         }
 
-        //[TestMethod]
-        //public void LoginEmailIsProvided()
-        //{
+        //http://www.vannevel.net/2015/03/21/how-to-unit-test-your-owin-configured-oauth2-implementation/
+        [TestMethod]
+        public async Task Login_InvalidUser_ReturnsBadRequest()
+        {
+            var logonRequest = new LogonRequest
+            {
+                Email = "",
+                Password = ""
+            };
 
-        //    var model = new LogonRequest()
-        //    {
-        //        Email = "homer.simpson@gmail.com",
-        //        Password = "Simpson01"
-        //    };
+            using (var server = TestServer.Create<TestStartupConfiguration>())
+            {
+                var response = await server.CreateRequest("/token").And(x => x.Content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("username", logonRequest.Email),
+                    new KeyValuePair<string, string>("password", logonRequest.Password),
+                    new KeyValuePair<string, string>("grant_type", "password")
+                })).PostAsync();
 
-        //    Controller.Validate(model);
-        //    var response = Controller.Register(model);
 
-        //    Assert.AreEqual("Form has validation errors", response.Message);
-        //    Assert.IsTrue(response.Errors.Contains("The FirstName field is required.", StringComparer.InvariantCultureIgnoreCase));
+                Assert.IsFalse(response.IsSuccessStatusCode);
+                Assert.IsTrue(response.StatusCode == HttpStatusCode.BadRequest);
+            }
+        }
 
-        //}
+        //http://www.vannevel.net/2015/03/21/how-to-unit-test-your-owin-configured-oauth2-implementation/
+        [TestMethod]
+        public async Task Login_ValidUser_ReturnsToken()
+        {
+            var logonRequest = new LogonRequest
+            {
+                Email = "user1@gmail.com",
+                Password = "password1"
+            };
+
+            using (var server = TestServer.Create<TestStartupConfiguration>())
+            {
+                var response = await server.CreateRequest("/token").And(x => x.Content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("username", logonRequest.Email),
+                    new KeyValuePair<string, string>("password", logonRequest.Password),
+                    new KeyValuePair<string, string>("grant_type", "password")
+                })).PostAsync();
+
+
+                Assert.IsTrue(response.IsSuccessStatusCode);
+
+                var responseContent = (await response.Content.ReadAsStringAsync());
+                Console.WriteLine(responseContent);
+
+                Assert.IsFalse(string.IsNullOrWhiteSpace(responseContent));
+            }
+        }
 
         [TestMethod]
-        public void RegisterCheckEmailIsProvided()
+        public void Register_NoEmailProvided_ReturnsValidationError()
         {
 
             var model = new RegisterRequest
@@ -95,7 +141,7 @@ namespace CarShareApi.Tests.Controllers
         }
 
         [TestMethod]
-        public void RegisterCheckFirstNameIsProvided()
+        public void Register_NoFirstNameProvided_ReturnsValidationError()
         {
 
             var model = new RegisterRequest
@@ -116,7 +162,7 @@ namespace CarShareApi.Tests.Controllers
         }
 
         [TestMethod]
-        public void RegisterCheckLastNameIsProvided()
+        public void Register_NoLastNameProvided_ReturnsValidationError()
         {
 
             var model = new RegisterRequest
@@ -137,7 +183,7 @@ namespace CarShareApi.Tests.Controllers
         }
 
         [TestMethod]
-        public void RegisterCheckPasswordMatches()
+        public void Register_PasswordMisMatch_ReturnsValidationError()
         {
 
             var model = new RegisterRequest
@@ -158,7 +204,7 @@ namespace CarShareApi.Tests.Controllers
         }
 
         [TestMethod]
-        public void RegisterRejectsInvalidEmails()
+        public void Register_InvalidEmailsProvided_ReturnsValidationError()
         {
             //Test invalid emails
             foreach (var line in InvalidEmails
@@ -186,7 +232,7 @@ namespace CarShareApi.Tests.Controllers
         }
 
         [TestMethod]
-        public void RegisterAcceptsValidEmails()
+        public void Register_ValidEmailsProvided_ReturnsNoValidationError()
         {
             //Test valid emails
             foreach (var line in ValidEmails
@@ -215,7 +261,7 @@ namespace CarShareApi.Tests.Controllers
         }
 
         [TestMethod]
-        public void RegisterCanLoginAfter()
+        public void Register_UserIsRegistered_UserCanLogon()
         {
 
             var model = new RegisterRequest
@@ -245,7 +291,7 @@ namespace CarShareApi.Tests.Controllers
 
 
         [TestMethod]
-        public void RegisterEncryptsPassword()
+        public void Register_UserIsRegistered_PasswordIsEncrypted()
         {
 
             var model = new RegisterRequest
