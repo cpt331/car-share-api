@@ -71,8 +71,8 @@ namespace CarShareApi.Tests.Controllers
         {
             var logonRequest = new LogonRequest
             {
-                Email = "",
-                Password = ""
+                Email = "fds",
+                Password = "fdsfds"
             };
 
             using (var server = TestServer.Create<TestStartupConfiguration>())

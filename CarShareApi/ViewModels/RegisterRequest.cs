@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace CarShareApi.Models.ViewModels
 {
@@ -20,5 +21,18 @@ namespace CarShareApi.Models.ViewModels
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        public DateTime DateOfBirth { get; set; }
+        [Required]
+        public string LicenceNumber { get; set; }
+
+        public string LicenceState { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
+        public string Suburb { get; set; }
+        public string State { get; set; }
+        public string Postcode { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

@@ -12,10 +12,12 @@ namespace CarShareApi.Models.Services.Implementations
     public class UserService : IUserService
     {
         private IUserRepository UserRepository { get; set; }
+        private IRegistrationRepository RegistrationRepository { get; set; }
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IRegistrationRepository registrationRepository)
         {
             UserRepository = userRepository;
+            RegistrationRepository = registrationRepository;
         }
 
         public LogonResponse Logon(LogonRequest request)
@@ -69,6 +71,23 @@ namespace CarShareApi.Models.Services.Implementations
             };
 
             UserRepository.Add(user);
+
+            var registration = new Registration
+            {
+                AccountID = user.AccountID,
+                AddressLine1 = request.AddressLine1,
+                AddressLine2 = request.AddressLine2,
+                DateOfBirth = request.DateOfBirth,
+                DriversLicenceID = request.LicenceNumber,
+                DriversLicenceState = request.LicenceState,
+                PhoneNumber = request.PhoneNumber,
+                Postcode = request.Postcode,
+                State = request.State,
+                Suburb = request.Suburb
+            };
+
+            RegistrationRepository.Add(registration);
+
             return new RegisterResponse
             {
                 Success = true,
