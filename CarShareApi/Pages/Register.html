@@ -30,6 +30,49 @@
                         <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" ng-model="RegisterRequest.ConfirmPassword" required />
                         <span ng-show="form.password.$dirty && form.confirmPassword.$error.required" class="help-block">Confirm Password is required</span>
                     </div>
+
+                    <hr />
+                    <div class="form-group" ng-class="{ 'has-error': form.licenceNumber.$dirty && form.licenceNumber.$error.required }">
+                        <label for="username">Licence Number</label>
+                        <input type="text" name="licenceNumber" id="licenceNumber" class="form-control" ng-model="RegisterRequest.LicenceNumber" required />
+                        <span ng-show="form.licenceNumber.$dirty && form.licenceNumber.$error.required" class="help-block">Licence Number is required</span>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': form.licenceState.$dirty && form.licenceState.$error.required }">
+                        <label for="username">Licence State</label>
+                        <input type="text" name="licenceState" id="licenceState" class="form-control" ng-model="RegisterRequest.LicenceState" />
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': form.dateOfBirth.$dirty && form.dateOfBirth.$error.required }">
+                        <label for="username">Date of Birth</label>
+                        <input type="date" name="dateOfBirth" id="dateOfBirth" class="form-control" ng-model="RegisterRequest.DateOfBirth" required />
+                        <span ng-show="form.dateOfBirth.$dirty && form.dateOfBirth.$error.required" class="help-block">Date of Birth is required</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="username">Address Line 1</label>
+                        <input type="text" name="addressLine1" class="form-control" ng-model="RegisterRequest.AddressLine1" />
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Address Line 2</label>
+                        <input type="text" name="addressLine2" class="form-control" ng-model="RegisterRequest.AddressLine2" />
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Suburb</label>
+                        <input type="text" name="suburb" class="form-control" ng-model="RegisterRequest.Suburb" />
+                    </div>
+                    <div class="form-group">
+                        <label for="username">State</label>
+                        <input type="text" name="state" class="form-control" ng-model="RegisterRequest.State" />
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Postcode</label>
+                        <input type="text" name="postcode" class="form-control" ng-model="RegisterRequest.Postcode" />
+                    </div>
+                    <div class="form-group">
+                        <label for="username">PhoneNumber</label>
+                        <input type="text" name="phoneNumber" class="form-control" ng-model="RegisterRequest.PhoneNumber" />
+                    </div>
+
+                    <hr/>
                     <div class="form-actions">
                         <button type="submit" ng-disabled="form.$invalid || Loading" class="btn btn-primary">Register</button>
                         <img ng-if="Loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />

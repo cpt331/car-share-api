@@ -32,6 +32,7 @@ namespace CarShareApi.Controllers
         /// Return a list of all cars
         /// </summary>
         /// <returns></returns>
+        [HttpGet, Route("api/cars")]
         public IEnumerable<CarViewModel> Get()
         {
             return CarService.FindAllCars();
@@ -43,6 +44,7 @@ namespace CarShareApi.Controllers
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <returns></returns>
+        [HttpGet, Route("api/cars/coords")]
         public IEnumerable<CarViewModel> Get(double lat, double lng)
         {
             return CarService.FindCarsByLocation(lat,lng);
@@ -54,6 +56,7 @@ namespace CarShareApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [HttpGet, Route("api/cars/detail")]
         public CarViewModel Get(int id)
         {
             return CarService.FindCar(id);
@@ -70,6 +73,7 @@ namespace CarShareApi.Controllers
         //}
 
         //// DELETE api/values/5
+        [HttpGet, Route("api/cars/delete")]
         public void Delete(int id)
         {
             CarService.DeleteCar(id);

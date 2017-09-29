@@ -21,6 +21,7 @@ namespace CarShareApi.Tests.Controllers
         private IUserRepository UserRepository { get; set; }
         private UserService UserService { get; set; }
         private AccountController Controller { get; set; }
+        private IRegistrationRepository RegistrationRepository { get; set; }
 
         private string InvalidEmails = @"plainaddress
                 #@%^%#$@#$@#.com
@@ -56,7 +57,9 @@ namespace CarShareApi.Tests.Controllers
         {
             var configuration = new HttpConfiguration();
             UserRepository = new FakeUserRepository();
-            UserService = new UserService(UserRepository);
+            RegistrationRepository = new FakeRegistrationRepository();
+            UserService = new UserService(UserRepository, RegistrationRepository);
+
             Controller = new AccountController(UserService);
             Controller.Configuration = configuration;
             TestStartupConfiguration.HttpConfiguration = configuration;

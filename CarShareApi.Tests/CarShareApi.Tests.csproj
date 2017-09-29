@@ -133,6 +133,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\AccountControllerTest.cs" />
     <Compile Include="Fakes\FakeCarRepository.cs" />
+    <Compile Include="Fakes\FakeRegistrationRepository.cs" />
     <Compile Include="Fakes\FakeUserRepository.cs" />
     <Compile Include="Fakes\TestStartupConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -16,6 +16,7 @@ using System.Security.Claims;
 using System.Web.Configuration;
 using System.Web.Http;
 using CarShareApi.Models.Repositories.Data;
+using CarShareApi.ViewModels;
 using Newtonsoft.Json;
 using NLog;
 
@@ -26,6 +27,7 @@ namespace CarShareApi.Controllers
     /// </summary>
     /// 
    
+    [Authorize]
     public class AccountController : ApiController
     {
         private IUserService UserService;
@@ -44,18 +46,33 @@ namespace CarShareApi.Controllers
         /// Returns a list of users in the system (DEBUG ONLY)
         /// </summary>
         /// <returns></returns>
-        [HttpGet, Route("api/account/list")]
-        public List<User> List()
-        {
+        //[HttpGet, Route("api/account/list")]
+        //public List<User> List()
+        //{
 
-            //check application is in debug mode before returning this list
-            CompilationSection compilationSection = (CompilationSection)System.Configuration.ConfigurationManager.GetSection(@"system.web/compilation");
-            bool isDebugEnabled = compilationSection.Debug;
-            if (!isDebugEnabled)
+        //    //check application is in debug mode before returning this list
+        //    CompilationSection compilationSection = (CompilationSection)System.Configuration.ConfigurationManager.GetSection(@"system.web/compilation");
+        //    bool isDebugEnabled = compilationSection.Debug;
+        //    if (!isDebugEnabled)
+        //    {
+        //        return null;
+        //    }
+        //    return UserService.FindUsers();
+        //}
+
+        [HttpGet, Route("api/account/current")]
+        public UserViewModel Current()
+        {
+            var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
+            if (userPrincipal.Id.HasValue)
             {
-                return null;
+                var user = UserService.FindUser(userPrincipal.Id.Value);
+                if (user != null)
+                {
+                    return new UserViewModel(user);
+                }
             }
-            return UserService.FindUsers();
+            return null;
         }
 
         /// <summary>
@@ -63,7 +80,7 @@ namespace CarShareApi.Controllers
         /// </summary>
         /// <param name="request">The view model from the client</param>
         /// <returns>A response indicating success and relevant error messages</returns>
-        [HttpPost, Route("api/account/register")]
+        [HttpPost, Route("api/account/register"), AllowAnonymous]
         public RegisterResponse Register(RegisterRequest request)
         {
             Logger.Debug("Register Request Received: {0}", JsonConvert.SerializeObject(request, Formatting.Indented));
@@ -92,57 +109,7 @@ namespace CarShareApi.Controllers
             return response;
         }
 
-        #region Old Cookie Based Auth (NOT USED)
-        [HttpPost]
-        public LogonResponse Logon([FromBody]LogonRequest request)
-        {
-            var response = UserService.Logon(request);
-            if (response.Success && response.Id.HasValue)
-            {
-                var user = UserService.FindUser(response.Id.Value);
-                var identity = CreateIdentity(user);
-
-
-                OwinLogon(identity);
-            }
-            return response;
-        }
-
-        [HttpGet]
-        public UserPrincipal CurrentUser()
-        {
-            return new UserPrincipal(ClaimsPrincipal.Current);
-        }
-
-        private ClaimsIdentity CreateIdentity(User user)
-        {
-            var identity = new ClaimsIdentity(new[] {
-                new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.PrimarySid, user.AccountID.ToString()),
-                new Claim(ClaimTypes.Role, "User")
-            }, DefaultAuthenticationTypes.ApplicationCookie);
-            return identity;
-        }
-
-        private void OwinLogon(ClaimsIdentity identity)
-        {
-            var owinContext = Request.GetOwinContext();
-
-            owinContext.Authentication.SignIn(new AuthenticationProperties
-            {
-                AllowRefresh = true,
-                IsPersistent = false,
-                ExpiresUtc = DateTime.UtcNow.AddDays(7)
-            }, identity);
-        }
-
-        private void OwinLogout()
-        {
-            var owinContext = Request.GetOwinContext();
-            owinContext.Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-        }
-        #endregion
+      
 
     }
 }
