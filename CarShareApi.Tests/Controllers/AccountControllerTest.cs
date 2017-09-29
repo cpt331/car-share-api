@@ -273,7 +273,9 @@ namespace CarShareApi.Tests.Controllers
                 FirstName = "Homer",
                 LastName = "Simpson",
                 Password = "Simpson01",
-                ConfirmPassword = "Simpson01"
+                ConfirmPassword = "Simpson01",
+                LicenceNumber = "123456789",
+                DateOfBirth =  new DateTime(2000,1,1)
             };
 
             Controller.Validate(model);

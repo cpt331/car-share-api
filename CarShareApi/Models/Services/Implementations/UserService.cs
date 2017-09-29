@@ -77,7 +77,7 @@ namespace CarShareApi.Models.Services.Implementations
                 AccountID = user.AccountID,
                 AddressLine1 = request.AddressLine1,
                 AddressLine2 = request.AddressLine2,
-                DateOfBirth = request.DateOfBirth,
+                DateOfBirth = request.DateOfBirth.Value,
                 DriversLicenceID = request.LicenceNumber,
                 DriversLicenceState = request.LicenceState,
                 PhoneNumber = request.PhoneNumber,
