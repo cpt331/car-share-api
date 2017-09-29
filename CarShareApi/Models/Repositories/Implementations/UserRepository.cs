@@ -37,7 +37,9 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public User Find(int id)
         {
-            var user = Context.Users.FirstOrDefault(x => x.AccountID == id);
+            var user = Context.Users
+                .Include(x=>x.Registration)
+                .FirstOrDefault(x => x.AccountID == id);
             return user;
         }
 

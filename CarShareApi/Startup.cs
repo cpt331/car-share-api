@@ -27,11 +27,15 @@ namespace CarShareApi
         {
             var configuration = new HttpConfiguration();
             var container = new UnityContainer();
+
+            //specify concrete instances of classes that should be injected when interface is marked
             container.RegisterType<IUserRepository, UserRepository>(new TransientLifetimeManager());
+            container.RegisterType<IRegistrationRepository, RegistrationRepository>(new TransientLifetimeManager());
             container.RegisterType<ICarRepository, CarRepository>(new TransientLifetimeManager());
             container.RegisterType<IUserService, UserService>(new TransientLifetimeManager());
             container.RegisterType<ICarService, CarService>(new TransientLifetimeManager());
 
+            //set this container as the http configurations dependency injection provider
             configuration.DependencyResolver = new UnityResolver(container);
 
             return configuration;
@@ -42,6 +46,7 @@ namespace CarShareApi
             //use dependency injection for services
             var config = GetInjectionConfiguration();
 
+            //open authorisation configuration options
             var openAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
                 AllowInsecureHttp = true,
@@ -54,7 +59,7 @@ namespace CarShareApi
             app.UseOAuthAuthorizationServer(openAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
-
+            //enable other domain applications to request resources
             EnableCrossSiteRequests(config);
             WebApiConfig.Register(config);
             app.UseWebApi(config);

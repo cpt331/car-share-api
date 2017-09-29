@@ -21,6 +21,7 @@ namespace CarShareApi.Tests.Controllers
         private IUserRepository UserRepository { get; set; }
         private UserService UserService { get; set; }
         private AccountController Controller { get; set; }
+        private IRegistrationRepository RegistrationRepository { get; set; }
 
         private string InvalidEmails = @"plainaddress
                 #@%^%#$@#$@#.com
@@ -56,7 +57,9 @@ namespace CarShareApi.Tests.Controllers
         {
             var configuration = new HttpConfiguration();
             UserRepository = new FakeUserRepository();
-            UserService = new UserService(UserRepository);
+            RegistrationRepository = new FakeRegistrationRepository();
+            UserService = new UserService(UserRepository, RegistrationRepository);
+
             Controller = new AccountController(UserService);
             Controller.Configuration = configuration;
             TestStartupConfiguration.HttpConfiguration = configuration;
@@ -71,8 +74,8 @@ namespace CarShareApi.Tests.Controllers
         {
             var logonRequest = new LogonRequest
             {
-                Email = "",
-                Password = ""
+                Email = "fds",
+                Password = "fdsfds"
             };
 
             using (var server = TestServer.Create<TestStartupConfiguration>())
@@ -270,7 +273,9 @@ namespace CarShareApi.Tests.Controllers
                 FirstName = "Homer",
                 LastName = "Simpson",
                 Password = "Simpson01",
-                ConfirmPassword = "Simpson01"
+                ConfirmPassword = "Simpson01",
+                LicenceNumber = "123456789",
+                DateOfBirth =  new DateTime(2000,1,1)
             };
 
             Controller.Validate(model);
