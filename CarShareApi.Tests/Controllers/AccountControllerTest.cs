@@ -10,8 +10,10 @@ using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Services.Implementations;
 using CarShareApi.Models.ViewModels;
 using CarShareApi.Tests.Fakes;
+using CarShareApi.ViewModels;
 using Microsoft.Owin.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 
 namespace CarShareApi.Tests.Controllers
 {
@@ -116,11 +118,92 @@ namespace CarShareApi.Tests.Controllers
                 Assert.IsTrue(response.IsSuccessStatusCode);
 
                 var responseContent = (await response.Content.ReadAsStringAsync());
+
+
                 Console.WriteLine(responseContent);
 
                 Assert.IsFalse(string.IsNullOrWhiteSpace(responseContent));
             }
         }
+
+        [TestMethod]
+        public async Task Account_TokenProvided_ReturnsUser()
+        {
+            Console.WriteLine("Starting test");
+            var logonRequest = new LogonRequest
+            {
+                Email = "user1@gmail.com",
+                Password = "password1"
+            };
+
+            Console.WriteLine("Loading test server");
+            using (var server = TestServer.Create<TestStartupConfiguration>())
+            {
+
+                Console.WriteLine("Sending token request");
+                var response = await server.CreateRequest("/token").And(x => x.Content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("username", logonRequest.Email),
+                    new KeyValuePair<string, string>("password", logonRequest.Password),
+                    new KeyValuePair<string, string>("grant_type", "password")
+                })).PostAsync();
+
+
+                Assert.IsTrue(response.IsSuccessStatusCode);
+
+                var responseContent = (await response.Content.ReadAsStringAsync());
+
+                Console.WriteLine("Received response");
+
+                var tokenResponse = JsonConvert.DeserializeObject<Dictionary<string, object>>(responseContent);
+                var token = tokenResponse["access_token"] as string;
+
+                Console.WriteLine(responseContent);
+
+                Assert.IsFalse(string.IsNullOrWhiteSpace(responseContent));
+
+                Console.WriteLine("Requesting current user");
+                var accountResponse = await server.CreateRequest("/api/account/current")
+                    .AddHeader("Authorization", $"Bearer {token}").GetAsync();
+
+                var accountContent = (await accountResponse.Content.ReadAsStringAsync());
+
+                var accountViewModel = JsonConvert.DeserializeObject<UserViewModel>(accountContent);
+
+                Console.WriteLine("Response was: ");
+                Console.WriteLine(JsonConvert.SerializeObject(accountViewModel, Formatting.Indented));
+
+                Assert.IsNotNull(accountViewModel);
+
+            }
+        }
+
+        [TestMethod]
+        public async Task Account_NoTokenProvided_ReturnsNull()
+        {
+            Console.WriteLine("Starting test");
+            
+
+            Console.WriteLine("Loading test server");
+            using (var server = TestServer.Create<TestStartupConfiguration>())
+            {
+                Console.WriteLine("Requesting current user");
+                var accountResponse = await server.CreateRequest("/api/account/current").GetAsync();
+
+                var accountContent = (await accountResponse.Content.ReadAsStringAsync());
+
+                var accountViewModel = JsonConvert.DeserializeObject<UserViewModel>(accountContent);
+
+                Console.WriteLine("Response was: ");
+                Console.WriteLine(JsonConvert.SerializeObject(accountViewModel, Formatting.Indented));
+
+                Assert.IsTrue(
+                    accountViewModel == null || 
+                    string.IsNullOrWhiteSpace(accountViewModel.Email));
+
+            }
+        }
+
 
         [TestMethod]
         public void Register_NoEmailProvided_ReturnsValidationError()
@@ -132,7 +215,9 @@ namespace CarShareApi.Tests.Controllers
                 FirstName = "Homer",
                 LastName = "Simpson",
                 Password = "Simpson01",
-                ConfirmPassword = "Simpson01"
+                ConfirmPassword = "Simpson01",
+                LicenceNumber = "123456789",
+                DateOfBirth = new DateTime(2000, 1, 1)
             };
 
             Controller.Validate(model);
@@ -144,16 +229,64 @@ namespace CarShareApi.Tests.Controllers
         }
 
         [TestMethod]
+        public void Register_NoLicenceProvided_ReturnsValidationError()
+        {
+
+            var model = new RegisterRequest
+            {
+                Email = "user3@gmail.com",
+                FirstName = "Homer",
+                LastName = "Simpson",
+                Password = "Simpson01",
+                ConfirmPassword = "Simpson01",
+                LicenceNumber = "",
+                DateOfBirth = new DateTime(2000, 1, 1)
+            };
+
+            Controller.Validate(model);
+            var response = Controller.Register(model);
+
+            Assert.AreEqual("Form has validation errors", response.Message);
+            Assert.IsTrue(response.Errors.Contains("The licencenumber field is required.", StringComparer.InvariantCultureIgnoreCase));
+
+        }
+
+        [TestMethod]
+        public void Register_NoDateOfBirthProvided_ReturnsValidationError()
+        {
+
+            var model = new RegisterRequest
+            {
+                Email = "user2@gmail.com",
+                FirstName = "Homer",
+                LastName = "Simpson",
+                Password = "Simpson01",
+                ConfirmPassword = "Simpson01",
+                LicenceNumber = "88665522",
+                DateOfBirth = null
+            };
+
+            Controller.Validate(model);
+            var response = Controller.Register(model);
+
+            Assert.AreEqual("Form has validation errors", response.Message);
+            Assert.IsTrue(response.Errors.Contains("The DateOfBirth field is required.", StringComparer.InvariantCultureIgnoreCase));
+
+        }
+
+        [TestMethod]
         public void Register_NoFirstNameProvided_ReturnsValidationError()
         {
 
             var model = new RegisterRequest
             {
-                Email = "homer.simpson@gmail.com",
+                Email = "homer.simpson6@gmail.com",
                 FirstName = "",
                 LastName = "Simpson",
                 Password = "Simpson01",
-                ConfirmPassword = "Simpson01"
+                ConfirmPassword = "Simpson01",
+                LicenceNumber = "123456789",
+                DateOfBirth = new DateTime(2000, 1, 1)
             };
 
             Controller.Validate(model);
@@ -170,11 +303,13 @@ namespace CarShareApi.Tests.Controllers
 
             var model = new RegisterRequest
             {
-                Email = "homer.simpson@gmail.com",
+                Email = "homer.simpson5@gmail.com",
                 FirstName = "Homer",
                 LastName = "",
                 Password = "Simpson01",
-                ConfirmPassword = "Simpson01"
+                ConfirmPassword = "Simpson01",
+                LicenceNumber = "123456789",
+                DateOfBirth = new DateTime(2000, 1, 1)
             };
 
             Controller.Validate(model);
@@ -191,11 +326,13 @@ namespace CarShareApi.Tests.Controllers
 
             var model = new RegisterRequest
             {
-                Email = "homer.simpson@gmail.com",
+                Email = "homer.simpson4@gmail.com",
                 FirstName = "Homer",
                 LastName = "",
                 Password = "Simpson01",
-                ConfirmPassword = "Simpson02"
+                ConfirmPassword = "Simpson02",
+                LicenceNumber = "123456789",
+                DateOfBirth = new DateTime(2000, 1, 1)
             };
 
             Controller.Validate(model);
@@ -223,7 +360,9 @@ namespace CarShareApi.Tests.Controllers
                     FirstName = "Homer",
                     LastName = "Simpson",
                     Password = "123",
-                    ConfirmPassword = "123"
+                    ConfirmPassword = "123",
+                    LicenceNumber = "123456789",
+                    DateOfBirth = new DateTime(2000, 1, 1)
                 };
 
                 Controller.Validate(model);
@@ -251,7 +390,9 @@ namespace CarShareApi.Tests.Controllers
                     FirstName = "Homer",
                     LastName = "Simpson",
                     Password = "123",
-                    ConfirmPassword = "123"
+                    ConfirmPassword = "123",
+                    LicenceNumber = "123456789",
+                    DateOfBirth = new DateTime(2000, 1, 1)
                 };
 
                 Controller.Validate(model);
@@ -264,12 +405,41 @@ namespace CarShareApi.Tests.Controllers
         }
 
         [TestMethod]
+        public void Register_UserIsRegistered_RegistrationIsPresent()
+        {
+
+            var model = new RegisterRequest
+            {
+                Email = "homer.simpson3@gmail.com",
+                FirstName = "Homer",
+                LastName = "Simpson",
+                Password = "Simpson01",
+                ConfirmPassword = "Simpson01",
+                LicenceNumber = "123456789",
+                DateOfBirth = new DateTime(2000, 1, 1)
+            };
+
+            Controller.Validate(model);
+
+            var registerResponse = Controller.Register(model);
+
+            Assert.IsTrue(registerResponse.Success);
+
+            //access repository just to grab the accountId
+            var accountId = UserRepository.FindByEmail(model.Email).AccountID;
+
+            var user = UserService.FindUser(accountId);
+            Assert.IsNotNull(user.Registration);
+
+        }
+
+        [TestMethod]
         public void Register_UserIsRegistered_UserCanLogon()
         {
 
             var model = new RegisterRequest
             {
-                Email = "homer.simpson@gmail.com",
+                Email = "homer.simpson2@gmail.com",
                 FirstName = "Homer",
                 LastName = "Simpson",
                 Password = "Simpson01",
@@ -299,22 +469,32 @@ namespace CarShareApi.Tests.Controllers
         public void Register_UserIsRegistered_PasswordIsEncrypted()
         {
 
+            Console.WriteLine("Starting test");
             var model = new RegisterRequest
             {
-                Email = "homer.simpson@gmail.com",
+                Email = "homer.simpson1@gmail.com",
                 FirstName = "Homer",
                 LastName = "Simpson",
                 Password = "Simpson01",
-                ConfirmPassword = "Simpson01"
+                ConfirmPassword = "Simpson01",
+                LicenceNumber = "123456789",
+                DateOfBirth = new DateTime(2000, 1, 1)
             };
 
+            Console.WriteLine("Validating model");
             Controller.Validate(model);
 
+            Console.WriteLine("Registering model");
             var registerResponse = Controller.Register(model);
+
+            Console.WriteLine("Response was");
+            Console.WriteLine(JsonConvert.SerializeObject(registerResponse, Formatting.Indented));
 
             Assert.IsTrue(registerResponse.Success);
 
+            Console.WriteLine("Find user by email");
             var user = UserRepository.FindByEmail(model.Email);
+            Console.WriteLine(JsonConvert.SerializeObject(user, Formatting.Indented));
 
             Console.WriteLine("Comparing {0} to {1}", model.Password, user.Password);
             Assert.IsFalse(model.Password.Equals(user.Password, StringComparison.InvariantCultureIgnoreCase));

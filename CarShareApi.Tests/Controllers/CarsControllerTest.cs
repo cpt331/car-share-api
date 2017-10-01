@@ -26,10 +26,15 @@ namespace CarShareApi.Tests.Controllers
         [TestInitialize]
         public void SetupTests()
         {
+            var configuration = new HttpConfiguration();
             CarRepository = new FakeCarRepository();
             CarService = new CarService(CarRepository);
+
             Controller = new CarsController(CarService);
-            Controller.Configuration = new HttpConfiguration();
+            Controller.Configuration = configuration;
+            TestStartupConfiguration.HttpConfiguration = configuration;
+            TestStartupConfiguration.CarRepository = CarRepository;
+            TestStartupConfiguration.CarService = CarService;
         }
 
         [TestMethod]

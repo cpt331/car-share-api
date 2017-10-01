@@ -9,7 +9,7 @@ app.controller('CarController', function ($scope, $http, $rootScope, $routeParam
 
         $scope.Loading = true;
         //we dont pass json to this token provider
-        $http.get('/api/Cars/' + carId,
+        $http.get('/api/cars/detail/' + carId,
             { headers: { 'Authorization': "Bearer " + $rootScope.Token.access_token } })
             .then(function (res) {
                     console.log(res);

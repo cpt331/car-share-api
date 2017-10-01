@@ -33,32 +33,11 @@ namespace CarShareApi.Controllers
         private IUserService UserService;
         private static Logger Logger = LogManager.GetCurrentClassLogger();
 
-        //public AccountController()
-        //{
-        //    UserService = new UserService(new UserRepository(new CarShareContext()));
-        //}
+        //inject service to make testing easier
         public AccountController(IUserService userService)
         {
             UserService = userService;
         }
-
-        /// <summary>
-        /// Returns a list of users in the system (DEBUG ONLY)
-        /// </summary>
-        /// <returns></returns>
-        //[HttpGet, Route("api/account/list")]
-        //public List<User> List()
-        //{
-
-        //    //check application is in debug mode before returning this list
-        //    CompilationSection compilationSection = (CompilationSection)System.Configuration.ConfigurationManager.GetSection(@"system.web/compilation");
-        //    bool isDebugEnabled = compilationSection.Debug;
-        //    if (!isDebugEnabled)
-        //    {
-        //        return null;
-        //    }
-        //    return UserService.FindUsers();
-        //}
 
         [HttpGet, Route("api/account/current")]
         public UserViewModel Current()
