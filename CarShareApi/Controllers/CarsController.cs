@@ -56,7 +56,7 @@ namespace CarShareApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet, Route("api/cars/detail")]
+        [HttpGet, Route("api/cars/detail/{id}")]
         public CarViewModel Get(int id)
         {
             return CarService.FindCar(id);
