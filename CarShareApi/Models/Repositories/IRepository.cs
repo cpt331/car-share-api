@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace CarShareApi.Models.Repositories
 {
-    public interface IRepository<T>
+    public interface IRepository<T, TK>
     {
         T Add(T item);
-        T Find(int id);
+        T Find(TK id);
         List<T> FindAll();
         T Update(T item);
-        void Delete(int id);
+        void Delete(TK id);
     }
 }

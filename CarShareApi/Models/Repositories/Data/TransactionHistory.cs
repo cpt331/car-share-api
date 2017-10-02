@@ -33,6 +33,6 @@ namespace CarShareApi.Models.Repositories.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual Receipt Receipt { get; set; }
-        public virtual TransactionStatu TransactionStatu { get; set; }
+        public virtual TransactionStatus TransactionStatu { get; set; }
     }
 }

@@ -28,10 +28,11 @@ namespace CarShareApi.Models.Repositories.Data
         public string Status { get; set; }
         public decimal LatPos { get; set; }
         public decimal LongPos { get; set; }
+        public string Suburb { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Bookings { get; set; }
-        public virtual CarStatu CarStatu { get; set; }
+        public virtual CarStatus CarStatu { get; set; }
         public virtual CarCategory CarCategory1 { get; set; }
         public virtual CarRego CarRego { get; set; }
     }

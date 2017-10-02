@@ -12,27 +12,17 @@ namespace CarShareApi.Models.Repositories.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class UserStatus
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
+        public UserStatus()
         {
-            this.Bookings = new HashSet<Booking>();
+            this.Users = new HashSet<User>();
         }
     
-        public string Email { get; set; }
-        public int AccountID { get; set; }
-        public string Password { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
         public string Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Booking> Bookings { get; set; }
-        public virtual PaymentMethod PaymentMethod { get; set; }
-        public virtual Registration Registration { get; set; }
-        public virtual User Users1 { get; set; }
-        public virtual User User1 { get; set; }
-        public virtual UserStatus UserStatu { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

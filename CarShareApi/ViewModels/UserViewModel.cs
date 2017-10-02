@@ -22,6 +22,8 @@ namespace CarShareApi.ViewModels
         public string PhoneNumber { get; set; }
         public string DateOfBirth { get; set; }
 
+        public bool HasOpenBooking { get; set; }
+
         public UserViewModel()
         {
 

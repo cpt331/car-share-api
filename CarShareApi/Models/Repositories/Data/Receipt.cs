@@ -31,6 +31,7 @@ namespace CarShareApi.Models.Repositories.Data
         public string CarDescription { get; set; }
         public decimal BillingRate { get; set; }
         public decimal BilledAmount { get; set; }
+        public System.DateTime ReceiptDate { get; set; }
     
         public virtual Booking Booking { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
