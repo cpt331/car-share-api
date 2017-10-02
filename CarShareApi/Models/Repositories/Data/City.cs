@@ -12,17 +12,10 @@ namespace CarShareApi.Models.Repositories.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class CarStatu
+    public partial class City
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CarStatu()
-        {
-            this.Cars = new HashSet<Car>();
-        }
-    
-        public string Status { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Car> Cars { get; set; }
+        public string CityName { get; set; }
+        public decimal LatPos { get; set; }
+        public decimal LongPos { get; set; }
     }
 }

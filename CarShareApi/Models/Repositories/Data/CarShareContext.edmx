@@ -11,11 +11,11 @@
           </Key>
           <Property Name="BookingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="VehicleID" Type="int" Nullable="false" />
-          <Property Name="TransactionID" Type="int" Nullable="false" />
+          <Property Name="TransactionID" Type="int" />
           <Property Name="AccountID" Type="int" Nullable="false" />
           <Property Name="BookingStatus" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="CheckOut" Type="date" Nullable="false" />
-          <Property Name="CheckIn" Type="date" />
+          <Property Name="CheckOut" Type="datetime" Nullable="false" />
+          <Property Name="CheckIn" Type="datetime" />
         </EntityType>
         <EntityType Name="BookingStatus">
           <Key>
@@ -35,6 +35,7 @@
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="LatPos" Type="decimal" Precision="9" Scale="6" Nullable="false" />
           <Property Name="LongPos" Type="decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="Suburb" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="CarCategory">
           <Key>
@@ -64,6 +65,18 @@
           </Key>
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EWEBAH.dbo.Cities' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Cities">
+          <Key>
+            <PropertyRef Name="CityName" />
+            <PropertyRef Name="LatPos" />
+            <PropertyRef Name="LongPos" />
+          </Key>
+          <Property Name="CityName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="LatPos" Type="decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="LongPos" Type="decimal" Precision="9" Scale="6" Nullable="false" />
+        </EntityType>
         <EntityType Name="PaymentMethod">
           <Key>
             <PropertyRef Name="AccountID" />
@@ -90,6 +103,7 @@
           <Property Name="CarDescription" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="BillingRate" Type="money" Nullable="false" />
           <Property Name="BilledAmount" Type="money" Nullable="false" />
+          <Property Name="ReceiptDate" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="Registrations">
           <Key>
@@ -117,7 +131,7 @@
           <Property Name="BillingRate" Type="money" Nullable="false" />
           <Property Name="Amount" Type="money" Nullable="false" />
           <Property Name="TransactionStatus" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="Reference" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Reference" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PaymentMethod" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="TransactionStatus">
@@ -168,7 +182,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Booking_TransactionHistory">
-          <End Role="TransactionHistory" Type="Self.TransactionHistory" Multiplicity="1" />
+          <End Role="TransactionHistory" Type="Self.TransactionHistory" Multiplicity="0..1" />
           <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TransactionHistory">
@@ -350,6 +364,13 @@
           <EntitySet Name="TransactionStatus" EntityType="Self.TransactionStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserStatus" EntityType="Self.UserStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cities" EntityType="Self.Cities" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Cities].[CityName] AS [CityName], 
+    [Cities].[LatPos] AS [LatPos], 
+    [Cities].[LongPos] AS [LongPos]
+    FROM [dbo].[Cities] AS [Cities]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Booking_BookingStatus" Association="Self.FK_Booking_BookingStatus">
             <End Role="BookingStatus" EntitySet="BookingStatus" />
             <End Role="Booking" EntitySet="Booking" />
@@ -425,18 +446,18 @@
           </Key>
           <Property Name="BookingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="VehicleID" Type="Int32" Nullable="false" />
-          <Property Name="TransactionID" Type="Int32" Nullable="false" />
+          <Property Name="TransactionID" Type="Int32" />
           <Property Name="AccountID" Type="Int32" Nullable="false" />
           <Property Name="BookingStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CheckOut" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="CheckIn" Type="DateTime" Precision="0" />
+          <Property Name="CheckOut" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CheckIn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="BookingStatu" Relationship="Self.FK_Booking_BookingStatus" FromRole="Booking" ToRole="BookingStatus" />
           <NavigationProperty Name="Car" Relationship="Self.FK_Booking_Car" FromRole="Booking" ToRole="Car" />
-          <NavigationProperty Name="TransactionHistory" Relationship="Self.FK_Booking_TransactionHistory" FromRole="Booking" ToRole="TransactionHistory" />
+          <NavigationProperty Name="TransactionHistory" Relationship="CarShareModel.FK_Booking_TransactionHistory" FromRole="Booking" ToRole="TransactionHistory" />
           <NavigationProperty Name="User" Relationship="Self.FK_Booking_Users" FromRole="Booking" ToRole="Users" />
           <NavigationProperty Name="Receipts" Relationship="Self.FK_Receipt_Booking" FromRole="Booking" ToRole="Receipt" />
         </EntityType>
-        <EntityType Name="BookingStatu">
+        <EntityType Name="BookingStatus">
           <Key>
             <PropertyRef Name="Status" />
           </Key>
@@ -459,6 +480,7 @@
           <NavigationProperty Name="CarStatu" Relationship="Self.FK_Car_Car" FromRole="Car" ToRole="CarStatus" />
           <NavigationProperty Name="CarCategory1" Relationship="Self.FK_Car_CarCategory" FromRole="Car" ToRole="CarCategory" />
           <NavigationProperty Name="CarRego" Relationship="Self.FK_CarRego_Car" FromRole="Car" ToRole="CarRego" />
+          <Property Name="Suburb" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="CarCategory">
           <Key>
@@ -487,7 +509,7 @@
           <Property Name="ExpiryDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Car" Relationship="Self.FK_CarRego_Car" FromRole="CarRego" ToRole="Car" />
         </EntityType>
-        <EntityType Name="CarStatu">
+        <EntityType Name="CarStatus">
           <Key>
             <PropertyRef Name="Status" />
           </Key>
@@ -524,6 +546,7 @@
           <Property Name="BilledAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <NavigationProperty Name="Booking" Relationship="Self.FK_Receipt_Booking" FromRole="Receipt" ToRole="Booking" />
           <NavigationProperty Name="TransactionHistories" Relationship="Self.FK_TransactionHistory_Receipt" FromRole="Receipt" ToRole="TransactionHistory" />
+          <Property Name="ReceiptDate" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
         <EntityType Name="Registration">
           <Key>
@@ -552,13 +575,13 @@
           <Property Name="BillingRate" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="TransactionStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Reference" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Reference" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PaymentMethod" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Bookings" Relationship="Self.FK_Booking_TransactionHistory" FromRole="TransactionHistory" ToRole="Booking" />
           <NavigationProperty Name="Receipt" Relationship="Self.FK_TransactionHistory_Receipt" FromRole="TransactionHistory" ToRole="Receipt" />
           <NavigationProperty Name="TransactionStatu" Relationship="Self.FK_TransactionHistory_TransactionStatus" FromRole="TransactionHistory" ToRole="TransactionStatus" />
         </EntityType>
-        <EntityType Name="TransactionStatu">
+        <EntityType Name="TransactionStatus">
           <Key>
             <PropertyRef Name="Status" />
           </Key>
@@ -582,7 +605,7 @@
           <NavigationProperty Name="User1" Relationship="Self.FK_Users_Users1" FromRole="Users1" ToRole="Users" />
           <NavigationProperty Name="UserStatu" Relationship="Self.FK_UserStatus_User" FromRole="Users" ToRole="UserStatus" />
         </EntityType>
-        <EntityType Name="UserStatu">
+        <EntityType Name="UserStatus">
           <Key>
             <PropertyRef Name="Status" />
           </Key>
@@ -590,7 +613,7 @@
           <NavigationProperty Name="Users" Relationship="Self.FK_UserStatus_User" FromRole="UserStatus" ToRole="Users" />
         </EntityType>
         <Association Name="FK_Booking_BookingStatus">
-          <End Role="BookingStatus" Type="Self.BookingStatu" Multiplicity="1" />
+          <End Role="BookingStatus" Type="CarShareModel.BookingStatus" Multiplicity="1" />
           <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="BookingStatus">
@@ -614,7 +637,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Booking_TransactionHistory">
-          <End Role="TransactionHistory" Type="Self.TransactionHistory" Multiplicity="1" />
+          <End Role="TransactionHistory" Type="Self.TransactionHistory" Multiplicity="0..1" />
           <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TransactionHistory">
@@ -650,7 +673,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Car_Car">
-          <End Role="CarStatus" Type="Self.CarStatu" Multiplicity="1" />
+          <End Role="CarStatus" Type="CarShareModel.CarStatus" Multiplicity="1" />
           <End Role="Car" Type="Self.Car" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CarStatus">
@@ -746,7 +769,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TransactionHistory_TransactionStatus">
-          <End Role="TransactionStatus" Type="Self.TransactionStatu" Multiplicity="1" />
+          <End Role="TransactionStatus" Type="CarShareModel.TransactionStatus" Multiplicity="1" />
           <End Role="TransactionHistory" Type="Self.TransactionHistory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TransactionStatus">
@@ -770,7 +793,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_UserStatus_User">
-          <End Role="UserStatus" Type="Self.UserStatu" Multiplicity="1" />
+          <End Role="UserStatus" Type="CarShareModel.UserStatus" Multiplicity="1" />
           <End Role="Users" Type="Self.User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserStatus">
@@ -783,21 +806,21 @@
         </Association>
         <EntityContainer Name="CarShareContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Bookings" EntityType="Self.Booking" />
-          <EntitySet Name="BookingStatus" EntityType="Self.BookingStatu" />
+          <EntitySet Name="BookingStatus1" EntityType="CarShareModel.BookingStatus" />
           <EntitySet Name="Cars" EntityType="Self.Car" />
           <EntitySet Name="CarCategories" EntityType="Self.CarCategory" />
           <EntitySet Name="CardTypes" EntityType="Self.CardType" />
           <EntitySet Name="CarRegoes" EntityType="Self.CarRego" />
-          <EntitySet Name="CarStatus" EntityType="Self.CarStatu" />
+          <EntitySet Name="CarStatus1" EntityType="CarShareModel.CarStatus" />
           <EntitySet Name="PaymentMethods" EntityType="Self.PaymentMethod" />
           <EntitySet Name="Receipts" EntityType="Self.Receipt" />
           <EntitySet Name="Registrations" EntityType="Self.Registration" />
           <EntitySet Name="TransactionHistories" EntityType="Self.TransactionHistory" />
-          <EntitySet Name="TransactionStatus" EntityType="Self.TransactionStatu" />
+          <EntitySet Name="TransactionStatus1" EntityType="CarShareModel.TransactionStatus" />
           <EntitySet Name="Users" EntityType="Self.User" />
-          <EntitySet Name="UserStatus" EntityType="Self.UserStatu" />
+          <EntitySet Name="UserStatus1" EntityType="CarShareModel.UserStatus" />
           <AssociationSet Name="FK_Booking_BookingStatus" Association="Self.FK_Booking_BookingStatus">
-            <End Role="BookingStatus" EntitySet="BookingStatus" />
+            <End Role="BookingStatus" EntitySet="BookingStatus1" />
             <End Role="Booking" EntitySet="Bookings" />
           </AssociationSet>
           <AssociationSet Name="FK_Booking_Car" Association="Self.FK_Booking_Car">
@@ -817,7 +840,7 @@
             <End Role="Receipt" EntitySet="Receipts" />
           </AssociationSet>
           <AssociationSet Name="FK_Car_Car" Association="Self.FK_Car_Car">
-            <End Role="CarStatus" EntitySet="CarStatus" />
+            <End Role="CarStatus" EntitySet="CarStatus1" />
             <End Role="Car" EntitySet="Cars" />
           </AssociationSet>
           <AssociationSet Name="FK_Car_CarCategory" Association="Self.FK_Car_CarCategory">
@@ -849,7 +872,7 @@
             <End Role="Registrations" EntitySet="Registrations" />
           </AssociationSet>
           <AssociationSet Name="FK_TransactionHistory_TransactionStatus" Association="Self.FK_TransactionHistory_TransactionStatus">
-            <End Role="TransactionStatus" EntitySet="TransactionStatus" />
+            <End Role="TransactionStatus" EntitySet="TransactionStatus1" />
             <End Role="TransactionHistory" EntitySet="TransactionHistories" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Users1" Association="Self.FK_Users_Users1">
@@ -857,10 +880,21 @@
             <End Role="Users1" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_UserStatus_User" Association="Self.FK_UserStatus_User">
-            <End Role="UserStatus" EntitySet="UserStatus" />
+            <End Role="UserStatus" EntitySet="UserStatus1" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="Cities" EntityType="CarShareModel.City" />
         </EntityContainer>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityName" />
+            <PropertyRef Name="LatPos" />
+            <PropertyRef Name="LongPos" />
+          </Key>
+          <Property Name="CityName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="LatPos" Type="Decimal" Nullable="false" Precision="9" Scale="6" />
+          <Property Name="LongPos" Type="Decimal" Nullable="false" Precision="9" Scale="6" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -880,8 +914,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BookingStatus">
-            <EntityTypeMapping TypeName="CarShareModel.BookingStatu">
+          <EntitySetMapping Name="BookingStatus1">
+            <EntityTypeMapping TypeName="CarShareModel.BookingStatus">
               <MappingFragment StoreEntitySet="BookingStatus">
                 <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
@@ -890,6 +924,7 @@
           <EntitySetMapping Name="Cars">
             <EntityTypeMapping TypeName="CarShareModel.Car">
               <MappingFragment StoreEntitySet="Car">
+                <ScalarProperty Name="Suburb" ColumnName="Suburb" />
                 <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
                 <ScalarProperty Name="Make" ColumnName="Make" />
                 <ScalarProperty Name="Model" ColumnName="Model" />
@@ -926,8 +961,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CarStatus">
-            <EntityTypeMapping TypeName="CarShareModel.CarStatu">
+          <EntitySetMapping Name="CarStatus1">
+            <EntityTypeMapping TypeName="CarShareModel.CarStatus">
               <MappingFragment StoreEntitySet="CarStatus">
                 <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
@@ -948,6 +983,7 @@
           <EntitySetMapping Name="Receipts">
             <EntityTypeMapping TypeName="CarShareModel.Receipt">
               <MappingFragment StoreEntitySet="Receipt">
+                <ScalarProperty Name="ReceiptDate" ColumnName="ReceiptDate" />
                 <ScalarProperty Name="ReceiptID" ColumnName="ReceiptID" />
                 <ScalarProperty Name="BookingID" ColumnName="BookingID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -993,8 +1029,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TransactionStatus">
-            <EntityTypeMapping TypeName="CarShareModel.TransactionStatu">
+          <EntitySetMapping Name="TransactionStatus1">
+            <EntityTypeMapping TypeName="CarShareModel.TransactionStatus">
               <MappingFragment StoreEntitySet="TransactionStatus">
                 <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
@@ -1012,10 +1048,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserStatus">
-            <EntityTypeMapping TypeName="CarShareModel.UserStatu">
+          <EntitySetMapping Name="UserStatus1">
+            <EntityTypeMapping TypeName="CarShareModel.UserStatus">
               <MappingFragment StoreEntitySet="UserStatus">
                 <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="CarShareModel.City">
+              <MappingFragment StoreEntitySet="Cities">
+                <ScalarProperty Name="LongPos" ColumnName="LongPos" />
+                <ScalarProperty Name="LatPos" ColumnName="LatPos" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -43,12 +43,17 @@ namespace CarShareApi.Controllers
         /// </summary>
         /// <param name="lat"></param>
         /// <param name="lng"></param>
+        /// <param name="radius">the radius in metres</param>
+        /// <param name="max">the maximum results</param>
         /// <returns></returns>
         [HttpGet, Route("api/cars/coords")]
-        public IEnumerable<CarViewModel> Get(double lat, double lng)
+        public IEnumerable<CarViewModel> Get(double lat, double lng, double radius = 5000, int max = 100, string carCategory = "")
         {
-            return CarService.FindCarsByLocation(lat,lng);
+            var cars = CarService.FindCarsByLocation(lat,lng);
+            return cars.Where(x => x.Distance.HasValue && x.Distance <= radius).Take(max);
         }
+
+
 
         // GET api/values/5
         /// <summary>

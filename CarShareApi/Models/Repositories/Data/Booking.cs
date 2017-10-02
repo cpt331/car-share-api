@@ -22,13 +22,13 @@ namespace CarShareApi.Models.Repositories.Data
     
         public int BookingID { get; set; }
         public int VehicleID { get; set; }
-        public int TransactionID { get; set; }
+        public Nullable<int> TransactionID { get; set; }
         public int AccountID { get; set; }
         public string BookingStatus { get; set; }
         public System.DateTime CheckOut { get; set; }
         public Nullable<System.DateTime> CheckIn { get; set; }
     
-        public virtual BookingStatu BookingStatu { get; set; }
+        public virtual BookingStatus BookingStatu { get; set; }
         public virtual Car Car { get; set; }
         public virtual TransactionHistory TransactionHistory { get; set; }
         public virtual User User { get; set; }

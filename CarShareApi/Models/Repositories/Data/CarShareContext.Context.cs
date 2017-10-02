@@ -26,18 +26,19 @@ namespace CarShareApi.Models.Repositories.Data
         }
     
         public virtual DbSet<Booking> Bookings { get; set; }
-        public virtual DbSet<BookingStatu> BookingStatus { get; set; }
+        public virtual DbSet<BookingStatus> BookingStatus1 { get; set; }
         public virtual DbSet<Car> Cars { get; set; }
         public virtual DbSet<CarCategory> CarCategories { get; set; }
         public virtual DbSet<CardType> CardTypes { get; set; }
         public virtual DbSet<CarRego> CarRegoes { get; set; }
-        public virtual DbSet<CarStatu> CarStatus { get; set; }
+        public virtual DbSet<CarStatus> CarStatus1 { get; set; }
         public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
         public virtual DbSet<Receipt> Receipts { get; set; }
         public virtual DbSet<Registration> Registrations { get; set; }
         public virtual DbSet<TransactionHistory> TransactionHistories { get; set; }
-        public virtual DbSet<TransactionStatu> TransactionStatus { get; set; }
+        public virtual DbSet<TransactionStatus> TransactionStatus1 { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<UserStatu> UserStatus { get; set; }
+        public virtual DbSet<UserStatus> UserStatus1 { get; set; }
+        public virtual DbSet<City> Cities { get; set; }
     }
 }
