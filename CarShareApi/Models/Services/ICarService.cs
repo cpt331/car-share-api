@@ -12,6 +12,7 @@ namespace CarShareApi.Models.Services
         CarViewModel FindCar(int id);
         List<CarViewModel> FindAllCars();
         List<CarViewModel> FindCarsByLocation(double lat, double lng);
+        List<CarViewModel> FindCarsByCity(double lat, double lng, string city);
         void DeleteCar(int id);
     }
 }

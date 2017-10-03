@@ -53,6 +53,11 @@ namespace CarShareApi.Controllers
             return cars.Where(x => x.Distance.HasValue && x.Distance <= radius).Take(max);
         }
 
+        public IEnumerable<CarViewModel> Get(double lat, double lng, double radius = 5000, int max = 100, string carCategory = "", string city)
+        {
+            var cars = CarService.FindCarsByCity(lat, lng, city);
+            return cars.Where(x => x.Suburb == city);
+        }
 
 
         // GET api/values/5

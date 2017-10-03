@@ -30,6 +30,27 @@ namespace CarShareApi.Models.Services.Implementations
             return result.OrderBy(x=>x.Distance).ToList();
         }
 
+        public List<CarViewModel> FindCarsByCity(double lat, double lng, string city)
+        {
+            var cars = CarRepository.FindAll();
+            var result = new List<CarViewModel>();
+            foreach (var car in cars)
+            {
+                if (car.Suburb == city)
+                {
+                    var distance = Haversine(lat, (double)car.LatPos, lng, (double)car.LongPos);
+                    result.Add(new CarViewModel(car)
+                    {
+                        Distance = distance
+                    });
+                }
+                
+            }
+            return result.OrderBy(x => x.Distance).ToList();
+        }
+
+
+
         public CarViewModel FindCar(int id)
         {
             return new CarViewModel(CarRepository.Find(id));

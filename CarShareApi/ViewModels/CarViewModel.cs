@@ -18,6 +18,7 @@ namespace CarShareApi.ViewModels
         public string Status { get; set; }
         public decimal LatPos { get; set; }
         public decimal LongPos { get; set; }
+        public string Suburb { get; set; }
 
         //calculated fields
         public double? Distance { get; set; }
@@ -35,6 +36,7 @@ namespace CarShareApi.ViewModels
             Status = car.Status;
             LatPos = car.LatPos;
             LongPos = car.LongPos;
+            Suburb = car.Suburb;
 
         }
     }
