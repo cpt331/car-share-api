@@ -48,6 +48,11 @@ namespace CarShareApi.Models.Repositories.Implementations
             return Context.Users.ToList();
         }
 
+        public IQueryable<User> Query()
+        {
+            return Context.Users.AsQueryable();
+        }
+
         public User FindByEmail(string email)
         {
             return Context.Users.FirstOrDefault(x => x.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));

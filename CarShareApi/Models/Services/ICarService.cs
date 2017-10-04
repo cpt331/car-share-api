@@ -12,6 +12,8 @@ namespace CarShareApi.Models.Services
         CarViewModel FindCar(int id);
         List<CarViewModel> FindAllCars();
         List<CarViewModel> FindCarsByLocation(double lat, double lng);
+        List<CarViewModel> SearchCars(CarSearchCriteria criteria);
+        List<CarCategoryViewModel> GetCarCategories();
         void DeleteCar(int id);
     }
 }

@@ -19,6 +19,7 @@ namespace CarShareApi.Tests.Controllers
     [TestClass]
     public class CarsControllerTest
     {
+        private ICarCategoryRepository CarCategoryRepository { get; set; }
         private ICarRepository CarRepository { get; set; }
         private ICarService CarService { get; set; }
         private CarsController Controller { get; set; }
@@ -28,7 +29,8 @@ namespace CarShareApi.Tests.Controllers
         {
             var configuration = new HttpConfiguration();
             CarRepository = new FakeCarRepository();
-            CarService = new CarService(CarRepository);
+            CarCategoryRepository = new FakeCarCategoryRepository();
+            CarService = new CarService(CarRepository, CarCategoryRepository);
 
             Controller = new CarsController(CarService);
             Controller.Configuration = configuration;

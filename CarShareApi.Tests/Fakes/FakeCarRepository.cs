@@ -59,6 +59,11 @@ namespace CarShareApi.Tests.Fakes
             return Cars;
         }
 
+        public IQueryable<Car> Query()
+        {
+            return Cars.AsQueryable();
+        }
+
 
         public Car Update(Car item)
         {
