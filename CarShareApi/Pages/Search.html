@@ -85,7 +85,9 @@
 
                         
                         <h3>{{car.Make}} {{car.Model}}</h3>
-                        <span class="badge" ng-show="car.Distance">{{car.Distance}}m</span>
+                        <span class="badge">${{car.BillingRate | number: 2}}/Hr</span>
+                        <span class="badge" ng-show="car.Distance">{{car.Distance | number: 0}}m</span>
+                        
                         <p>Category: {{car.CarCategory}}</p>
                         <p>Suburb: {{car.Suburb}}</p>
                         <p>Position: {{car.LatPos}} , {{car.LongPos}}</p>

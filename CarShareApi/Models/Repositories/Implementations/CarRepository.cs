@@ -46,7 +46,10 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public IQueryable<Car> Query()
         {
-            return Context.Cars.AsQueryable();
+            return Context
+                .Cars
+                .Include(x=>x.CarCategory1)
+                .AsQueryable();
         }
 
 

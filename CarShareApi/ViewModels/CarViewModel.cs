@@ -22,8 +22,7 @@ namespace CarShareApi.ViewModels
 
         //calculated fields
         public double? Distance { get; set; }
-        public bool IsBooked { get; set; }
-
+        public decimal? BillingRate { get; set; }
         
         public CarViewModel() { }
         public CarViewModel(Car car)
@@ -37,7 +36,10 @@ namespace CarShareApi.ViewModels
             Status = car.Status;
             LatPos = car.LatPos;
             LongPos = car.LongPos;
-
+            if (car.CarCategory1 != null)
+            {
+                BillingRate = car.CarCategory1.BillingRate;
+            }
         }
     }
 }

@@ -14,6 +14,9 @@ namespace CarShareApi.Models.Services.Implementations
         private ICarRepository CarRepository { get; set; }
         private ICarCategoryRepository CarCategoryRepository { get; set; }
 
+        private const string CarActiveStatus = "Active";
+        private const string CarInactiveStatus = "Inactive";
+
         public CarService(ICarRepository carRepository, ICarCategoryRepository carCategoryRepository)
         {
             CarRepository = carRepository;
@@ -22,6 +25,10 @@ namespace CarShareApi.Models.Services.Implementations
         public List<CarViewModel> FindCarsByLocation(double lat, double lng)
         {
             var cars = CarRepository.FindAll();
+
+            //dont show inactive cars
+            cars.RemoveAll(x => x.Status.Equals(CarInactiveStatus));
+
             var result = new List<CarViewModel>();
             foreach(var car in cars)
             {
@@ -42,6 +49,9 @@ namespace CarShareApi.Models.Services.Implementations
 
             //build EF query for search criteria
             var carQuery = CarRepository.Query();
+
+            //dont show inactive cars
+            carQuery = carQuery.Where(x => x.Status.Equals(CarActiveStatus));
 
             if (!string.IsNullOrWhiteSpace(criteria.CarCategory))
             {
@@ -101,7 +111,8 @@ namespace CarShareApi.Models.Services.Implementations
 
         public List<CarViewModel> FindAllCars()
         {
-            return CarRepository.FindAll().Select(x => new CarViewModel(x)).ToList();
+            var cars = CarRepository.FindAll();
+            return cars.Select(x => new CarViewModel(x)).ToList();
         }
 
         
