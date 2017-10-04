@@ -11,6 +11,7 @@ namespace CarShareApi.Models.Repositories
         T Add(T item);
         T Find(TK id);
         List<T> FindAll();
+        IQueryable<T> Query();
         T Update(T item);
         void Delete(TK id);
     }

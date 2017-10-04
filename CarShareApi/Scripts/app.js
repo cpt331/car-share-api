@@ -34,6 +34,13 @@ app.config(function ($routeProvider) {
                 controller: 'CarsController'
         })
 
+        // route for the cars page
+        .when('/search',
+            {
+                templateUrl: '../Pages/Search.html',
+                controller: 'SearchController'
+            })
+
         // route for the car detail page
         .when('/cars/:carId',
             {

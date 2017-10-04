@@ -55,7 +55,12 @@ namespace CarShareApi.Tests.Fakes
         {
             return Registrations;
         }
-        
+
+        public IQueryable<Registration> Query()
+        {
+            return Registrations.AsQueryable();
+        }
+
 
         public Registration Update(Registration item)
         {

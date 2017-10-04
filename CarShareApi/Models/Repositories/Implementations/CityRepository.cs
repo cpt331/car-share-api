@@ -34,6 +34,11 @@ namespace CarShareApi.Models.Repositories.Implementations
             return Context.Cities.ToList();
         }
 
+        public IQueryable<City> Query()
+        {
+            return Context.Cities.AsQueryable();
+        }
+
         public City Update(City item)
         {
             Context.Entry(item).State = EntityState.Modified;
