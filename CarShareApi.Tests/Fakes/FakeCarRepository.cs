@@ -11,6 +11,12 @@ namespace CarShareApi.Tests.Fakes
     public class FakeCarRepository : ICarRepository
     {
         public List<Car> Cars { get; set; }
+
+        public FakeCarRepository(List<Car> cars)
+        {
+            Cars = cars;
+        }
+
         public FakeCarRepository()
         {
             Cars = new List<Car>() {

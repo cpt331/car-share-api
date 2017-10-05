@@ -5,9 +5,16 @@
         <p>Please logon first!</p>
     </div>
 </div>
-<div class="container"  ng-show="LoggedOn">
+<div class="container" ng-show="LoggedOn">
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div id="map" style="height: 300px; margin-bottom: 10px;"></div>
+        </div>
+    </div>
+
     <div class="well">
-        
+
         <form name="form" ng-submit="Search()" role="form">
             <h2>Search</h2>
             <div class="row">
@@ -73,7 +80,7 @@
         </form>
         <div class="row" ng-show="Cars && Cars.length == 0">
             <div class="col-md-12">
-            <h2>No results</h2>
+                <h2>No results</h2>
                 <p>No cars found matching criteria</p>
             </div>
         </div>
@@ -83,11 +90,11 @@
                 <div class="list-group">
                     <a class="list-group-item" ng-repeat="car in Cars" href="#/cars/{{car.Id}}">
 
-                        
+
                         <h3>{{car.Make}} {{car.Model}}</h3>
                         <span class="badge">${{car.BillingRate | number: 2}}/Hr</span>
                         <span class="badge" ng-show="car.Distance">{{car.Distance | number: 0}}m</span>
-                        
+
                         <p>Category: {{car.CarCategory}}</p>
                         <p>Suburb: {{car.Suburb}}</p>
                         <p>Position: {{car.LatPos}} , {{car.LongPos}}</p>
