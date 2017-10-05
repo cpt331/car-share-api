@@ -147,6 +147,8 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Fakes\Data\Cars.json" />
+    <EmbeddedResource Include="Fakes\Data\Categories.json" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

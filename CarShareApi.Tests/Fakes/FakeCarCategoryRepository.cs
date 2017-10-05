@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Text;
 using System.Threading.Tasks;
 using CarShareApi.Models.Repositories;
@@ -10,34 +11,54 @@ namespace CarShareApi.Tests.Fakes
 {
     public class FakeCarCategoryRepository : ICarCategoryRepository
     {
+        public List<CarCategory> Categories { get; set; }
+
+        public FakeCarCategoryRepository(List<CarCategory> categories)
+        {
+            Categories = categories;
+        }
+        public FakeCarCategoryRepository()
+        {
+            Categories = new List<CarCategory>
+            {
+                new CarCategory { Category =  "Small", BillingRate = 5},
+                new CarCategory { Category =  "Medium", BillingRate = 6},
+                new CarCategory { Category =  "Large", BillingRate = 7}
+            };
+        }
+
+
         public CarCategory Add(CarCategory item)
         {
-            throw new NotImplementedException();
+            Categories.Add(item);
+            return item;
         }
 
         public CarCategory Find(string id)
         {
-            throw new NotImplementedException();
+            return Categories.FirstOrDefault(x => x.Category.Equals(id, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public List<CarCategory> FindAll()
         {
-            throw new NotImplementedException();
+            return Categories;
         }
 
         public IQueryable<CarCategory> Query()
         {
-            throw new NotImplementedException();
+            return Categories.AsQueryable();
         }
 
         public CarCategory Update(CarCategory item)
         {
-            throw new NotImplementedException();
+            Categories.RemoveAll(x => x.Category.Equals(item.Category, StringComparison.InvariantCultureIgnoreCase));
+            Categories.Add(item);
+            return item;
         }
 
         public void Delete(string id)
         {
-            throw new NotImplementedException();
+            Categories.RemoveAll(x => x.Category.Equals(id, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }
