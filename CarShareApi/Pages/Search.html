@@ -1,0 +1,107 @@
+﻿
+<div class="container">
+    <div ng-show="!LoggedOn" class="well">
+        <h2>Search</h2>
+        <p>Please logon first!</p>
+    </div>
+</div>
+<div class="container" ng-show="LoggedOn">
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div id="map" style="height: 300px; margin-bottom: 10px;"></div>
+        </div>
+    </div>
+
+    <div class="well">
+
+        <form name="form" ng-submit="Search()" role="form">
+            <h2>Search</h2>
+            <div class="row">
+                <div class="col-md-6">
+
+
+
+                    <div class="form-group">
+                        <label for="lat">Latitude</label>
+                        <input type="text" name="lat" id="lat" class="form-control" ng-model="Criteria.Latitude"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="lng">Longitude</label>
+                        <input type="text" name="lng" id="lng" class="form-control" ng-model="Criteria.Longitude"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="radius">Radius</label>
+                        <input type="number" name="radius" id="radius" class="form-control" ng-model="Criteria.Radius"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="max">Max Results</label>
+                        <input type="number" name="max" id="max" class="form-control" ng-model="Criteria.MaxResults"/>
+                    </div>
+
+
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="carCategory">Car Category</label>
+                        <select name="carCategory" id="carCategory" class="form-control" ng-model="Criteria.CarCategory">
+                            <option value="">Any</option>
+                            <option ng-repeat="category in Categories" value="{{category.Name}}">{{category.Name}} (${{category.BillingRate}}/hr)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="suburb">Suburb</label>
+                        <input type="text" name="suburb" id="suburb" class="form-control" ng-model="Criteria.Suburb"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="make">Make</label>
+                        <input type="text" name="make" id="make" class="form-control" ng-model="Criteria.Make"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="model">Model</label>
+                        <input type="text" name="model" id="model" class="form-control" ng-model="Criteria.Model"/>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-actions">
+                        <button type="submit" ng-disabled="form.$invalid || Loading" class="btn btn-primary">Search</button>
+                        <img ng-if="Loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row" ng-show="Cars && Cars.length == 0">
+            <div class="col-md-12">
+                <h2>No results</h2>
+                <p>No cars found matching criteria</p>
+            </div>
+        </div>
+        <div class="row" ng-show="Cars">
+            <div class="col-md-12">
+                <h2>Results ({{Cars.length}})</h2>
+                <div class="list-group">
+                    <a class="list-group-item" ng-repeat="car in Cars" href="#/cars/{{car.Id}}">
+
+
+                        <h3>{{car.Make}} {{car.Model}}</h3>
+                        <span class="badge">${{car.BillingRate | number: 2}}/Hr</span>
+                        <span class="badge" ng-show="car.Distance">{{car.Distance | number: 0}}m</span>
+
+                        <p>Category: {{car.CarCategory}}</p>
+                        <p>Suburb: {{car.Suburb}}</p>
+                        <p>Position: {{car.LatPos}} , {{car.LongPos}}</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

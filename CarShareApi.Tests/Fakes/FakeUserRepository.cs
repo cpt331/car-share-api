@@ -56,6 +56,11 @@ namespace CarShareApi.Tests.Fakes
             return Users;
         }
 
+        public IQueryable<User> Query()
+        {
+            return Users.AsQueryable();
+        }
+
         public User FindByEmail(string email)
         {
             return Users.FirstOrDefault(x => x.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));

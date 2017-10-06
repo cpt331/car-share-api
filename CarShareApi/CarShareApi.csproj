@@ -121,6 +121,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Device" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Security" />
@@ -332,7 +333,9 @@
     <Compile Include="Models\Repositories\Data\UserStatus.cs">
       <DependentUpon>CarShareContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Repositories\ICarCategoryRepository.cs" />
     <Compile Include="Models\Repositories\ICityRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\CarCategoryRepository.cs" />
     <Compile Include="Models\Repositories\Implementations\CarRepository.cs" />
     <Compile Include="Models\Repositories\ICarRepository.cs" />
     <Compile Include="Models\Repositories\Implementations\CityRepository.cs" />
@@ -348,6 +351,8 @@
     <Compile Include="Models\Services\Implementations\UserService.cs" />
     <Compile Include="Models\Services\IUserService.cs" />
     <Compile Include="Models\UnityResolver.cs" />
+    <Compile Include="ViewModels\CarCategoryViewModel.cs" />
+    <Compile Include="ViewModels\CarSearchCriteria.cs" />
     <Compile Include="ViewModels\CityViewModel.cs" />
     <Compile Include="ViewModels\LogonRequest.cs" />
     <Compile Include="ViewModels\LogonResponse.cs" />
@@ -400,6 +405,7 @@
     </Content>
     <Content Include="Models\Repositories\Data\SqlSeedingScripts.txt" />
     <Content Include="Pages\Car.html" />
+    <Content Include="Pages\Search.html" />
     <Content Include="Pages\Cars.html" />
     <Content Include="Pages\About.html" />
     <Content Include="Pages\Home.html" />
@@ -409,6 +415,7 @@
     <Content Include="Scripts\App.js" />
     <Content Include="Scripts\Controllers\AboutController.js" />
     <Content Include="Scripts\Controllers\CarController.js" />
+    <Content Include="Scripts\Controllers\SearchController.js" />
     <Content Include="Scripts\Controllers\CarsController.js" />
     <Content Include="Scripts\Controllers\RegisterController.js" />
     <Content Include="Scripts\Controllers\LogonController.js" />

@@ -15,15 +15,14 @@ namespace CarShareApi.ViewModels
         public string Make { get; set; }
         public string CarCategory { get; set; }
         public string Transmission { get; set; }
+        public string Suburb { get; set; }
         public string Status { get; set; }
         public decimal LatPos { get; set; }
         public decimal LongPos { get; set; }
-        public string Suburb { get; set; }
 
         //calculated fields
         public double? Distance { get; set; }
-        public bool IsBooked { get; set; }
-
+        public decimal? BillingRate { get; set; }
         
         public CarViewModel() { }
         public CarViewModel(Car car)
@@ -33,11 +32,14 @@ namespace CarShareApi.ViewModels
             Make = car.Make;
             CarCategory = car.CarCategory;
             Transmission = car.Transmission;
+            Suburb = car.Suburb;
             Status = car.Status;
             LatPos = car.LatPos;
             LongPos = car.LongPos;
-            Suburb = car.Suburb;
-
+            if (car.CarCategory1 != null)
+            {
+                BillingRate = car.CarCategory1.BillingRate;
+            }
         }
     }
 }

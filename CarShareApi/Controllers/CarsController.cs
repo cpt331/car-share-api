@@ -11,6 +11,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using CarShareApi.Models.Repositories.Data;
+using Newtonsoft.Json;
+using NLog;
 
 namespace CarShareApi.Controllers
 {
@@ -18,6 +20,8 @@ namespace CarShareApi.Controllers
     public class CarsController : ApiController
     {
         private ICarService CarService;
+        private static Logger Logger = LogManager.GetCurrentClassLogger();
+
         //public CarsController()
         //{
         //    CarService = new CarService(new CarRepository(new CarShareContext()));
@@ -53,12 +57,25 @@ namespace CarShareApi.Controllers
             return cars.Where(x => x.Distance.HasValue && x.Distance <= radius).Take(max);
         }
 
-        public IEnumerable<CarViewModel> Get(double lat, double lng, string city, double radius = 5000, int max = 100, string carCategory = "")
+        /// <summary>
+        /// Search a list of all cars sorted by distance from the passed in coordinates
+        /// </summary>
+        /// <param name="criteria">Criteria to perform search on</param>
+        /// <returns></returns>
+        [HttpPost, Route("api/cars/search")]
+        public IEnumerable<CarViewModel> Search(CarSearchCriteria criteria)
         {
-            var cars = CarService.FindCarsByCity(lat, lng, city);
-            return cars.Where(x => x.Suburb == city);
+            Logger.Debug("CarSearchCriteria Received: {0}", JsonConvert.SerializeObject(criteria, Formatting.Indented));
+            var cars = CarService.SearchCars(criteria);
+            return cars;
         }
 
+        [HttpGet, Route("api/cars/categories")]
+        public IEnumerable<CarCategoryViewModel> Categories()
+        {
+            var categories = CarService.GetCarCategories();
+            return categories;
+        }
 
         // GET api/values/5
         /// <summary>

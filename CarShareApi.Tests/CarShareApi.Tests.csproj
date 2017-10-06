@@ -132,6 +132,7 @@
   <ItemGroup>
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\AccountControllerTest.cs" />
+    <Compile Include="Fakes\FakeCarCategoryRepository.cs" />
     <Compile Include="Fakes\FakeCarRepository.cs" />
     <Compile Include="Fakes\FakeRegistrationRepository.cs" />
     <Compile Include="Fakes\FakeUserRepository.cs" />
@@ -146,6 +147,8 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Fakes\Data\Cars.json" />
+    <EmbeddedResource Include="Fakes\Data\Categories.json" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

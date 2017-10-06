@@ -1,0 +1,18 @@
+﻿[
+  {
+    "Name": "Hatch",
+    "BillingRate": 5.0000
+  },
+  {
+    "Name": "Sedan",
+    "BillingRate": 6.0000
+  },
+  {
+    "Name": "SUV",
+    "BillingRate": 8.0000
+  },
+  {
+    "Name": "Wagon",
+    "BillingRate": 7.0000
+  }
+]

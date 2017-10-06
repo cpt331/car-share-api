@@ -34,6 +34,11 @@ namespace CarShareApi.Models.Repositories.Implementations
             return Context.Registrations.ToList();
         }
 
+        public IQueryable<Registration> Query()
+        {
+            return Context.Registrations.AsQueryable();
+        }
+
         public Registration Update(Registration item)
         {
             Context.Entry(item).State = EntityState.Modified;
