@@ -41,15 +41,20 @@ namespace CarShareApi.Models.Services.Implementations
             //if found continue
             if (user != null)
             {
+                
                 //encrypt the provided password so it can be compared against the encrypted values in the database
                 if (user.Password.Equals(Encryption.EncryptString(request.Password)))
                 {
-                    return new LogonResponse
+                    //if the password check passes, check if the user has an active status
+                    if (user.Status == UserActiveStatus || user.Status == UserPartialStatus)
                     {
-                        Id = user.AccountID,
-                        Success = true,
-                        Message = "Logon was successful."
-                    };
+                        return new LogonResponse
+                        {
+                            Id = user.AccountID,
+                            Success = true,
+                            Message = "Logon was successful."
+                        };
+                    }
                 }
             }
 
@@ -82,9 +87,10 @@ namespace CarShareApi.Models.Services.Implementations
                     }
                 };
             }
-                
-            DateTime dob = request.DateOfBirth ?? DateTime.Now;
-            DateTime minAge = dob.AddYears(-UserMinimumAge);
+
+            //checks if the user is above the acceptable age
+            DateTime dob = request.DateOfBirth ?? DateTime.Now; //this is because dob could be null
+            DateTime minAge = DateTime.Now.AddYears(-UserMinimumAge); //minage is todays date minus 18 years
             if (dob.Date <= minAge.Date)
             {
                 return new RegisterResponse
