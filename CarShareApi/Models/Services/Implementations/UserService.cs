@@ -111,7 +111,8 @@ namespace CarShareApi.Models.Services.Implementations
                 LastName =request.LastName,
                 Email = request.Email,
                 Password = Encryption.EncryptString(request.Password),
-                Status = UserInactiveStatus
+                Status = UserActiveStatus
+                //Status = UserInactiveStatus
             };
 
             UserRepository.Add(user);
