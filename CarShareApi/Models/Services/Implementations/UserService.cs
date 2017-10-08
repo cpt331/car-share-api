@@ -91,7 +91,7 @@ namespace CarShareApi.Models.Services.Implementations
             //checks if the user is above the acceptable age
             DateTime dob = request.DateOfBirth ?? DateTime.Now; //this is because dob could be null
             DateTime minAge = DateTime.Now.AddYears(-UserMinimumAge); //minage is todays date minus 18 years
-            if (dob.Date <= minAge.Date)
+            if (dob.Date > minAge.Date)
             {
                 return new RegisterResponse
                 {
