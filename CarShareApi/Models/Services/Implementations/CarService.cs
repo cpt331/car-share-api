@@ -14,8 +14,7 @@ namespace CarShareApi.Models.Services.Implementations
         private ICarRepository CarRepository { get; set; }
         private ICarCategoryRepository CarCategoryRepository { get; set; }
 
-        private const string CarActiveStatus = "Active";
-        private const string CarInactiveStatus = "Inactive";
+       
 
         public CarService(ICarRepository carRepository, ICarCategoryRepository carCategoryRepository)
         {
@@ -27,7 +26,7 @@ namespace CarShareApi.Models.Services.Implementations
             var cars = CarRepository.FindAll();
 
             //dont show inactive cars
-            cars.RemoveAll(x => x.Status.Equals(CarInactiveStatus));
+            cars.RemoveAll(x => x.Status.Equals(Constants.CarBookedStatus));
 
             var result = new List<CarViewModel>();
             foreach(var car in cars)
@@ -51,7 +50,7 @@ namespace CarShareApi.Models.Services.Implementations
             var carQuery = CarRepository.Query();
 
             //dont show inactive cars
-            carQuery = carQuery.Where(x => x.Status.Equals(CarActiveStatus));
+            carQuery = carQuery.Where(x => x.Status.Equals(Constants.CarAvailableStatus));
 
             if (!string.IsNullOrWhiteSpace(criteria.CarCategory))
             {

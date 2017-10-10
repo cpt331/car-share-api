@@ -9,6 +9,7 @@ using System.Web;
 using CarShareApi.Models.Repositories.Data;
 using Microsoft.Owin.Security;
 using CarShareApi.Models.ViewModels;
+using CarShareApi.ViewModels;
 using Newtonsoft.Json;
 using NLog;
 
@@ -75,15 +76,23 @@ namespace CarShareApi.Models.Providers
             var props = new AuthenticationProperties(new Dictionary<string, string>
             {
                 {
-                    "Name", $"{user.FirstName} {user.LastName}"
+                    "Name", $"{user.Firstname} {user.Lastname}"
                 },
                 {
                     "Email", user.Email
                 },
                 {
-                    "Id", user.AccountID.ToString()
+                    "Id", user.AccountId.ToString()
+                },
+                {
+                    "HasOpenBooking", user.HasOpenBooking.ToString()
                 }
             });
+
+            if (user.OpenBookingId.HasValue)
+            {
+                props.Dictionary.Add("OpenBookingId", user.OpenBookingId.Value.ToString());
+            }
 
 
             var ticket = new AuthenticationTicket(identity, props);
@@ -101,20 +110,38 @@ namespace CarShareApi.Models.Providers
             //add each property in the authentication properties to the output response
             foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
             {
-                context.AdditionalResponseParameters.Add(property.Key, property.Value);
+                bool propertyBool;
+                int propertyInt;
+                if (bool.TryParse(property.Value, out propertyBool))
+                {
+                    context.AdditionalResponseParameters.Add(property.Key, propertyBool);
+                }
+                else if (int.TryParse(property.Value, out propertyInt))
+                {
+                    context.AdditionalResponseParameters.Add(property.Key, propertyInt);
+                }
+                else
+                {
+                    if (property.Value != null)
+                    {
+                        context.AdditionalResponseParameters.Add(property.Key, property.Value);
+                    }
+                    
+                }
+                
             }
 
 
             return Task.FromResult<object>(null);
         }
 
-        private ClaimsIdentity CreateIdentity(User user, string type)
+        private ClaimsIdentity CreateIdentity(UserViewModel user, string type)
         {
             //creates a claims identity based on the supplied user
             var identity = new ClaimsIdentity(new[] {
-                new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+                new Claim(ClaimTypes.Name, $"{user.Firstname} {user.Lastname}"),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.PrimarySid, user.AccountID.ToString()),
+                new Claim(ClaimTypes.PrimarySid, user.AccountId.ToString()),
                 new Claim(ClaimTypes.Role, "User")
             }, type);
             return identity;
