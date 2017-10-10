@@ -19,6 +19,7 @@ namespace CarShareApi.Models.Services.Implementations
         private const string UserClosedStatus = "Closed";
         private const string UserInactiveStatus = "Inactive";
         private const string UserPartialStatus = "Partial";
+        private const int UserMinimumAge = 18;
 
         //repositories are injected to allow easier testing
         public UserService(IUserRepository userRepository, IRegistrationRepository registrationRepository)
@@ -40,15 +41,20 @@ namespace CarShareApi.Models.Services.Implementations
             //if found continue
             if (user != null)
             {
+                
                 //encrypt the provided password so it can be compared against the encrypted values in the database
                 if (user.Password.Equals(Encryption.EncryptString(request.Password)))
                 {
-                    return new LogonResponse
+                    //if the password check passes, check if the user has an active status
+                    if (user.Status == UserActiveStatus || user.Status == UserPartialStatus)
                     {
-                        Id = user.AccountID,
-                        Success = true,
-                        Message = "Logon was successful."
-                    };
+                        return new LogonResponse
+                        {
+                            Id = user.AccountID,
+                            Success = true,
+                            Message = "Logon was successful."
+                        };
+                    }
                 }
             }
 
@@ -81,7 +87,23 @@ namespace CarShareApi.Models.Services.Implementations
                     }
                 };
             }
-            
+
+            //checks if the user is above the acceptable age
+            DateTime dob = request.DateOfBirth ?? DateTime.Now; //this is because dob could be null
+            DateTime minAge = DateTime.Now.AddYears(-UserMinimumAge); //minage is todays date minus 18 years
+            if (dob.Date > minAge.Date)
+            {
+                return new RegisterResponse
+                {
+                    Success = false,
+                    Message = $"Unable to register user. You must be at least " + UserMinimumAge + " to register",
+                    Errors = new string[]
+                    {
+                        "User does not meet the age requirement"
+                    }
+                };
+            }
+                
             //register the user first
             var user = new User
             {
@@ -90,6 +112,7 @@ namespace CarShareApi.Models.Services.Implementations
                 Email = request.Email,
                 Password = Encryption.EncryptString(request.Password),
                 Status = UserActiveStatus
+                //Status = UserInactiveStatus
             };
 
             UserRepository.Add(user);
@@ -115,7 +138,7 @@ namespace CarShareApi.Models.Services.Implementations
             return new RegisterResponse
             {
                 Success = true,
-                Message = $"User {user.Email} has been created"
+                Message = $"User {user.Email} has been created. An email to validate this email address will be sent shortly."
             };
         }
 
