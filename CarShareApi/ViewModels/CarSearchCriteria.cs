@@ -8,8 +8,8 @@ namespace CarShareApi.ViewModels
 {
     public class CarSearchCriteria
     {
-        public double? Latitude { get; set; }
-        public double? Longitude { get; set; }
+        public decimal? Latitude { get; set; }
+        public decimal? Longitude { get; set; }
         public double? Radius { get; set; }
         public int? MaxResults { get; set;}
         public string CarCategory { get; set; }

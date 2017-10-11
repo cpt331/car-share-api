@@ -14,8 +14,7 @@ namespace CarShareApi.Models.Services.Implementations
         private ICarRepository CarRepository { get; set; }
         private ICarCategoryRepository CarCategoryRepository { get; set; }
 
-        private const string CarActiveStatus = "Active";
-        private const string CarInactiveStatus = "Inactive";
+       
 
         public CarService(ICarRepository carRepository, ICarCategoryRepository carCategoryRepository)
         {
@@ -27,7 +26,7 @@ namespace CarShareApi.Models.Services.Implementations
             var cars = CarRepository.FindAll();
 
             //dont show inactive cars
-            cars.RemoveAll(x => x.Status.Equals(CarInactiveStatus));
+            cars.RemoveAll(x => x.Status.Equals(Constants.CarBookedStatus));
 
             var result = new List<CarViewModel>();
             foreach(var car in cars)
@@ -51,7 +50,7 @@ namespace CarShareApi.Models.Services.Implementations
             var carQuery = CarRepository.Query();
 
             //dont show inactive cars
-            carQuery = carQuery.Where(x => x.Status.Equals(CarActiveStatus));
+            carQuery = carQuery.Where(x => x.Status.Equals(Constants.CarAvailableStatus));
 
             if (!string.IsNullOrWhiteSpace(criteria.CarCategory))
             {
@@ -80,7 +79,7 @@ namespace CarShareApi.Models.Services.Implementations
                 {
                     //use microsofts haversine formula (returns metres)
                     var carCoordinate = new GeoCoordinate((double)car.LatPos, (double)car.LongPos);
-                    var searchCoordinate = new GeoCoordinate(criteria.Latitude.Value, criteria.Longitude.Value);
+                    var searchCoordinate = new GeoCoordinate((double)criteria.Latitude.Value, (double)criteria.Longitude.Value);
                     car.Distance = carCoordinate.GetDistanceTo(searchCoordinate);
                 }
             }

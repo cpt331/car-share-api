@@ -46,10 +46,7 @@ namespace CarShareApi.Controllers
             if (userPrincipal.Id.HasValue)
             {
                 var user = UserService.FindUser(userPrincipal.Id.Value);
-                if (user != null)
-                {
-                    return new UserViewModel(user);
-                }
+                return user;
             }
             return null;
         }

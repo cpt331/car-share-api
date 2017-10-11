@@ -11,8 +11,8 @@ namespace CarShareApi.Models.Services
 {
     public interface IUserService
     {
-        List<User> FindUsers();
-        User FindUser(int id);
+        List<UserViewModel> FindUsers();
+        UserViewModel FindUser(int id);
         LogonResponse Logon(LogonRequest request);
         RegisterResponse Register(RegisterRequest request);
     }
