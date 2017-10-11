@@ -114,7 +114,7 @@ namespace CarShareApi.Models.Services.Implementations
                 Status = UserActiveStatus
                 //Status = UserInactiveStatus
             };
-
+            Mail.SMTPMailer(request.Email);
             UserRepository.Add(user);
 
             //populate the registration table now using the account ID of the registered user
