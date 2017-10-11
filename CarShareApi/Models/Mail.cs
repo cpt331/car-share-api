@@ -9,7 +9,7 @@ namespace CarShareApi.Models
 {
     public static class Mail
     {
-        public static string SMTPMailer(string email)
+        public static void SMTPMailer(string email)
         {
             // This address must be verified with Amazon SES.
             const String FROM = "shawn.burriss@gmail.com";
