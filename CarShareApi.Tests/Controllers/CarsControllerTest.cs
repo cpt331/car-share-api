@@ -157,8 +157,8 @@ namespace CarShareApi.Tests.Controllers
             // Arrange
             var criteria = new CarSearchCriteria
             {
-                Latitude = -33.89806198,
-                Longitude = 151.17925644
+                Latitude = (decimal)-33.89806198,
+                Longitude = (decimal)151.17925644
             };
 
             // Act
@@ -179,8 +179,8 @@ namespace CarShareApi.Tests.Controllers
             // Arrange
             var criteria = new CarSearchCriteria
             {
-                Latitude = -33.89806198,
-                Longitude = 151.17925644,
+                Latitude = (decimal)-33.89806198,
+                Longitude = (decimal)151.17925644,
                 Radius = 10000
             };
 

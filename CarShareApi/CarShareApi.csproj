@@ -264,11 +264,13 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BookingsController.cs" />
     <Compile Include="Controllers\CarsController.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\Encryption.cs" />
     <Compile Include="Models\Filters\AssignOAuth2SecurityRequirements.cs" />
     <Compile Include="Models\Helpers.cs" />
@@ -333,24 +335,31 @@
     <Compile Include="Models\Repositories\Data\UserStatus.cs">
       <DependentUpon>CarShareContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Repositories\IBookingRepository.cs" />
     <Compile Include="Models\Repositories\ICarCategoryRepository.cs" />
     <Compile Include="Models\Repositories\ICityRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\BookingRepository.cs" />
     <Compile Include="Models\Repositories\Implementations\CarCategoryRepository.cs" />
     <Compile Include="Models\Repositories\Implementations\CarRepository.cs" />
     <Compile Include="Models\Repositories\ICarRepository.cs" />
     <Compile Include="Models\Repositories\Implementations\CityRepository.cs" />
     <Compile Include="Models\Repositories\Implementations\RegistrationRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\TransactionHistoryRepository.cs" />
     <Compile Include="Models\Repositories\IRegistrationRepository.cs" />
     <Compile Include="Models\Repositories\IRepository.cs" />
+    <Compile Include="Models\Repositories\ITransactionHistoryRepository.cs" />
     <Compile Include="Models\Repositories\IUserRepository.cs" />
     <Compile Include="Models\Repositories\Implementations\UserRepository.cs" />
+    <Compile Include="Models\Services\IBookingService.cs" />
     <Compile Include="Models\Services\ICityService.cs" />
+    <Compile Include="Models\Services\Implementations\BookingService.cs" />
     <Compile Include="Models\Services\Implementations\CarService.cs" />
     <Compile Include="Models\Services\ICarService.cs" />
     <Compile Include="Models\Services\Implementations\CityService.cs" />
     <Compile Include="Models\Services\Implementations\UserService.cs" />
     <Compile Include="Models\Services\IUserService.cs" />
     <Compile Include="Models\UnityResolver.cs" />
+    <Compile Include="ViewModels\Bookings\OpenBookingResponse.cs" />
     <Compile Include="ViewModels\CarCategoryViewModel.cs" />
     <Compile Include="ViewModels\CarSearchCriteria.cs" />
     <Compile Include="ViewModels\CityViewModel.cs" />
@@ -362,6 +371,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CarViewModel.cs" />
+    <Compile Include="ViewModels\Bookings\CloseBookingCheckRequest.cs" />
+    <Compile Include="ViewModels\Bookings\CloseBookingCheckResponse.cs" />
+    <Compile Include="ViewModels\Bookings\CloseBookingRequest.cs" />
+    <Compile Include="ViewModels\Bookings\CloseBookingResponse.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -431,6 +444,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Diagrams\" />
     <Folder Include="Scripts\Services\" />
   </ItemGroup>
   <ItemGroup>

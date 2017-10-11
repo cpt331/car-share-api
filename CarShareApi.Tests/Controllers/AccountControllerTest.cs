@@ -60,7 +60,7 @@ namespace CarShareApi.Tests.Controllers
             var configuration = new HttpConfiguration();
             UserRepository = new FakeUserRepository();
             RegistrationRepository = new FakeRegistrationRepository();
-            UserService = new UserService(UserRepository, RegistrationRepository);
+            UserService = new UserService(UserRepository, RegistrationRepository, null);
 
             Controller = new AccountController(UserService);
             Controller.Configuration = configuration;
@@ -429,7 +429,7 @@ namespace CarShareApi.Tests.Controllers
             var accountId = UserRepository.FindByEmail(model.Email).AccountID;
 
             var user = UserService.FindUser(accountId);
-            Assert.IsNotNull(user.Registration);
+            Assert.IsNotNull(user.LicenceNumber);
 
         }
 

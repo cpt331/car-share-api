@@ -30,11 +30,16 @@ namespace CarShareApi
 
             //specify concrete instances of classes that should be injected when interface is marked
             container.RegisterType<IUserRepository, UserRepository>(new TransientLifetimeManager());
+            container.RegisterType<IBookingRepository, BookingRepository>(new TransientLifetimeManager());
             container.RegisterType<IRegistrationRepository, RegistrationRepository>(new TransientLifetimeManager());
             container.RegisterType<ICarRepository, CarRepository>(new TransientLifetimeManager());
             container.RegisterType<ICarCategoryRepository, CarCategoryRepository>(new TransientLifetimeManager());
+            container.RegisterType<ICityRepository, CityRepository>(new TransientLifetimeManager());
+            container.RegisterType<ITransactionHistoryRepository, TransactionHistoryRepository>(new TransientLifetimeManager());
+
             container.RegisterType<IUserService, UserService>(new TransientLifetimeManager());
             container.RegisterType<ICarService, CarService>(new TransientLifetimeManager());
+            container.RegisterType<IBookingService, BookingService>(new TransientLifetimeManager());
 
             //set this container as the http configurations dependency injection provider
             configuration.DependencyResolver = new UnityResolver(container);

@@ -8,6 +8,7 @@ namespace CarShareApi.ViewModels
 {
     public class UserViewModel
     {
+        public int AccountId { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string Email { get; set; }
@@ -22,6 +23,7 @@ namespace CarShareApi.ViewModels
         public string PhoneNumber { get; set; }
         public string DateOfBirth { get; set; }
 
+        public int? OpenBookingId { get; set; }
         public bool HasOpenBooking { get; set; }
 
         public UserViewModel()
@@ -31,6 +33,7 @@ namespace CarShareApi.ViewModels
 
         public UserViewModel(User user)
         {
+            AccountId = user.AccountID;
             Firstname = user.FirstName;
             Lastname = user.LastName;
             Email = user.Email;

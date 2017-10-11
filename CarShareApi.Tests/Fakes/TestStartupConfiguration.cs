@@ -14,10 +14,18 @@ namespace CarShareApi.Tests.Fakes
     public class TestStartupConfiguration : Startup
     {
         public static HttpConfiguration HttpConfiguration;
+
         public static IUserRepository UserRepository;
         public static ICarRepository CarRepository;
+        public static IBookingRepository BookingRepository;
+        public static IRegistrationRepository RegistrationRepository;
+        public static ICarCategoryRepository CarCategoryRepository;
+        public static ICityRepository CityRepository;
+        public static ITransactionHistoryRepository TransactionHistoryRepository;
+
         public static IUserService UserService;
         public static ICarService CarService;
+        public static IBookingService BookingService;
 
         public override HttpConfiguration GetInjectionConfiguration()
         {
@@ -30,6 +38,27 @@ namespace CarShareApi.Tests.Fakes
             {
                 container.RegisterInstance(CarRepository);
             }
+            if (CarCategoryRepository != null)
+            {
+                container.RegisterInstance(CarCategoryRepository);
+            }
+            if (BookingRepository != null)
+            {
+                container.RegisterInstance(BookingRepository);
+            }
+            if (RegistrationRepository != null)
+            {
+                container.RegisterInstance(RegistrationRepository);
+            }
+            if (TransactionHistoryRepository != null)
+            {
+                container.RegisterInstance(TransactionHistoryRepository);
+            }
+            if (CityRepository != null)
+            {
+                container.RegisterInstance(CityRepository);
+            }
+
             if (UserService != null)
             {
                 container.RegisterInstance(UserService);
@@ -38,7 +67,11 @@ namespace CarShareApi.Tests.Fakes
             {
                 container.RegisterInstance(CarService);
             }
-            
+            if (BookingService != null)
+            {
+                container.RegisterInstance(BookingService);
+            }
+
             HttpConfiguration.DependencyResolver = new UnityResolver(container);
             return HttpConfiguration;
         }

@@ -14,18 +14,17 @@ namespace CarShareApi.Models.Services.Implementations
         //repositories used by the service for operation
         private IUserRepository UserRepository { get; set; }
         private IRegistrationRepository RegistrationRepository { get; set; }
-
-        private const string UserActiveStatus = "Active";
-        private const string UserClosedStatus = "Closed";
-        private const string UserInactiveStatus = "Inactive";
-        private const string UserPartialStatus = "Partial";
-        private const int UserMinimumAge = 18;
+        private IBookingRepository BookingRepository { get; set; }
+       
 
         //repositories are injected to allow easier testing
-        public UserService(IUserRepository userRepository, IRegistrationRepository registrationRepository)
+        public UserService(IUserRepository userRepository, 
+            IRegistrationRepository registrationRepository, 
+            IBookingRepository bookingRepository)
         {
             UserRepository = userRepository;
             RegistrationRepository = registrationRepository;
+            BookingRepository = bookingRepository;
         }
 
         /// <summary>
@@ -46,14 +45,27 @@ namespace CarShareApi.Models.Services.Implementations
                 if (user.Password.Equals(Encryption.EncryptString(request.Password)))
                 {
                     //if the password check passes, check if the user has an active status
-                    if (user.Status == UserActiveStatus || user.Status == UserPartialStatus)
+                    if (user.Status == Constants.UserActiveStatus || user.Status == Constants.UserPartialStatus)
                     {
-                        return new LogonResponse
+
+                        var response = new LogonResponse
                         {
                             Id = user.AccountID,
                             Success = true,
-                            Message = "Logon was successful."
+                            Message = "Logon was successful.",
+                            HasOpenBooking = false
                         };
+
+                        var openBooking = BookingRepository.FindByAccountId(user.AccountID)
+                            .FirstOrDefault(x => x.BookingStatus == Constants.BookingOpenStatus);
+
+                        if (openBooking != null)
+                        {
+                            response.HasOpenBooking = true;
+                            response.OpenBookingId = openBooking.BookingID;
+                        }
+
+                        return response;
                     }
                 }
             }
@@ -61,7 +73,8 @@ namespace CarShareApi.Models.Services.Implementations
             return new LogonResponse
             {
                 Success = false,
-                Message = "Invalid email or password."
+                Message = "Invalid email or password.",
+                HasOpenBooking = false
             };
 
         }
@@ -90,13 +103,13 @@ namespace CarShareApi.Models.Services.Implementations
 
             //checks if the user is above the acceptable age
             DateTime dob = request.DateOfBirth ?? DateTime.Now; //this is because dob could be null
-            DateTime minAge = DateTime.Now.AddYears(-UserMinimumAge); //minage is todays date minus 18 years
+            DateTime minAge = DateTime.Now.AddYears(-Constants.UserMinimumAge); //minage is todays date minus 18 years
             if (dob.Date > minAge.Date)
             {
                 return new RegisterResponse
                 {
                     Success = false,
-                    Message = $"Unable to register user. You must be at least " + UserMinimumAge + " to register",
+                    Message = $"Unable to register user. You must be at least " + Constants.UserMinimumAge + " to register",
                     Errors = new string[]
                     {
                         "User does not meet the age requirement"
@@ -111,7 +124,7 @@ namespace CarShareApi.Models.Services.Implementations
                 LastName =request.LastName,
                 Email = request.Email,
                 Password = Encryption.EncryptString(request.Password),
-                Status = UserActiveStatus
+                Status = Constants.UserActiveStatus
                 //Status = UserInactiveStatus
             };
             Mail.SMTPMailer(request.Email);
@@ -148,7 +161,7 @@ namespace CarShareApi.Models.Services.Implementations
         /// </summary>
         /// <param name="id">The account ID of the user</param>
         /// <returns>A user object with populated registration</returns>
-        public User FindUser(int id)
+        public UserViewModel FindUser(int id)
         {
 
             var user = UserRepository.Find(id);
@@ -160,16 +173,27 @@ namespace CarShareApi.Models.Services.Implementations
                 user.Registration = RegistrationRepository.Find(user.AccountID);
             }
 
-            return user;
+            var viewModel = new UserViewModel(user);
+
+            var openBooking = BookingRepository.FindByAccountId(user.AccountID)
+                .FirstOrDefault(x => x.BookingStatus == Constants.BookingOpenStatus);
+
+            if (openBooking != null)
+            {
+                viewModel.HasOpenBooking = true;
+                viewModel.OpenBookingId = openBooking.BookingID;
+            }
+
+            return viewModel;
         }
 
         /// <summary>
         /// Find all users in the system
         /// </summary>
         /// <returns>A list of users</returns>
-        public List<User> FindUsers()
+        public List<UserViewModel> FindUsers()
         {
-            return UserRepository.FindAll();
+            throw new NotImplementedException();
         }
     }
 }
