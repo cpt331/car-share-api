@@ -38,5 +38,35 @@ namespace CarShareApi.Controllers
                 Message = "No user logged on"
             };
         }
+
+        [HttpPost, Route("api/bookings/check")]
+        public CloseBookingCheckResponse CloseCheck(CloseBookingCheckRequest request)
+        {
+            var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
+            if (userPrincipal.Id.HasValue)
+            {
+                return BookingService.CloseBookingCheck(request, userPrincipal.Id.Value);
+            }
+            return new CloseBookingCheckResponse
+            {
+                Success = false,
+                Message = "No user logged on"
+            };
+        }
+
+        [HttpPost, Route("api/bookings/close")]
+        public CloseBookingResponse Close(CloseBookingRequest request)
+        {
+            var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
+            if (userPrincipal.Id.HasValue)
+            {
+                return BookingService.CloseBooking(request, userPrincipal.Id.Value);
+            }
+            return new CloseBookingResponse
+            {
+                Success = false,
+                Message = "No user logged on"
+            };
+        }
     }
 }

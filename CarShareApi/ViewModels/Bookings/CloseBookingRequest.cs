@@ -7,10 +7,9 @@ namespace CarShareApi.ViewModels
 {
     public class CloseBookingRequest
     {
-        public int VehicleId { get; set; }
-        public int AccountId { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-        
+        public int BookingId { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
+
     }
 }

@@ -149,6 +149,7 @@
     </Content>
     <EmbeddedResource Include="Fakes\Data\Cars.json" />
     <EmbeddedResource Include="Fakes\Data\Categories.json" />
+    <None Include="Fakes\Data\Bookings.json" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

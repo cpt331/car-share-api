@@ -79,7 +79,7 @@ namespace CarShareApi.Models.Services.Implementations
                 {
                     //use microsofts haversine formula (returns metres)
                     var carCoordinate = new GeoCoordinate((double)car.LatPos, (double)car.LongPos);
-                    var searchCoordinate = new GeoCoordinate(criteria.Latitude.Value, criteria.Longitude.Value);
+                    var searchCoordinate = new GeoCoordinate((double)criteria.Latitude.Value, (double)criteria.Longitude.Value);
                     car.Distance = carCoordinate.GetDistanceTo(searchCoordinate);
                 }
             }

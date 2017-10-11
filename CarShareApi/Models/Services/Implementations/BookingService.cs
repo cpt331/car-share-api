@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Device.Location;
 using System.Linq;
 using System.Web;
 using CarShareApi.Models.Repositories;
@@ -13,14 +14,25 @@ namespace CarShareApi.Models.Services.Implementations
 
         private IBookingRepository BookingRepository { get; set; }
         private ICarRepository CarRepository { get; set; }
+        private ICarCategoryRepository CarCategoryRepository { get; set; }
         private IUserRepository UserRepository { get; set; }
+        private ICityRepository CityRepository { get; set; }
+        private ITransactionHistoryRepository TransactionHistoryRepository { get; set; }
 
-
-        public BookingService(IBookingRepository bookingRepository, ICarRepository carRepository, IUserRepository userRepository)
+        public BookingService(
+            IBookingRepository bookingRepository,
+            ICarRepository carRepository, 
+            IUserRepository userRepository, 
+            ICarCategoryRepository carCategoryRepository, 
+            ICityRepository cityRepository,
+            ITransactionHistoryRepository transactionHistoryRepository)
         {
             BookingRepository = bookingRepository;
             CarRepository = carRepository;
             UserRepository = userRepository;
+            CarCategoryRepository = carCategoryRepository;
+            CityRepository = cityRepository;
+            TransactionHistoryRepository = transactionHistoryRepository;
         }
         
 
@@ -117,9 +129,218 @@ namespace CarShareApi.Models.Services.Implementations
             };
         }
 
-        public CloseBookingResponse CloseBooking(CloseBookingRequest request)
+        public CloseBookingResponse CloseBooking(CloseBookingRequest request, int accountId)
         {
-            throw new NotImplementedException();
+            //get booking by id and ensure it exists
+            var openBooking = BookingRepository.Find(request.BookingId);
+            if (openBooking == null || openBooking.BookingStatus != Constants.BookingOpenStatus)
+            {
+                return new CloseBookingResponse
+                {
+                    Message = $"No open bookings were found for this account and vehicle",
+                    Success = false
+                };
+            }
+
+            //check car exists and is correct status
+            var car = CarRepository.Find(openBooking.VehicleID);
+            if (car == null)
+            {
+                return new CloseBookingResponse
+                {
+                    Message = $"Vehicle {openBooking.VehicleID} does not exist",
+                    Success = false
+                };
+            }
+            if (car.Status != Constants.CarBookedStatus)
+            {
+                return new CloseBookingResponse
+                {
+                    Message = $"{car.Make} {car.Model} is not booked and can not be returned",
+                    Success = false
+                };
+            }
+            CarCategory category = car.CarCategory1;
+            if (category == null)
+            {
+                category = CarCategoryRepository.Find(car.CarCategory);
+
+                if (category == null)
+                {
+                    return new CloseBookingResponse
+                    {
+                        Message = $"Car has an invalid category and can not be checked in",
+                        Success = false
+                    };
+                }
+            }
+
+            //check user exists
+            var user = UserRepository.Find(accountId);
+            if (user == null)
+            {
+                return new CloseBookingResponse
+                {
+                    Message = $"Account {accountId} does not exist",
+                    Success = false
+                };
+            }
+
+            //look through cities and ensure one is close enough for check in
+            var cities = CityRepository.FindAll();
+            City selectedCity = null;
+            foreach (var city in cities)
+            {
+                //use microsofts haversine formula (returns metres)
+                var cityCoordinate = new GeoCoordinate((double)city.LatPos, (double)city.LongPos);
+                var currentCoordinate = new GeoCoordinate((double)request.Latitude, (double)request.Longitude);
+                var distance = cityCoordinate.GetDistanceTo(currentCoordinate);
+                if (distance < Constants.BookingMaxRangeFromCityCentre)
+                {
+                    selectedCity = city;
+                    break;
+                }
+            }
+
+            if (selectedCity == null)
+            {
+                return new CloseBookingResponse
+                {
+                    Message = $"No cities are within a {Constants.BookingMaxRangeFromCityCentre}m radius",
+                    Success = false
+                };
+            }
+
+            var returnDate = DateTime.Now;
+            var ts = returnDate - openBooking.CheckOut;
+            var totalHours = (int)Math.Ceiling(ts.TotalHours);
+            var totalAmount = totalHours * category.BillingRate;
+
+
+            //update cars status and its new location
+            car.Status = Constants.CarAvailableStatus;
+            car.Suburb = selectedCity.CityName;
+            car.LatPos = (decimal)request.Latitude;
+            car.LongPos = (decimal)request.Longitude;
+
+            CarRepository.Update(car);
+
+            //update booking record to show this booking is closed
+            openBooking.CheckIn = returnDate;
+            openBooking.BookingStatus = Constants.BookingClosedStatus;
+
+            BookingRepository.Update(openBooking);
+
+
+            //TODO: record transaction or debt somewhere
+
+            return new CloseBookingResponse
+            {
+                City = selectedCity.CityName,
+                HourlyRate = category.BillingRate.ToString("C"),
+                Message = $"{car.Make} {car.Model} has been returned at a cost of {totalAmount:C}",
+                Success = true,
+                TotalHours = totalHours.ToString(),
+                TotalAmount = totalAmount.ToString("C")
+            };
+        }
+
+        public CloseBookingCheckResponse CloseBookingCheck(CloseBookingCheckRequest request, int accountId)
+        {
+            //get booking by id and ensure it exists
+            var openBooking = BookingRepository.Find(request.BookingId);
+            if (openBooking == null || openBooking.BookingStatus != Constants.BookingOpenStatus)
+            {
+                return new CloseBookingCheckResponse
+                {
+                    Message = $"No open bookings were found for this account and vehicle",
+                    Success = false
+                };
+            }
+
+            //check car exists and is correct status
+            var car = CarRepository.Find(openBooking.VehicleID);
+            if (car == null)
+            {
+                return new CloseBookingCheckResponse
+                {
+                    Message = $"Vehicle {openBooking.VehicleID} does not exist",
+                    Success = false
+                };
+            }
+            if (car.Status != Constants.CarBookedStatus)
+            {
+                return new CloseBookingCheckResponse
+                {
+                    Message = $"{car.Make} {car.Model} is not booked and can not be returned",
+                    Success = false
+                };
+            }
+            CarCategory category = car.CarCategory1;
+            if (category == null)
+            {
+                category = CarCategoryRepository.Find(car.CarCategory);
+
+                if (category == null)
+                {
+                    return new CloseBookingCheckResponse
+                    {
+                        Message = $"Car has an invalid category and can not be checked in",
+                        Success = false
+                    };
+                }
+            }
+
+            //check user exists
+            var user = UserRepository.Find(accountId);
+            if (user == null)
+            {
+                return new CloseBookingCheckResponse
+                {
+                    Message = $"Account {accountId} does not exist",
+                    Success = false
+                };
+            }
+
+            //look through cities and ensure one is close enough for check in
+            var cities = CityRepository.FindAll();
+            City selectedCity = null;
+            foreach (var city in cities)
+            {
+                //use microsofts haversine formula (returns metres)
+                var cityCoordinate = new GeoCoordinate((double)city.LatPos, (double)city.LongPos);
+                var currentCoordinate = new GeoCoordinate((double)request.Latitude, (double)request.Longitude);
+                var distance = cityCoordinate.GetDistanceTo(currentCoordinate);
+                if (distance < Constants.BookingMaxRangeFromCityCentre)
+                {
+                    selectedCity = city;
+                    break;
+                }
+            }
+
+            if (selectedCity == null)
+            {
+                return new CloseBookingCheckResponse
+                {
+                    Message = $"No cities are within a {Constants.BookingMaxRangeFromCityCentre}m radius",
+                    Success = false
+                };
+            }
+
+            var ts = DateTime.Now - openBooking.CheckOut;
+            var totalHours = (int)Math.Ceiling(ts.TotalHours);
+            var totalAmount = totalHours * (double)category.BillingRate;
+
+            return new CloseBookingCheckResponse
+            {
+                City = selectedCity.CityName,
+                HourlyRate = category.BillingRate.ToString("C"),
+                Message = $"{car.Make} {car.Model} is eligible for return at a cost of {totalAmount:C}",
+                Success = true,
+                TotalHours = totalHours.ToString(),
+                TotalAmount = totalAmount.ToString("C")
+            };
+
         }
     }
 }

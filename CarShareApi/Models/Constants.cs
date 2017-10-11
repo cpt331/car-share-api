@@ -22,5 +22,12 @@ namespace CarShareApi.Models
         public const string BookingOpenStatus = "Open";
         public const string BookingClosedStatus = "Closed";
         public const string BookingCancelledStatus = "Cancelled";
+        public const double BookingMaxRangeFromCityCentre = 10000; //metres
+
+        //transaction constants
+        public const string TransactionUnpaidStatus = "Unpaid";
+        public const string TransactionPendingStatus = "Pending";
+        public const string TransactionClearedStatus = "Cleared";
+
     }
 }

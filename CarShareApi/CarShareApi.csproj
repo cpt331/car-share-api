@@ -344,8 +344,10 @@
     <Compile Include="Models\Repositories\ICarRepository.cs" />
     <Compile Include="Models\Repositories\Implementations\CityRepository.cs" />
     <Compile Include="Models\Repositories\Implementations\RegistrationRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\TransactionHistoryRepository.cs" />
     <Compile Include="Models\Repositories\IRegistrationRepository.cs" />
     <Compile Include="Models\Repositories\IRepository.cs" />
+    <Compile Include="Models\Repositories\ITransactionHistoryRepository.cs" />
     <Compile Include="Models\Repositories\IUserRepository.cs" />
     <Compile Include="Models\Repositories\Implementations\UserRepository.cs" />
     <Compile Include="Models\Services\IBookingService.cs" />

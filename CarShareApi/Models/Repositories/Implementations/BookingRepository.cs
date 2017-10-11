@@ -68,5 +68,11 @@ namespace CarShareApi.Models.Repositories.Implementations
             var bookings = Context.Bookings.Where(x => x.VehicleID == vehicleId).ToList();
             return bookings;
         }
+
+        public List<Booking> FindByAccountIdAndVehicleId(int accountId, int vehicleId)
+        {
+            var bookings = Context.Bookings.Where(x => x.VehicleID == vehicleId && x.AccountID == accountId).ToList();
+            return bookings;
+        }
     }
 }

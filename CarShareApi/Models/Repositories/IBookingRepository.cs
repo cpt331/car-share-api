@@ -11,5 +11,6 @@ namespace CarShareApi.Models.Repositories
     {
         List<Booking> FindByAccountId(int accountId);
         List<Booking> FindByVehicleId(int vehicleId);
+        List<Booking> FindByAccountIdAndVehicleId(int accountId, int vehicleId);
     }
 }

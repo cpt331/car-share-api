@@ -10,7 +10,7 @@ namespace CarShareApi.Models.Services
     public interface IBookingService
     {
         OpenBookingResponse OpenBooking(int vehicleId, int accountId);
-        CloseBookingResponse CloseBooking(CloseBookingRequest request);
-        
+        CloseBookingResponse CloseBooking(CloseBookingRequest request, int accountId);
+        CloseBookingCheckResponse CloseBookingCheck(CloseBookingCheckRequest request, int accountId);
     }
 }

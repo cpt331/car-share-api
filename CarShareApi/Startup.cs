@@ -34,6 +34,8 @@ namespace CarShareApi
             container.RegisterType<IRegistrationRepository, RegistrationRepository>(new TransientLifetimeManager());
             container.RegisterType<ICarRepository, CarRepository>(new TransientLifetimeManager());
             container.RegisterType<ICarCategoryRepository, CarCategoryRepository>(new TransientLifetimeManager());
+            container.RegisterType<ICityRepository, CityRepository>(new TransientLifetimeManager());
+            container.RegisterType<ITransactionHistoryRepository, TransactionHistoryRepository>(new TransientLifetimeManager());
 
             container.RegisterType<IUserService, UserService>(new TransientLifetimeManager());
             container.RegisterType<ICarService, CarService>(new TransientLifetimeManager());
