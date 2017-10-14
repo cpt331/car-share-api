@@ -132,10 +132,15 @@
   <ItemGroup>
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\AccountControllerTest.cs" />
+    <Compile Include="Controllers\BookingsControllerTest.cs" />
+    <Compile Include="Fakes\FakeBookingRepository.cs" />
     <Compile Include="Fakes\FakeCarCategoryRepository.cs" />
     <Compile Include="Fakes\FakeCarRepository.cs" />
+    <Compile Include="Fakes\FakeCityRepository.cs" />
     <Compile Include="Fakes\FakeRegistrationRepository.cs" />
+    <Compile Include="Fakes\FakeTransactionHistoryRepository.cs" />
     <Compile Include="Fakes\FakeUserRepository.cs" />
+    <Compile Include="Fakes\TestPrincipal.cs" />
     <Compile Include="Fakes\TestStartupConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\CarsControllerTest.cs" />
@@ -149,7 +154,8 @@
     </Content>
     <EmbeddedResource Include="Fakes\Data\Cars.json" />
     <EmbeddedResource Include="Fakes\Data\Categories.json" />
-    <None Include="Fakes\Data\Bookings.json" />
+    <EmbeddedResource Include="Fakes\Data\Bookings.json" />
+    <EmbeddedResource Include="Fakes\Data\Cities.json" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

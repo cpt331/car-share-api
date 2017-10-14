@@ -46,6 +46,7 @@ namespace CarShareApi.Tests.Fakes
         }
         public Car Add(Car item)
         {
+            item.VehicleID = new Random().Next(int.MinValue, int.MaxValue);
             Cars.Add(item);
             return item;
         }

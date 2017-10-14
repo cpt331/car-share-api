@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Http;
 using CarShareApi.Controllers;
 using CarShareApi.Models.Repositories;
+using CarShareApi.Models.Repositories.Data;
 using CarShareApi.Models.Services.Implementations;
 using CarShareApi.Models.ViewModels;
 using CarShareApi.Tests.Fakes;
@@ -21,6 +24,7 @@ namespace CarShareApi.Tests.Controllers
     public class AccountControllerTest
     {
         private IUserRepository UserRepository { get; set; }
+        private IBookingRepository BookingRepository { get; set; }
         private UserService UserService { get; set; }
         private AccountController Controller { get; set; }
         private IRegistrationRepository RegistrationRepository { get; set; }
@@ -58,9 +62,15 @@ namespace CarShareApi.Tests.Controllers
         public void SetupTests()
         {
             var configuration = new HttpConfiguration();
+
             UserRepository = new FakeUserRepository();
             RegistrationRepository = new FakeRegistrationRepository();
-            UserService = new UserService(UserRepository, RegistrationRepository, null);
+
+            var bookingsJson = GetInputFile("Bookings.json").ReadToEnd();
+            var bookings = JsonConvert.DeserializeObject<List<Booking>>(bookingsJson);
+            BookingRepository = new FakeBookingRepository(bookings);
+
+            UserService = new UserService(UserRepository, RegistrationRepository, BookingRepository);
 
             Controller = new AccountController(UserService);
             Controller.Configuration = configuration;
@@ -416,7 +426,7 @@ namespace CarShareApi.Tests.Controllers
                 Password = "Simpson01",
                 ConfirmPassword = "Simpson01",
                 LicenceNumber = "123456789",
-                DateOfBirth = new DateTime(2000, 1, 1)
+                DateOfBirth = new DateTime(1970, 1, 1)
             };
 
             Controller.Validate(model);
@@ -445,7 +455,7 @@ namespace CarShareApi.Tests.Controllers
                 Password = "Simpson01",
                 ConfirmPassword = "Simpson01",
                 LicenceNumber = "123456789",
-                DateOfBirth =  new DateTime(2000,1,1)
+                DateOfBirth =  new DateTime(1970,1,1)
             };
 
             Controller.Validate(model);
@@ -478,7 +488,7 @@ namespace CarShareApi.Tests.Controllers
                 Password = "Simpson01",
                 ConfirmPassword = "Simpson01",
                 LicenceNumber = "123456789",
-                DateOfBirth = new DateTime(2000, 1, 1)
+                DateOfBirth = new DateTime(1970, 1, 1)
             };
 
             Console.WriteLine("Validating model");
@@ -501,6 +511,14 @@ namespace CarShareApi.Tests.Controllers
 
         }
 
+        public static TextReader GetInputFile(string filename)
+        {
+            Assembly thisAssembly = Assembly.GetExecutingAssembly();
+
+            string path = "CarShareApi.Tests.Fakes.Data";
+
+            return new StreamReader(thisAssembly.GetManifestResourceStream(path + "." + filename));
+        }
 
     }
 }

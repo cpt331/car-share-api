@@ -1,0 +1,27 @@
+﻿[
+  {
+    "CityName": "Sydney",
+    "LatPos": -33.868,
+    "LongPos": 151.207
+  },
+  {
+    "CityName": "Melbourne",
+    "LatPos": -37.814,
+    "LongPos": 144.963
+  },
+  {
+    "CityName": "Brisbane",
+    "LatPos": -27.468,
+    "LongPos": 153.028
+  },
+  {
+    "CityName": "Perth",
+    "LatPos": -31.952,
+    "LongPos": 115.861
+  },
+  {
+    "CityName": "Adelaide",
+    "LatPos": -34.929,
+    "LongPos": 138.599
+  }
+]
