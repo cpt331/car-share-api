@@ -106,12 +106,28 @@ namespace CarShareApi.Models.Services.Implementations
                 };
             }
 
+            CarCategory category = car.CarCategory1;
+            if (category == null)
+            {
+                category = CarCategoryRepository.Find(car.CarCategory);
+
+                if (category == null)
+                {
+                    return new OpenBookingResponse
+                    {
+                        Message = $"Car has an invalid category and can not be checked out",
+                        Success = false
+                    };
+                }
+            }
+
             //create the booking and save
             var booking = new Booking
             {
                 VehicleID = vehicleId,
                 AccountID = accountId,
                 BookingStatus = Constants.BookingOpenStatus,
+                BillingRate = category.BillingRate,
                 CheckOut = DateTime.Now
             };
             BookingRepository.Add(booking);
@@ -125,7 +141,7 @@ namespace CarShareApi.Models.Services.Implementations
                 BookingId = booking.BookingID,
                 CheckOutTime = booking.CheckOut.ToString(),
                 Success = true,
-                Message = $"{car.Make} {car.Model} has been booked out"
+                Message = $"{car.Make} {car.Model} has been booked out at ${category.BillingRate} per hour"
             };
         }
 
@@ -160,20 +176,7 @@ namespace CarShareApi.Models.Services.Implementations
                     Success = false
                 };
             }
-            CarCategory category = car.CarCategory1;
-            if (category == null)
-            {
-                category = CarCategoryRepository.Find(car.CarCategory);
 
-                if (category == null)
-                {
-                    return new CloseBookingResponse
-                    {
-                        Message = $"Car has an invalid category and can not be checked in",
-                        Success = false
-                    };
-                }
-            }
 
             //check user exists
             var user = UserRepository.Find(accountId);
@@ -214,7 +217,7 @@ namespace CarShareApi.Models.Services.Implementations
             var returnDate = DateTime.Now;
             var ts = returnDate - openBooking.CheckOut;
             var totalHours = (int)Math.Ceiling(ts.TotalHours);
-            var totalAmount = totalHours * category.BillingRate;
+            var totalAmount = totalHours * openBooking.BillingRate;
 
 
             //update cars status and its new location
@@ -228,6 +231,8 @@ namespace CarShareApi.Models.Services.Implementations
             //update booking record to show this booking is closed
             openBooking.CheckIn = returnDate;
             openBooking.BookingStatus = Constants.BookingClosedStatus;
+            openBooking.TimeBilled = totalHours;
+            openBooking.AmountBilled = totalAmount;
 
             BookingRepository.Update(openBooking);
 
@@ -237,7 +242,7 @@ namespace CarShareApi.Models.Services.Implementations
             return new CloseBookingResponse
             {
                 City = selectedCity.CityName,
-                HourlyRate = category.BillingRate.ToString("C"),
+                HourlyRate = openBooking.BillingRate.ToString("C"),
                 Message = $"{car.Make} {car.Model} has been returned at a cost of {totalAmount:C}",
                 Success = true,
                 TotalHours = totalHours.ToString(),
@@ -275,20 +280,6 @@ namespace CarShareApi.Models.Services.Implementations
                     Message = $"{car.Make} {car.Model} is not booked and can not be returned",
                     Success = false
                 };
-            }
-            CarCategory category = car.CarCategory1;
-            if (category == null)
-            {
-                category = CarCategoryRepository.Find(car.CarCategory);
-
-                if (category == null)
-                {
-                    return new CloseBookingCheckResponse
-                    {
-                        Message = $"Car has an invalid category and can not be checked in",
-                        Success = false
-                    };
-                }
             }
 
             //check user exists
@@ -329,12 +320,12 @@ namespace CarShareApi.Models.Services.Implementations
 
             var ts = DateTime.Now - openBooking.CheckOut;
             var totalHours = (int)Math.Ceiling(ts.TotalHours);
-            var totalAmount = totalHours * (double)category.BillingRate;
+            var totalAmount = totalHours * (double)openBooking.BillingRate;
 
             return new CloseBookingCheckResponse
             {
                 City = selectedCity.CityName,
-                HourlyRate = category.BillingRate.ToString("C"),
+                HourlyRate = openBooking.BillingRate.ToString("C"),
                 Message = $"{car.Make} {car.Model} is eligible for return at a cost of {totalAmount:C}",
                 Success = true,
                 TotalHours = totalHours.ToString(),

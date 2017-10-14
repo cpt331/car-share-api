@@ -9,7 +9,7 @@ namespace CarShareApi.Models
 {
     public static class Mail
     {
-        public static void SMTPMailer(string email)
+        public static void SMTPMailer(string email, string username, string otp)
         {
             // This address must be verified with Amazon SES.
             const String FROM = "shawn.burriss@gmail.com";
@@ -31,30 +31,36 @@ namespace CarShareApi.Models
                 "Ewebah - Welcome to the App!";
 
             // The body of the email
-            const String BODY =
-                "<h1>Welcome to Ewebah</h1>" +
+            String BODY =
+                $"<h1>Welcome to Ewebah, {username}!</h1>" +
                 "<p>Thank you for registering with  " +
-                "<a href='ewebah.s3-website-us-east-1.amazonaws.com'>Ewebah</a>. Your account is set up!" +
-                "Let's get driving.</p>";
+                "<a href='ewebah.s3-website-us-east-1.amazonaws.com'>Ewebah</a>. Your account is set up! " +
+                "<p>Your activation key to finalise your account is: " +
+                $"<p><b>{otp}</b>" +
+                "<p>Are you ready to ride with us?";
 
             // Create and build a new MailMessage object
-            MailMessage message = new MailMessage();
-            message.IsBodyHtml = true;
-            message.From = new MailAddress(FROM, FROMNAME);
+            //MailMessage message = new MailMessage();
+            MailMessage message = new MailMessage
+            {
+                IsBodyHtml = true,
+                From = new MailAddress(FROM, FROMNAME),
+                Subject = SUBJECT,
+                Body = BODY
+            };
             message.To.Add(new MailAddress(TO));
-            message.Subject = SUBJECT;
-            message.Body = BODY;
+
             // Comment or delete the next line if you are not using a configuration set
             //message.Headers.Add("X-SES-CONFIGURATION-SET", CONFIGSET);
 
             // Create and configure a new SmtpClient
             SmtpClient client =
-                new SmtpClient(HOST, PORT);
-            // Pass SMTP credentials
-            client.Credentials =
-                new NetworkCredential(SMTP_USERNAME, SMTP_PASSWORD);
-            // Enable SSL encryption
-            client.EnableSsl = true;
+                new SmtpClient(HOST, PORT)
+                {
+                    // Pass SMTP credentials and enable SSL encryption
+                    Credentials = new NetworkCredential(SMTP_USERNAME, SMTP_PASSWORD),
+                    EnableSsl = true
+                };
 
             // Send the email. 
             try

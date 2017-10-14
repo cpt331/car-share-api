@@ -101,8 +101,26 @@ namespace CarShareApi.Models.Services.Implementations
                 };
             }
 
+            
+
+            
             //checks if the user is above the acceptable age
             DateTime dob = request.DateOfBirth ?? DateTime.Now; //this is because dob could be null
+
+            if (dob.Date > DateTime.Now)
+            {
+                return new RegisterResponse
+                {
+                    Success = false,
+                    Message = $"You must enter a date before today's date",
+                    Errors = new string[]
+                    {
+                        "User does not meet the age requirement"
+                    }
+                };
+            }
+
+
             DateTime minAge = DateTime.Now.AddYears(-Constants.UserMinimumAge); //minage is todays date minus 18 years
             if (dob.Date > minAge.Date)
             {
@@ -116,6 +134,10 @@ namespace CarShareApi.Models.Services.Implementations
                     }
                 };
             }
+
+            //generate a one time password
+            Random otpgenerator = new Random();
+            String otpRecord = otpgenerator.Next(100000, 999999).ToString();
                 
             //register the user first
             var user = new User
@@ -124,10 +146,12 @@ namespace CarShareApi.Models.Services.Implementations
                 LastName =request.LastName,
                 Email = request.Email,
                 Password = Encryption.EncryptString(request.Password),
+                OTP = otpRecord,
                 Status = Constants.UserActiveStatus
                 //Status = UserInactiveStatus
             };
-            Mail.SMTPMailer(request.Email);
+
+            Mail.SMTPMailer(request.Email, request.FirstName, otpRecord);
             UserRepository.Add(user);
 
             //populate the registration table now using the account ID of the registered user

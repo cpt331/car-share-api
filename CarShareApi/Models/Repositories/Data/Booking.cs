@@ -27,6 +27,9 @@ namespace CarShareApi.Models.Repositories.Data
         public string BookingStatus { get; set; }
         public System.DateTime CheckOut { get; set; }
         public Nullable<System.DateTime> CheckIn { get; set; }
+        public Nullable<decimal> TimeBilled { get; set; }
+        public decimal BillingRate { get; set; }
+        public Nullable<decimal> AmountBilled { get; set; }
     
         public virtual BookingStatus BookingStatu { get; set; }
         public virtual Car Car { get; set; }

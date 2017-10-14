@@ -26,6 +26,7 @@ namespace CarShareApi.Models.Repositories.Data
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Status { get; set; }
+        public string OTP { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Bookings { get; set; }

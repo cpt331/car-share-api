@@ -23,9 +23,6 @@ namespace CarShareApi.Models.Repositories.Data
         public int TransactionID { get; set; }
         public System.DateTime TransactionDate { get; set; }
         public int ReceiptID { get; set; }
-        public int TimeBilled { get; set; }
-        public decimal BillingRate { get; set; }
-        public decimal Amount { get; set; }
         public string TransactionStatus { get; set; }
         public string Reference { get; set; }
         public string PaymentMethod { get; set; }
