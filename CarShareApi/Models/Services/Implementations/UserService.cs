@@ -101,8 +101,26 @@ namespace CarShareApi.Models.Services.Implementations
                 };
             }
 
+            
+
+            
             //checks if the user is above the acceptable age
             DateTime dob = request.DateOfBirth ?? DateTime.Now; //this is because dob could be null
+
+            if (dob.Date > DateTime.Now)
+            {
+                return new RegisterResponse
+                {
+                    Success = false,
+                    Message = $"You must enter a date before today's date",
+                    Errors = new string[]
+                    {
+                        "User does not meet the age requirement"
+                    }
+                };
+            }
+
+
             DateTime minAge = DateTime.Now.AddYears(-Constants.UserMinimumAge); //minage is todays date minus 18 years
             if (dob.Date > minAge.Date)
             {
