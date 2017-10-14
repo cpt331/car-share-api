@@ -9,7 +9,7 @@ namespace CarShareApi.Models
 {
     public static class Mail
     {
-        public static void SMTPMailer(string email)
+        public static void SMTPMailer(string email, string username, string otp)
         {
             // This address must be verified with Amazon SES.
             const String FROM = "shawn.burriss@gmail.com";
@@ -31,11 +31,13 @@ namespace CarShareApi.Models
                 "Ewebah - Welcome to the App!";
 
             // The body of the email
-            const String BODY =
-                "<h1>Welcome to Ewebah</h1>" +
+            String BODY =
+                $"<h1>Welcome to Ewebah, {username}!</h1>" +
                 "<p>Thank you for registering with  " +
-                "<a href='ewebah.s3-website-us-east-1.amazonaws.com'>Ewebah</a>. Your account is set up!" +
-                " Are you ready to ride with us?</p>";
+                "<a href='ewebah.s3-website-us-east-1.amazonaws.com'>Ewebah</a>. Your account is set up! " +
+                "<p>Your activation key to finalise your account is: " +
+                $"<p><b>{otp}</b>" +
+                "<p>Are you ready to ride with us?";
 
             // Create and build a new MailMessage object
             //MailMessage message = new MailMessage();

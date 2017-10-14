@@ -116,6 +116,10 @@ namespace CarShareApi.Models.Services.Implementations
                     }
                 };
             }
+
+            //generate a one time password
+            Random otpgenerator = new Random();
+            String otpRecord = otpgenerator.Next(100000, 999999).ToString();
                 
             //register the user first
             var user = new User
@@ -124,10 +128,12 @@ namespace CarShareApi.Models.Services.Implementations
                 LastName =request.LastName,
                 Email = request.Email,
                 Password = Encryption.EncryptString(request.Password),
+                OTP = otpRecord,
                 Status = Constants.UserActiveStatus
                 //Status = UserInactiveStatus
             };
-            Mail.SMTPMailer(request.Email);
+
+            Mail.SMTPMailer(request.Email, request.FirstName, otpRecord);
             UserRepository.Add(user);
 
             //populate the registration table now using the account ID of the registered user
