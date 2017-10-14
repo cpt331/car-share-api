@@ -15,8 +15,9 @@ namespace CarShareApi.Models
         public const int UserMinimumAge = 18;
 
         //car constants
-        public const string CarAvailableStatus = "Active";
-        public const string CarBookedStatus = "Inactive";
+        public const string CarAvailableStatus = "Available";
+        public const string CarBookedStatus = "Booked";
+        public const string CarRemovedStatus = "Removed";
 
         //booking constants
         public const string BookingOpenStatus = "Open";

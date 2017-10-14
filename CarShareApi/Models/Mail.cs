@@ -35,7 +35,7 @@ namespace CarShareApi.Models
                 "<h1>Welcome to Ewebah</h1>" +
                 "<p>Thank you for registering with  " +
                 "<a href='ewebah.s3-website-us-east-1.amazonaws.com'>Ewebah</a>. Your account is set up!" +
-                "Let's get driving.</p>";
+                " Are you ready to ride with us?</p>";
 
             // Create and build a new MailMessage object
             //MailMessage message = new MailMessage();
