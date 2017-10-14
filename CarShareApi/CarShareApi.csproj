@@ -274,6 +274,7 @@
     <Compile Include="Models\Encryption.cs" />
     <Compile Include="Models\Filters\AssignOAuth2SecurityRequirements.cs" />
     <Compile Include="Models\Helpers.cs" />
+    <Compile Include="Models\Mail.cs" />
     <Compile Include="Models\Providers\CarShareAuthorisationServerProvider.cs" />
     <Compile Include="Models\Repositories\Data\Booking.cs">
       <DependentUpon>CarShareContext.tt</DependentUpon>

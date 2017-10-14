@@ -16,6 +16,9 @@
           <Property Name="BookingStatus" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="CheckOut" Type="datetime" Nullable="false" />
           <Property Name="CheckIn" Type="datetime" />
+          <Property Name="TimeBilled" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="BillingRate" Type="money" Nullable="false" />
+          <Property Name="AmountBilled" Type="money" />
         </EntityType>
         <EntityType Name="BookingStatus">
           <Key>
@@ -65,13 +68,9 @@
           </Key>
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'EWEBAH.dbo.Cities' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Cities">
           <Key>
             <PropertyRef Name="CityName" />
-            <PropertyRef Name="LatPos" />
-            <PropertyRef Name="LongPos" />
           </Key>
           <Property Name="CityName" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="LatPos" Type="decimal" Precision="9" Scale="6" Nullable="false" />
@@ -127,9 +126,6 @@ warning 6002: The table/view 'EWEBAH.dbo.Cities' does not have a primary key def
           <Property Name="TransactionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TransactionDate" Type="datetime" Nullable="false" />
           <Property Name="ReceiptID" Type="int" Nullable="false" />
-          <Property Name="TimeBilled" Type="int" Nullable="false" />
-          <Property Name="BillingRate" Type="money" Nullable="false" />
-          <Property Name="Amount" Type="money" Nullable="false" />
           <Property Name="TransactionStatus" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Reference" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PaymentMethod" Type="varchar" MaxLength="20" Nullable="false" />
@@ -357,6 +353,7 @@ warning 6002: The table/view 'EWEBAH.dbo.Cities' does not have a primary key def
           <EntitySet Name="CardType" EntityType="Self.CardType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CarRego" EntityType="Self.CarRego" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CarStatus" EntityType="Self.CarStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Receipt" EntityType="Self.Receipt" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Registrations" EntityType="Self.Registrations" Schema="dbo" store:Type="Tables" />
@@ -364,13 +361,6 @@ warning 6002: The table/view 'EWEBAH.dbo.Cities' does not have a primary key def
           <EntitySet Name="TransactionStatus" EntityType="Self.TransactionStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserStatus" EntityType="Self.UserStatus" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Cities" EntityType="Self.Cities" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Cities].[CityName] AS [CityName], 
-    [Cities].[LatPos] AS [LatPos], 
-    [Cities].[LongPos] AS [LongPos]
-    FROM [dbo].[Cities] AS [Cities]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Booking_BookingStatus" Association="Self.FK_Booking_BookingStatus">
             <End Role="BookingStatus" EntitySet="BookingStatus" />
             <End Role="Booking" EntitySet="Booking" />
@@ -456,6 +446,9 @@ warning 6002: The table/view 'EWEBAH.dbo.Cities' does not have a primary key def
           <NavigationProperty Name="TransactionHistory" Relationship="CarShareModel.FK_Booking_TransactionHistory" FromRole="Booking" ToRole="TransactionHistory" />
           <NavigationProperty Name="User" Relationship="Self.FK_Booking_Users" FromRole="Booking" ToRole="Users" />
           <NavigationProperty Name="Receipts" Relationship="Self.FK_Receipt_Booking" FromRole="Booking" ToRole="Receipt" />
+          <Property Name="TimeBilled" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="BillingRate" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="AmountBilled" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="BookingStatus">
           <Key>
@@ -571,9 +564,6 @@ warning 6002: The table/view 'EWEBAH.dbo.Cities' does not have a primary key def
           <Property Name="TransactionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ReceiptID" Type="Int32" Nullable="false" />
-          <Property Name="TimeBilled" Type="Int32" Nullable="false" />
-          <Property Name="BillingRate" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="TransactionStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Reference" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PaymentMethod" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
@@ -888,8 +878,6 @@ warning 6002: The table/view 'EWEBAH.dbo.Cities' does not have a primary key def
         <EntityType Name="City">
           <Key>
             <PropertyRef Name="CityName" />
-            <PropertyRef Name="LatPos" />
-            <PropertyRef Name="LongPos" />
           </Key>
           <Property Name="CityName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="LatPos" Type="Decimal" Nullable="false" Precision="9" Scale="6" />
@@ -904,6 +892,9 @@ warning 6002: The table/view 'EWEBAH.dbo.Cities' does not have a primary key def
           <EntitySetMapping Name="Bookings">
             <EntityTypeMapping TypeName="CarShareModel.Booking">
               <MappingFragment StoreEntitySet="Booking">
+                <ScalarProperty Name="AmountBilled" ColumnName="AmountBilled" />
+                <ScalarProperty Name="BillingRate" ColumnName="BillingRate" />
+                <ScalarProperty Name="TimeBilled" ColumnName="TimeBilled" />
                 <ScalarProperty Name="BookingID" ColumnName="BookingID" />
                 <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
                 <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
@@ -1020,9 +1011,6 @@ warning 6002: The table/view 'EWEBAH.dbo.Cities' does not have a primary key def
                 <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
                 <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
                 <ScalarProperty Name="ReceiptID" ColumnName="ReceiptID" />
-                <ScalarProperty Name="TimeBilled" ColumnName="TimeBilled" />
-                <ScalarProperty Name="BillingRate" ColumnName="BillingRate" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="TransactionStatus" ColumnName="TransactionStatus" />
                 <ScalarProperty Name="Reference" ColumnName="Reference" />
                 <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
@@ -1058,9 +1046,9 @@ warning 6002: The table/view 'EWEBAH.dbo.Cities' does not have a primary key def
           <EntitySetMapping Name="Cities">
             <EntityTypeMapping TypeName="CarShareModel.City">
               <MappingFragment StoreEntitySet="Cities">
-                <ScalarProperty Name="LongPos" ColumnName="LongPos" />
-                <ScalarProperty Name="LatPos" ColumnName="LatPos" />
                 <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="LatPos" ColumnName="LatPos" />
+                <ScalarProperty Name="LongPos" ColumnName="LongPos" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -38,23 +38,27 @@ namespace CarShareApi.Models
                 "Let's get driving.</p>";
 
             // Create and build a new MailMessage object
-            MailMessage message = new MailMessage();
-            message.IsBodyHtml = true;
-            message.From = new MailAddress(FROM, FROMNAME);
+            //MailMessage message = new MailMessage();
+            MailMessage message = new MailMessage
+            {
+                IsBodyHtml = true,
+                From = new MailAddress(FROM, FROMNAME),
+                Subject = SUBJECT,
+                Body = BODY
+            };
             message.To.Add(new MailAddress(TO));
-            message.Subject = SUBJECT;
-            message.Body = BODY;
+
             // Comment or delete the next line if you are not using a configuration set
             //message.Headers.Add("X-SES-CONFIGURATION-SET", CONFIGSET);
 
             // Create and configure a new SmtpClient
             SmtpClient client =
-                new SmtpClient(HOST, PORT);
-            // Pass SMTP credentials
-            client.Credentials =
-                new NetworkCredential(SMTP_USERNAME, SMTP_PASSWORD);
-            // Enable SSL encryption
-            client.EnableSsl = true;
+                new SmtpClient(HOST, PORT)
+                {
+                    // Pass SMTP credentials and enable SSL encryption
+                    Credentials = new NetworkCredential(SMTP_USERNAME, SMTP_PASSWORD),
+                    EnableSsl = true
+                };
 
             // Send the email. 
             try
