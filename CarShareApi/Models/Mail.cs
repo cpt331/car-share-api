@@ -74,7 +74,7 @@ namespace CarShareApi.Models
 
             // Wait for a key press so that you can see the console output
             Console.Write("Press any key to continue...");
-            Console.ReadKey();
+            //Console.ReadKey();
         }
     }
 }

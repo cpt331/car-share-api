@@ -68,6 +68,10 @@ namespace CarShareApi.Models.Providers
 
             //create a claims identity based on the user
             var user = UserService.FindUser(response.Id.Value);
+
+            Logger.Debug("Creating Identity for User: {0}",
+                JsonConvert.SerializeObject(response, Formatting.Indented));
+
             var identity = CreateIdentity(
                 user, 
                 context.Options.AuthenticationType);
@@ -107,9 +111,13 @@ namespace CarShareApi.Models.Providers
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
         {
+            Logger.Debug("Token Endpoint:");
+
             //add each property in the authentication properties to the output response
             foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
             {
+                Logger.Debug("{0}:{1}", property.Key, property.Value);
+
                 bool propertyBool;
                 int propertyInt;
                 if (bool.TryParse(property.Value, out propertyBool))
