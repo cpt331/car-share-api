@@ -276,6 +276,7 @@
     <Compile Include="Models\Helpers.cs" />
     <Compile Include="Models\Mail.cs" />
     <Compile Include="Models\Providers\CarShareAuthorisationServerProvider.cs" />
+    <Compile Include="Models\Providers\EmailProvider.cs" />
     <Compile Include="Models\Repositories\Data\Booking.cs">
       <DependentUpon>CarShareContext.tt</DependentUpon>
     </Compile>

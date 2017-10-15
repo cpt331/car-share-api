@@ -6,6 +6,7 @@ using CarShareApi.ViewModels;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
 using CarShareApi.Models.ViewModels;
+using CarShareApi.Models.Providers;
 
 namespace CarShareApi.Models.Services.Implementations
 {
@@ -151,7 +152,8 @@ namespace CarShareApi.Models.Services.Implementations
                 //Status = UserInactiveStatus
             };
 
-            Mail.SMTPMailer(request.Email, request.FirstName, otpRecord);
+            WelcomeMailer welcome = new WelcomeMailer(request.Email, request.FirstName, otpRecord);
+            //Mail.SMTPMailer(request.Email, request.FirstName, otpRecord);
             UserRepository.Add(user);
 
             //populate the registration table now using the account ID of the registered user
