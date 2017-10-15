@@ -33,7 +33,7 @@ namespace CarShareApi.Controllers
         /// Return a list of all cars
         /// </summary>
         /// <returns></returns>
-        [HttpGet, Route("api/cars"), Obsolete]
+        [HttpGet, Route("api/cars")]
         public IEnumerable<CarViewModel> Get()
         {
             return CarService.FindAllCars();

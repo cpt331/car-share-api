@@ -14,6 +14,7 @@ using CarShareApi.Models.Repositories.Data;
 using CarShareApi.Models.Repositories.Implementations;
 using CarShareApi.Models.Services.Implementations;
 using CarShareApi.Tests.Fakes;
+using CarShareApi.ViewModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
@@ -120,6 +121,33 @@ namespace CarShareApi.Tests.Controllers
 
             // Act
             var result = Controller.Open(vehicleId);
+
+            Console.WriteLine($"{result.Success}: {result.Message}");
+
+            //assert
+            Assert.IsFalse(result.Success);
+
+        }
+
+        [TestMethod]
+        public void BookingCheck_VehicleIsInRange_CheckInIsAllowed()
+        {
+
+            //Controller.RequestContext.Principal = 
+            Thread.CurrentPrincipal = new TestPrincipal(
+                new Claim("name", "John Doe"),
+                new Claim(ClaimTypes.PrimarySid, "1"));
+
+            // Arrange
+            var request = new CloseBookingCheckRequest
+            {
+                BookingId = 5,
+                Latitude = (decimal) -33.1,
+                Longitude = (decimal) 151.1
+            };
+
+            // Act
+            var result = Controller.CloseCheck(request);
 
             Console.WriteLine($"{result.Success}: {result.Message}");
 
