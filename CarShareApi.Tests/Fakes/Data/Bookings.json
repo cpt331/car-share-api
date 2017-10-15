@@ -1,1 +1,74 @@
-﻿
+﻿[
+  {
+    "BookingID": 1,
+    "VehicleID": 105,
+    "TransactionID": 131,
+    "AccountID": 2,
+    "BookingStatus": "Closed",
+    "CheckOut": "2017-07-10T15:19:58",
+    "CheckIn": "2017-07-11T09:24:06",
+    "TimeBilled": 19.00,
+    "BillingRate": 6.0000,
+    "AmountBilled": 114.0000
+  },
+  {
+    "BookingID": 2,
+    "VehicleID": 90,
+    "TransactionID": 132,
+    "AccountID": 2,
+    "BookingStatus": "Closed",
+    "CheckOut": "2017-07-10T06:20:15",
+    "CheckIn": "2017-07-11T04:53:39",
+    "TimeBilled": 23.00,
+    "BillingRate": 6.0000,
+    "AmountBilled": 138.0000
+  },
+  {
+    "BookingID": 3,
+    "VehicleID": 118,
+    "TransactionID": 133,
+    "AccountID": 3,
+    "BookingStatus": "Closed",
+    "CheckOut": "2017-07-11T06:19:28",
+    "CheckIn": "2017-07-12T10:43:44",
+    "TimeBilled": 29.00,
+    "BillingRate": 8.0000,
+    "AmountBilled": 232.0000
+  },
+  {
+    "BookingID": 4,
+    "VehicleID": 18,
+    "TransactionID": 134,
+    "AccountID": 5,
+    "BookingStatus": "Closed",
+    "CheckOut": "2017-07-12T13:45:41",
+    "CheckIn": "2017-07-13T14:24:56",
+    "TimeBilled": 25.00,
+    "BillingRate": 6.0000,
+    "AmountBilled": 150.0000
+  },
+  {
+    "BookingID": 5,
+    "VehicleID": 8,
+    "TransactionID": 135,
+    "AccountID": 5,
+    "BookingStatus": "Closed",
+    "CheckOut": "2017-07-13T12:07:44",
+    "CheckIn": "2017-07-13T20:58:42",
+    "TimeBilled": 9.00,
+    "BillingRate": 6.0000,
+    "AmountBilled": 54.0000
+  },
+  {
+    "BookingID": 6,
+    "VehicleID": 93,
+    "TransactionID": 136,
+    "AccountID": 5,
+    "BookingStatus": "Closed",
+    "CheckOut": "2017-07-14T21:01:15",
+    "CheckIn": "2017-07-16T03:40:37",
+    "TimeBilled": 31.00,
+    "BillingRate": 6.0000,
+    "AmountBilled": 186.0000
+  }
+]

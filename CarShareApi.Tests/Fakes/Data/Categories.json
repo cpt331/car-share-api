@@ -1,18 +1,18 @@
 ﻿[
   {
-    "Name": "Hatch",
+    "Category": "Hatch",
     "BillingRate": 5.0000
   },
   {
-    "Name": "Sedan",
+    "Category": "Sedan",
     "BillingRate": 6.0000
   },
   {
-    "Name": "SUV",
+    "Category": "SUV",
     "BillingRate": 8.0000
   },
   {
-    "Name": "Wagon",
+    "Category": "Wagon",
     "BillingRate": 7.0000
   }
 ]
