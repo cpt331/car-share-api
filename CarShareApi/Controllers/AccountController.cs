@@ -39,6 +39,11 @@ namespace CarShareApi.Controllers
             UserService = userService;
         }
 
+
+        /// <summary>
+        /// Return the current logged in user
+        /// </summary>
+        /// <returns>A view model of the user and also information about outstanding bookings</returns>
         [HttpGet, Route("api/account/current")]
         public UserViewModel Current()
         {

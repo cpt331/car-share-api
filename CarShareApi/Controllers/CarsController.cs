@@ -22,10 +22,7 @@ namespace CarShareApi.Controllers
         private ICarService CarService;
         private static Logger Logger = LogManager.GetCurrentClassLogger();
 
-        //public CarsController()
-        //{
-        //    CarService = new CarService(new CarRepository(new CarShareContext()));
-        //}
+        //inject service to make testing easier
         public CarsController(ICarService carService)
         {
             CarService = carService;
@@ -36,7 +33,7 @@ namespace CarShareApi.Controllers
         /// Return a list of all cars
         /// </summary>
         /// <returns></returns>
-        [HttpGet, Route("api/cars")]
+        [HttpGet, Route("api/cars"), Obsolete]
         public IEnumerable<CarViewModel> Get()
         {
             return CarService.FindAllCars();
@@ -88,16 +85,6 @@ namespace CarShareApi.Controllers
         {
             return CarService.FindCar(id);
         }
-
-        //// POST api/values
-        //public void Post([FromBody]string value)
-        //{
-        //}
-
-        //// PUT api/values/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
 
         //// DELETE api/values/5
         [HttpGet, Route("api/cars/delete")]

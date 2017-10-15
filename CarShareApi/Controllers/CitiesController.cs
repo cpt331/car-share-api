@@ -14,10 +14,16 @@ namespace CarShareApi.Controllers
     {
         private ICityService CityService { get; set; }
 
+        // inject service to make testing easier
         public CitiesController(ICityService cityService)
         {
             CityService = cityService;
         }
+
+        /// <summary>
+        /// Produces a list of all cities available in the system
+        /// </summary>
+        /// <returns>A list of cities</returns>
         public List<CityViewModel> Get()
         {
             return CityService.FindAllCities();
