@@ -26,10 +26,10 @@ namespace CarShareApi.Tests.Fakes
             {
                 Users = new List<User>
                 {
-                    new User { AccountID = 1, FirstName = "Homer", LastName = "Simpson", Email= "user1@gmail.com", Password = Encryption.EncryptString("password1") },
-                    new User { AccountID = 2, FirstName = "Frank", LastName = "Grimes",  Email = "user2@gmail.com", Password = Encryption.EncryptString("password2") },
-                    new User { AccountID = 3, FirstName = "Marge", LastName = "Simpson", Email = "user3@gmail.com", Password = Encryption.EncryptString("password3") },
-                    new User { AccountID = 4, FirstName = "Sideshow", LastName = "Bob",  Email = "user4@gmail.com", Password = Encryption.EncryptString("password4") }
+                    new User { AccountID = 1, Status = "Active", FirstName = "Homer", LastName = "Simpson", Email= "user1@gmail.com", Password = Encryption.EncryptString("password1") },
+                    new User { AccountID = 2, Status = "Active", FirstName = "Frank", LastName = "Grimes",  Email = "user2@gmail.com", Password = Encryption.EncryptString("password2") },
+                    new User { AccountID = 3, Status = "Active", FirstName = "Marge", LastName = "Simpson", Email = "user3@gmail.com", Password = Encryption.EncryptString("password3") },
+                    new User { AccountID = 4, Status = "Inactive", FirstName = "Sideshow", LastName = "Bob",  Email = "user4@gmail.com", Password = Encryption.EncryptString("password4") }
                 };
                 MemoryCache.Default.Add("Users", Users, DateTime.Now.AddDays(1));
             }

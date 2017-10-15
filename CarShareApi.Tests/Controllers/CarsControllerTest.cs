@@ -146,7 +146,7 @@ namespace CarShareApi.Tests.Controllers
 
             foreach (var car in result)
             {
-                Assert.IsTrue(car.Status.Equals("Active", StringComparison.InvariantCultureIgnoreCase));
+                Assert.IsTrue(car.Status.Equals("Available", StringComparison.InvariantCultureIgnoreCase));
             }
 
         }
