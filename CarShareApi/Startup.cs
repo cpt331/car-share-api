@@ -28,14 +28,16 @@ namespace CarShareApi
             var configuration = new HttpConfiguration();
             var container = new UnityContainer();
 
+            var context = new CarShareContext();
+
             //specify concrete instances of classes that should be injected when interface is marked
-            container.RegisterType<IUserRepository, UserRepository>(new TransientLifetimeManager());
-            container.RegisterType<IBookingRepository, BookingRepository>(new TransientLifetimeManager());
-            container.RegisterType<IRegistrationRepository, RegistrationRepository>(new TransientLifetimeManager());
-            container.RegisterType<ICarRepository, CarRepository>(new TransientLifetimeManager());
-            container.RegisterType<ICarCategoryRepository, CarCategoryRepository>(new TransientLifetimeManager());
-            container.RegisterType<ICityRepository, CityRepository>(new TransientLifetimeManager());
-            container.RegisterType<ITransactionHistoryRepository, TransactionHistoryRepository>(new TransientLifetimeManager());
+            container.RegisterType<IUserRepository, UserRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
+            container.RegisterType<IBookingRepository, BookingRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
+            container.RegisterType<IRegistrationRepository, RegistrationRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
+            container.RegisterType<ICarRepository, CarRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
+            container.RegisterType<ICarCategoryRepository, CarCategoryRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
+            container.RegisterType<ICityRepository, CityRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
+            container.RegisterType<ITransactionHistoryRepository, TransactionHistoryRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
 
             container.RegisterType<IUserService, UserService>(new TransientLifetimeManager());
             container.RegisterType<ICarService, CarService>(new TransientLifetimeManager());
