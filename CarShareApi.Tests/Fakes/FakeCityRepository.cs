@@ -50,5 +50,10 @@ namespace CarShareApi.Tests.Fakes
         {
             Cities.RemoveAll(x => x.CityName.Equals(id, StringComparison.InvariantCultureIgnoreCase));
         }
+
+        public void Dispose()
+        {
+            //nah
+        }
     }
 }

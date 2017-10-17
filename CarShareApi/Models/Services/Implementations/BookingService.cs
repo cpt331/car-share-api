@@ -333,5 +333,15 @@ namespace CarShareApi.Models.Services.Implementations
             };
 
         }
+
+        public void Dispose()
+        {
+            BookingRepository?.Dispose();
+            CarRepository?.Dispose();
+            CarCategoryRepository?.Dispose();
+            UserRepository?.Dispose();
+            CityRepository?.Dispose();
+            TransactionHistoryRepository?.Dispose();
+        }
     }
 }

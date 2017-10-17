@@ -13,6 +13,8 @@ namespace CarShareApi.Models
         public const string UserInactiveStatus = "Inactive";
         public const string UserPartialStatus = "Partial";
         public const int UserMinimumAge = 18;
+        public const string UserGroupName = "User";
+        public const string UserAdminGroupName = "Admin";
 
         //car constants
         public const string CarAvailableStatus = "Available";

@@ -147,6 +147,7 @@
           <Property Name="LastName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="OTP" Type="nchar" MaxLength="10" />
+          <Property Name="UserGroup" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="UserStatus">
           <Key>
@@ -596,6 +597,7 @@
           <NavigationProperty Name="User1" Relationship="Self.FK_Users_Users1" FromRole="Users1" ToRole="Users" />
           <NavigationProperty Name="UserStatu" Relationship="Self.FK_UserStatus_User" FromRole="Users" ToRole="UserStatus" />
           <Property Name="OTP" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="UserGroup" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="UserStatus">
           <Key>
@@ -1029,6 +1031,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="CarShareModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserGroup" ColumnName="UserGroup" />
                 <ScalarProperty Name="OTP" ColumnName="OTP" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="AccountID" ColumnName="AccountID" />

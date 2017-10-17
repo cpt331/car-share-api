@@ -90,6 +90,9 @@ namespace CarShareApi.Models.Providers
                 },
                 {
                     "HasOpenBooking", user.HasOpenBooking.ToString()
+                },
+                {
+                    "HasAdminRights", user.HasAdminRights.ToString()
                 }
             });
 
@@ -154,5 +157,7 @@ namespace CarShareApi.Models.Providers
             }, type);
             return identity;
         }
+
+        
     }
 }

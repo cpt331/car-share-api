@@ -120,5 +120,11 @@ namespace CarShareApi.Models.Services.Implementations
         {
             CarRepository.Delete(id);
         }
+
+        public void Dispose()
+        {
+            CarRepository?.Dispose();
+            CarCategoryRepository?.Dispose();
+        }
     }
 }

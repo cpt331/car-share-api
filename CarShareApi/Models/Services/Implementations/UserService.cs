@@ -6,25 +6,32 @@ using CarShareApi.ViewModels;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
 using CarShareApi.Models.ViewModels;
+using CarShareApi.ViewModels.Users;
+using NLog;
 
 namespace CarShareApi.Models.Services.Implementations
 {
     public class UserService : IUserService
     {
+        private static Logger Logger = LogManager.GetCurrentClassLogger();
+
         //repositories used by the service for operation
         private IUserRepository UserRepository { get; set; }
         private IRegistrationRepository RegistrationRepository { get; set; }
         private IBookingRepository BookingRepository { get; set; }
-       
+        private IPaymentMethodRepository PaymentMethodRepository { get; set; }
 
         //repositories are injected to allow easier testing
         public UserService(IUserRepository userRepository, 
             IRegistrationRepository registrationRepository, 
-            IBookingRepository bookingRepository)
+            IBookingRepository bookingRepository, 
+            IPaymentMethodRepository paymentMethodRepository)
         {
+            Logger.Debug("UserService Instantiated");
             UserRepository = userRepository;
             RegistrationRepository = registrationRepository;
             BookingRepository = bookingRepository;
+            PaymentMethodRepository = paymentMethodRepository;
         }
 
         /// <summary>
@@ -147,7 +154,8 @@ namespace CarShareApi.Models.Services.Implementations
                 Email = request.Email,
                 Password = Encryption.EncryptString(request.Password),
                 OTP = otpRecord,
-                Status = Constants.UserActiveStatus
+                Status = Constants.UserActiveStatus,
+                UserGroup = Constants.UserGroupName
                 //Status = UserInactiveStatus
             };
 
@@ -179,7 +187,16 @@ namespace CarShareApi.Models.Services.Implementations
             };
         }
 
-        
+        public AddPaymentMethodResponse AddPaymentMethod(AddPaymentMethodRequest request)
+        {
+            return new AddPaymentMethodResponse
+            {
+                Success = false,
+                Message = "Shawn hasn't completed his trello card yet..."
+            };
+        }
+
+
         /// <summary>
         /// Finds a user from the database and their associated registration if present
         /// </summary>
@@ -218,6 +235,16 @@ namespace CarShareApi.Models.Services.Implementations
         public List<UserViewModel> FindUsers()
         {
             throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+
+            Logger.Debug("UserService Disposed");
+            UserRepository?.Dispose();
+            RegistrationRepository?.Dispose();
+            BookingRepository?.Dispose();
+            PaymentMethodRepository?.Dispose();
         }
     }
 }

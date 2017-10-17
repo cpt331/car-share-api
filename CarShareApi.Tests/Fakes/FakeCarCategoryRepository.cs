@@ -60,5 +60,10 @@ namespace CarShareApi.Tests.Fakes
         {
             Categories.RemoveAll(x => x.Category.Equals(id, StringComparison.InvariantCultureIgnoreCase));
         }
+
+        public void Dispose()
+        {
+            //nah
+        }
     }
 }

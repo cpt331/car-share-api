@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CarShareApi.Models.Services
 {
-    public interface ICarService
+    public interface ICarService : IDisposable
     {
         CarViewModel FindCar(int id);
         List<CarViewModel> FindAllCars();

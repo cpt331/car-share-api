@@ -25,5 +25,10 @@ namespace CarShareApi.Models.Services.Implementations
             var city = new CityViewModel(CityRepository.Find(cityName));
             return city;
         }
+
+        public void Dispose()
+        {
+            CityRepository?.Dispose();
+        }
     }
 }

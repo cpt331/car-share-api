@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using CarShareApi.Models.Repositories.Data;
+using CarShareApi.Models;
 
 namespace CarShareApi.ViewModels
 {
@@ -25,6 +26,7 @@ namespace CarShareApi.ViewModels
 
         public int? OpenBookingId { get; set; }
         public bool HasOpenBooking { get; set; }
+        public bool HasAdminRights { get; set; }
 
         public UserViewModel()
         {
@@ -48,6 +50,15 @@ namespace CarShareApi.ViewModels
                 Postcode = user.Registration.Postcode;
                 PhoneNumber = user.Registration.PhoneNumber;
                 DateOfBirth = user.Registration.DateOfBirth.ToString("dd/MM/yyyy");
+            }
+            if (!string.IsNullOrWhiteSpace(user.UserGroup))
+            {
+
+                HasAdminRights = Constants.UserAdminGroupName.Equals(user.UserGroup.Trim(), StringComparison.InvariantCultureIgnoreCase);
+            }
+            else
+            {
+                HasAdminRights = false;
             }
         }
     }
