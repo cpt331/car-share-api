@@ -78,5 +78,10 @@ namespace CarShareApi.Tests.Fakes
             Cars.Add(item);
             return item;
         }
+
+        public void Dispose()
+        {
+            //nah
+        }
     }
 }

@@ -64,5 +64,10 @@ namespace CarShareApi.Models.Repositories.Implementations
             Context.SaveChanges();
             return item;
         }
+
+        public void Dispose()
+        {
+            Context?.Dispose();
+        }
     }
 }

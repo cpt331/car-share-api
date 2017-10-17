@@ -8,5 +8,7 @@
 
         public int? OpenBookingId { get; set; }
         public bool HasOpenBooking { get; set; }
+
+        public bool HasAdminRights { get; set; }
     }
 }

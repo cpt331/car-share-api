@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CarShareApi.Models.Repositories
 {
-    public interface ICityRepository : IRepository<City, string>
+    public interface ICityRepository : IRepository<City, string>, IDisposable
     {
     }
 }

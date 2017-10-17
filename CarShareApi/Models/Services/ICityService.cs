@@ -6,7 +6,7 @@ using CarShareApi.ViewModels;
 
 namespace CarShareApi.Models.Services
 {
-    public interface ICityService
+    public interface ICityService : IDisposable
     {
         List<CityViewModel> FindAllCities();
         CityViewModel FindCity(string cityName);
