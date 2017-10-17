@@ -38,6 +38,7 @@ namespace CarShareApi
             container.RegisterType<ICarCategoryRepository, CarCategoryRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
             container.RegisterType<ICityRepository, CityRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
             container.RegisterType<ITransactionHistoryRepository, TransactionHistoryRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
+            container.RegisterType<IPaymentMethodRepository, PaymentMethodRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
 
             container.RegisterType<IUserService, UserService>(new TransientLifetimeManager());
             container.RegisterType<ICarService, CarService>(new TransientLifetimeManager());
@@ -46,7 +47,6 @@ namespace CarShareApi
 
             //set this container as the http configurations dependency injection provider
             configuration.DependencyResolver = new UnityResolver(container);
-
             return configuration;
         }
 

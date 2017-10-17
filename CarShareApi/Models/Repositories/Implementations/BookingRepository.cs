@@ -74,5 +74,10 @@ namespace CarShareApi.Models.Repositories.Implementations
             var bookings = Context.Bookings.Where(x => x.VehicleID == vehicleId && x.AccountID == accountId).ToList();
             return bookings;
         }
+
+        public void Dispose()
+        {
+            Context?.Dispose();
+        }
     }
 }

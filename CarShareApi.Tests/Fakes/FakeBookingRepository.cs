@@ -66,5 +66,10 @@ namespace CarShareApi.Tests.Fakes
         {
             return Bookings.Where(x => x.VehicleID == vehicleId && x.AccountID == accountId).ToList();
         }
+
+        public void Dispose()
+        {
+           //nah
+        }
     }
 }
