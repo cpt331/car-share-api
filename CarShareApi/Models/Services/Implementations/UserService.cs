@@ -6,12 +6,9 @@ using CarShareApi.ViewModels;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
 using CarShareApi.Models.ViewModels;
-<<<<<<< HEAD
 using CarShareApi.Models.Providers;
-=======
 using CarShareApi.ViewModels.Users;
 using NLog;
->>>>>>> master
 
 namespace CarShareApi.Models.Services.Implementations
 {

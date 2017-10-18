@@ -19,6 +19,8 @@
           <Property Name="TimeBilled" Type="decimal" Precision="9" Scale="2" />
           <Property Name="BillingRate" Type="money" Nullable="false" />
           <Property Name="AmountBilled" Type="money" />
+          <Property Name="CityPickUp" Type="varchar" MaxLength="20" />
+          <Property Name="CityDropOff" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="BookingStatus">
           <Key>
@@ -451,6 +453,8 @@
           <Property Name="TimeBilled" Type="Decimal" Precision="9" Scale="2" />
           <Property Name="BillingRate" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="AmountBilled" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CityPickUp" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CityDropOff" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="BookingStatus">
           <Key>
@@ -896,6 +900,8 @@
           <EntitySetMapping Name="Bookings">
             <EntityTypeMapping TypeName="CarShareModel.Booking">
               <MappingFragment StoreEntitySet="Booking">
+                <ScalarProperty Name="CityDropOff" ColumnName="CityDropOff" />
+                <ScalarProperty Name="CityPickUp" ColumnName="CityPickUp" />
                 <ScalarProperty Name="AmountBilled" ColumnName="AmountBilled" />
                 <ScalarProperty Name="BillingRate" ColumnName="BillingRate" />
                 <ScalarProperty Name="TimeBilled" ColumnName="TimeBilled" />
