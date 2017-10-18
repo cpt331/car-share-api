@@ -25,8 +25,10 @@ namespace CarShareApi.ViewModels
         public string DateOfBirth { get; set; }
 
         public int? OpenBookingId { get; set; }
+
         public bool HasOpenBooking { get; set; }
         public bool HasAdminRights { get; set; }
+        public bool HasPaymentMethod { get; set; }
 
         public UserViewModel()
         {
@@ -53,12 +55,15 @@ namespace CarShareApi.ViewModels
             }
             if (!string.IsNullOrWhiteSpace(user.UserGroup))
             {
-
                 HasAdminRights = Constants.UserAdminGroupName.Equals(user.UserGroup.Trim(), StringComparison.InvariantCultureIgnoreCase);
             }
             else
             {
                 HasAdminRights = false;
+            }
+            if (user.PaymentMethod != null)
+            {
+                HasPaymentMethod = true;
             }
         }
     }

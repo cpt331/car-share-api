@@ -214,6 +214,13 @@ namespace CarShareApi.Models.Services.Implementations
                 user.Registration = RegistrationRepository.Find(user.AccountID);
             }
 
+            //if the payment method wasn't returned by the user repository then explicitly load from the
+            //registration repository
+            if (user.PaymentMethod == null)
+            {
+                user.PaymentMethod = PaymentMethodRepository.Find(user.AccountID);
+            }
+
             var viewModel = new UserViewModel(user);
 
             var openBooking = BookingRepository.FindByAccountId(user.AccountID)

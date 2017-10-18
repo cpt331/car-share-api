@@ -94,6 +94,10 @@ namespace CarShareApi.Models.Providers
                 {
                     "HasAdminRights", user.HasAdminRights.ToString()
                 }
+                ,
+                {
+                    "HasPaymentMethod", user.HasPaymentMethod.ToString()
+                }
             });
 
             if (user.OpenBookingId.HasValue)
