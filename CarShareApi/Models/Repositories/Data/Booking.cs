@@ -30,6 +30,8 @@ namespace CarShareApi.Models.Repositories.Data
         public Nullable<decimal> TimeBilled { get; set; }
         public decimal BillingRate { get; set; }
         public Nullable<decimal> AmountBilled { get; set; }
+        public string CityPickUp { get; set; }
+        public string CityDropOff { get; set; }
     
         public virtual BookingStatus BookingStatu { get; set; }
         public virtual Car Car { get; set; }
