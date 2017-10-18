@@ -179,7 +179,8 @@ namespace CarShareApi.Models.Services.Implementations
                 PhoneNumber = request.PhoneNumber,
                 Postcode = request.Postcode,
                 State = request.State,
-                Suburb = request.Suburb
+                Suburb = request.Suburb,
+                UserGroup = Constants.UserGroupName
             };
             RegistrationRepository.Add(registration);
 
