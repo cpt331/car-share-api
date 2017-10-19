@@ -17,9 +17,10 @@ namespace CarShareApi.Models.Repositories.Data
         public int AccountID { get; set; }
         public string CardNumber { get; set; }
         public string CardName { get; set; }
-        public string Expiry { get; set; }
-        public string CVV { get; set; }
         public string CardType { get; set; }
+        public int ExpiryMonth { get; set; }
+        public int ExpiryYear { get; set; }
+        public string CardVerificationValue { get; set; }
     
         public virtual CardType CardType1 { get; set; }
         public virtual User User { get; set; }

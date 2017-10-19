@@ -85,9 +85,10 @@
           <Property Name="AccountID" Type="int" Nullable="false" />
           <Property Name="CardNumber" Type="varchar" MaxLength="16" Nullable="false" />
           <Property Name="CardName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Expiry" Type="varchar" MaxLength="7" Nullable="false" />
-          <Property Name="CVV" Type="varchar" MaxLength="4" Nullable="false" />
           <Property Name="CardType" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="ExpiryMonth" Type="int" Nullable="false" />
+          <Property Name="ExpiryYear" Type="int" Nullable="false" />
+          <Property Name="CardVerificationValue" Type="varchar" MaxLength="5" Nullable="false" />
         </EntityType>
         <EntityType Name="Receipt">
           <Key>
@@ -522,11 +523,12 @@
           <Property Name="AccountID" Type="Int32" Nullable="false" />
           <Property Name="CardNumber" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CardName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Expiry" Type="String" MaxLength="7" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CVV" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CardType" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="CardType1" Relationship="Self.FK_PaymentMethod_CardType" FromRole="PaymentMethod" ToRole="CardType" />
           <NavigationProperty Name="User" Relationship="Self.FK_PaymentMethod_Users" FromRole="PaymentMethod" ToRole="Users" />
+          <Property Name="ExpiryMonth" Type="Int32" Nullable="false" />
+          <Property Name="ExpiryYear" Type="Int32" Nullable="false" />
+          <Property Name="CardVerificationValue" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Receipt">
           <Key>
@@ -972,11 +974,12 @@
           <EntitySetMapping Name="PaymentMethods">
             <EntityTypeMapping TypeName="CarShareModel.PaymentMethod">
               <MappingFragment StoreEntitySet="PaymentMethod">
+                <ScalarProperty Name="CardVerificationValue" ColumnName="CardVerificationValue" />
+                <ScalarProperty Name="ExpiryYear" ColumnName="ExpiryYear" />
+                <ScalarProperty Name="ExpiryMonth" ColumnName="ExpiryMonth" />
                 <ScalarProperty Name="AccountID" ColumnName="AccountID" />
                 <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
                 <ScalarProperty Name="CardName" ColumnName="CardName" />
-                <ScalarProperty Name="Expiry" ColumnName="Expiry" />
-                <ScalarProperty Name="CVV" ColumnName="CVV" />
                 <ScalarProperty Name="CardType" ColumnName="CardType" />
               </MappingFragment>
             </EntityTypeMapping>
