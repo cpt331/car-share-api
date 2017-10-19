@@ -369,6 +369,8 @@
     <Compile Include="Models\Services\Implementations\UserService.cs" />
     <Compile Include="Models\Services\IUserService.cs" />
     <Compile Include="Models\UnityResolver.cs" />
+    <Compile Include="ViewModels\Bookings\TransactionResponse.cs" />
+    <Compile Include="ViewModels\Bookings\TransactionRequest.cs" />
     <Compile Include="ViewModels\Bookings\OpenBookingResponse.cs" />
     <Compile Include="ViewModels\Cars\CarCategoryViewModel.cs" />
     <Compile Include="ViewModels\Cars\CarSearchCriteria.cs" />

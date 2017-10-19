@@ -12,5 +12,6 @@ namespace CarShareApi.Models.Services
         OpenBookingResponse OpenBooking(int vehicleId, int accountId);
         CloseBookingResponse CloseBooking(CloseBookingRequest request, int accountId);
         CloseBookingCheckResponse CloseBookingCheck(CloseBookingCheckRequest request, int accountId);
+        public TransactionResponse RecordTransaction(int bookingId, int accountId);
     }
 }

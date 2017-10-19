@@ -14,14 +14,7 @@ namespace CarShareApi.Models.Repositories.Data
     
     public partial class Receipt
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Receipt()
-        {
-            this.TransactionHistories = new HashSet<TransactionHistory>();
-        }
-    
         public int ReceiptID { get; set; }
-        public int BookingID { get; set; }
         public string Name { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
@@ -32,9 +25,9 @@ namespace CarShareApi.Models.Repositories.Data
         public decimal BillingRate { get; set; }
         public decimal BilledAmount { get; set; }
         public System.DateTime ReceiptDate { get; set; }
+        public string CityDropOff { get; set; }
+        public Nullable<int> TransactionID { get; set; }
     
-        public virtual Booking Booking { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TransactionHistory> TransactionHistories { get; set; }
+        public virtual TransactionHistory TransactionHistory { get; set; }
     }
 }

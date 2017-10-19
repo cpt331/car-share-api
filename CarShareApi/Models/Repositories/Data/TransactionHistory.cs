@@ -17,19 +17,20 @@ namespace CarShareApi.Models.Repositories.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TransactionHistory()
         {
-            this.Bookings = new HashSet<Booking>();
+            this.Receipts = new HashSet<Receipt>();
         }
     
         public int TransactionID { get; set; }
         public System.DateTime TransactionDate { get; set; }
-        public int ReceiptID { get; set; }
         public string TransactionStatus { get; set; }
         public string Reference { get; set; }
         public string PaymentMethod { get; set; }
+        public Nullable<int> BookingID { get; set; }
+        public Nullable<decimal> PaymentAmount { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Booking> Bookings { get; set; }
-        public virtual Receipt Receipt { get; set; }
         public virtual TransactionStatus TransactionStatu { get; set; }
+        public virtual Booking Booking { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Receipt> Receipts { get; set; }
     }
 }
