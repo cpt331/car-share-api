@@ -6,6 +6,7 @@ using CarShareApi.ViewModels;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
 using CarShareApi.Models.ViewModels;
+using CarShareApi.Models.Providers;
 using CarShareApi.ViewModels.Users;
 using NLog;
 
@@ -20,18 +21,21 @@ namespace CarShareApi.Models.Services.Implementations
         private IRegistrationRepository RegistrationRepository { get; set; }
         private IBookingRepository BookingRepository { get; set; }
         private IPaymentMethodRepository PaymentMethodRepository { get; set; }
+        private IEmailProvider EmailProvider { get; set; }
 
         //repositories are injected to allow easier testing
         public UserService(IUserRepository userRepository, 
             IRegistrationRepository registrationRepository, 
             IBookingRepository bookingRepository, 
-            IPaymentMethodRepository paymentMethodRepository)
+            IPaymentMethodRepository paymentMethodRepository, 
+            IEmailProvider emailProvider)
         {
             Logger.Debug("UserService Instantiated");
             UserRepository = userRepository;
             RegistrationRepository = registrationRepository;
             BookingRepository = bookingRepository;
             PaymentMethodRepository = paymentMethodRepository;
+            EmailProvider = emailProvider;
         }
 
         /// <summary>
@@ -159,7 +163,8 @@ namespace CarShareApi.Models.Services.Implementations
                 //Status = UserInactiveStatus
             };
 
-            Mail.SMTPMailer(request.Email, request.FirstName, otpRecord);
+            
+            //Mail.SMTPMailer(request.Email, request.FirstName, otpRecord);
             UserRepository.Add(user);
 
             //populate the registration table now using the account ID of the registered user
@@ -178,6 +183,8 @@ namespace CarShareApi.Models.Services.Implementations
             };
             RegistrationRepository.Add(registration);
 
+            EmailProvider.Send(request.Email, request.FirstName, otpRecord);
+            //WelcomeMailer welcome = new WelcomeMailer(request.Email, request.FirstName, otpRecord);
 
             //return successful operation
             return new RegisterResponse

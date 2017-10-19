@@ -282,6 +282,7 @@
     <Compile Include="Models\Helpers.cs" />
     <Compile Include="Models\Mail.cs" />
     <Compile Include="Models\Providers\CarShareAuthorisationServerProvider.cs" />
+    <Compile Include="Models\Providers\EmailProvider.cs" />
     <Compile Include="Models\Repositories\Data\Booking.cs">
       <DependentUpon>CarShareContext.tt</DependentUpon>
     </Compile>
@@ -455,6 +456,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Images\" />
     <Folder Include="Diagrams\" />
     <Folder Include="Scripts\Services\" />
   </ItemGroup>
