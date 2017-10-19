@@ -143,6 +143,7 @@
     <Compile Include="Fakes\FakeCarCategoryRepository.cs" />
     <Compile Include="Fakes\FakeCarRepository.cs" />
     <Compile Include="Fakes\FakeCityRepository.cs" />
+    <Compile Include="Fakes\FakeEmailProvider.cs" />
     <Compile Include="Fakes\FakePaymentMethodRepository.cs" />
     <Compile Include="Fakes\FakeRegistrationRepository.cs" />
     <Compile Include="Fakes\FakeTransactionHistoryRepository.cs" />

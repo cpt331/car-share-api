@@ -45,6 +45,8 @@ namespace CarShareApi
             container.RegisterType<IBookingService, BookingService>(new TransientLifetimeManager());
             container.RegisterType<ICityService, CityService>(new TransientLifetimeManager());
 
+            container.RegisterType<IEmailProvider, WelcomeMailer>(new TransientLifetimeManager());
+
             //set this container as the http configurations dependency injection provider
             configuration.DependencyResolver = new UnityResolver(container);
             return configuration;

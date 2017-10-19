@@ -10,16 +10,23 @@ namespace CarShareApi.Models.Providers
 {
     public interface IEmailProvider
     {
-
+        void Send(string email, string firstName, string otpRecord);
     }
 
     public class WelcomeMailer : IEmailProvider
     {
+
+
         private string email;
         private string firstName;
         private string otpRecord;
 
-        public WelcomeMailer(string email, string firstName, string otpRecord)
+        public WelcomeMailer()
+        {
+            
+        }
+
+        public void Send(string email, string firstName, string otpRecord)
         {
             this.email = email;
             this.firstName = firstName;
