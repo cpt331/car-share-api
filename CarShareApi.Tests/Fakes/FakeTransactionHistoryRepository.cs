@@ -10,34 +10,44 @@ namespace CarShareApi.Tests.Fakes
 {
     public class FakeTransactionHistoryRepository : ITransactionHistoryRepository
     {
+        private List<TransactionHistory> TransactionHistories { get; set; }
+
+        public FakeTransactionHistoryRepository(List<TransactionHistory> transactionHistories)
+        {
+            TransactionHistories = transactionHistories;
+        }
+
         public TransactionHistory Add(TransactionHistory item)
         {
-            throw new NotImplementedException();
+            TransactionHistories.Add(item);
+            return item;
         }
 
         public TransactionHistory Find(int id)
         {
-            throw new NotImplementedException();
+            return TransactionHistories.FirstOrDefault(x => x.TransactionID == id);
         }
 
         public List<TransactionHistory> FindAll()
         {
-            throw new NotImplementedException();
+            return TransactionHistories.ToList();
         }
 
         public IQueryable<TransactionHistory> Query()
         {
-            throw new NotImplementedException();
+            return TransactionHistories.AsQueryable();
         }
 
         public TransactionHistory Update(TransactionHistory item)
         {
-            throw new NotImplementedException();
+            TransactionHistories.RemoveAll(x => x.TransactionID == item.TransactionID);
+            TransactionHistories.Add(item);
+            return item;
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            TransactionHistories.RemoveAll(x => x.TransactionID == id);
         }
 
         public void Dispose()

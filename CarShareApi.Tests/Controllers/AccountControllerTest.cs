@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Http;
 using CarShareApi.Controllers;
+using CarShareApi.Models.Providers;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
 using CarShareApi.Models.Services.Implementations;
@@ -29,6 +30,7 @@ namespace CarShareApi.Tests.Controllers
         private UserService UserService { get; set; }
         private AccountController Controller { get; set; }
         private IRegistrationRepository RegistrationRepository { get; set; }
+        private IEmailProvider EmailProvider { get; set; }
 
         private string InvalidEmails = @"plainaddress
                 #@%^%#$@#$@#.com
@@ -66,13 +68,14 @@ namespace CarShareApi.Tests.Controllers
 
             UserRepository = new FakeUserRepository();
             RegistrationRepository = new FakeRegistrationRepository(); //todo make this
-            PaymentMethodRepository = new FakePaymentMethodRepository(); //todo make this
+            PaymentMethodRepository = new FakePaymentMethodRepository(new List<PaymentMethod>()); //todo make this
+            EmailProvider = new FakeEmailProvider();
 
             var bookingsJson = GetInputFile("Bookings.json").ReadToEnd();
             var bookings = JsonConvert.DeserializeObject<List<Booking>>(bookingsJson);
             BookingRepository = new FakeBookingRepository(bookings);
 
-            UserService = new UserService(UserRepository, RegistrationRepository, BookingRepository,null);
+            UserService = new UserService(UserRepository, RegistrationRepository, BookingRepository, PaymentMethodRepository, EmailProvider);
 
             Controller = new AccountController(UserService);
             Controller.Configuration = configuration;

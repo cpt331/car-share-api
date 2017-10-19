@@ -57,7 +57,7 @@ namespace CarShareApi.Tests.Controllers
             var bookings = JsonConvert.DeserializeObject<List<Booking>>(bookingsJson);
             BookingRepository = new FakeBookingRepository(bookings);
 
-            TransactionHistoryRepository = new FakeTransactionHistoryRepository();
+            TransactionHistoryRepository = new FakeTransactionHistoryRepository(new List<TransactionHistory>());
             UserRepository = new FakeUserRepository();
             RegistrationRepository = new FakeRegistrationRepository();
 
