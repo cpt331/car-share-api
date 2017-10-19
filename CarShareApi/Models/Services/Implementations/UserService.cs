@@ -6,12 +6,9 @@ using CarShareApi.ViewModels;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
 using CarShareApi.Models.ViewModels;
-<<<<<<< HEAD
 using CarShareApi.Models.Providers;
-=======
 using CarShareApi.ViewModels.Users;
 using NLog;
->>>>>>> master
 
 namespace CarShareApi.Models.Services.Implementations
 {
@@ -24,18 +21,21 @@ namespace CarShareApi.Models.Services.Implementations
         private IRegistrationRepository RegistrationRepository { get; set; }
         private IBookingRepository BookingRepository { get; set; }
         private IPaymentMethodRepository PaymentMethodRepository { get; set; }
+        private IEmailProvider EmailProvider { get; set; }
 
         //repositories are injected to allow easier testing
         public UserService(IUserRepository userRepository, 
             IRegistrationRepository registrationRepository, 
             IBookingRepository bookingRepository, 
-            IPaymentMethodRepository paymentMethodRepository)
+            IPaymentMethodRepository paymentMethodRepository, 
+            IEmailProvider emailProvider)
         {
             Logger.Debug("UserService Instantiated");
             UserRepository = userRepository;
             RegistrationRepository = registrationRepository;
             BookingRepository = bookingRepository;
             PaymentMethodRepository = paymentMethodRepository;
+            EmailProvider = emailProvider;
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace CarShareApi.Models.Services.Implementations
                 //Status = UserInactiveStatus
             };
 
-            WelcomeMailer welcome = new WelcomeMailer(request.Email, request.FirstName, otpRecord);
+            
             //Mail.SMTPMailer(request.Email, request.FirstName, otpRecord);
             UserRepository.Add(user);
 
@@ -183,6 +183,8 @@ namespace CarShareApi.Models.Services.Implementations
             };
             RegistrationRepository.Add(registration);
 
+            EmailProvider.Send(request.Email, request.FirstName, otpRecord);
+            //WelcomeMailer welcome = new WelcomeMailer(request.Email, request.FirstName, otpRecord);
 
             //return successful operation
             return new RegisterResponse
@@ -217,6 +219,13 @@ namespace CarShareApi.Models.Services.Implementations
             if (user.Registration == null)
             {
                 user.Registration = RegistrationRepository.Find(user.AccountID);
+            }
+
+            //if the payment method wasn't returned by the user repository then explicitly load from the
+            //registration repository
+            if (user.PaymentMethod == null)
+            {
+                user.PaymentMethod = PaymentMethodRepository.Find(user.AccountID);
             }
 
             var viewModel = new UserViewModel(user);

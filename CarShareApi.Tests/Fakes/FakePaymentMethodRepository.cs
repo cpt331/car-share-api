@@ -9,39 +9,50 @@ namespace CarShareApi.Tests.Fakes
 {
     public class FakePaymentMethodRepository : IPaymentMethodRepository
     {
+
+        private List<PaymentMethod> PaymentMethods { get; set; }
+
+        public FakePaymentMethodRepository(List<PaymentMethod> paymentMethods)
+        {
+            PaymentMethods = paymentMethods;
+        }
+
         public PaymentMethod Add(PaymentMethod item)
         {
-            throw new NotImplementedException();
+            PaymentMethods.Add(item);
+            return item;
         }
 
         public PaymentMethod Find(int id)
         {
-            throw new NotImplementedException();
+            return PaymentMethods.FirstOrDefault(x => x.AccountID == id);
         }
 
         public List<PaymentMethod> FindAll()
         {
-            throw new NotImplementedException();
+            return PaymentMethods.ToList();
         }
 
         public IQueryable<PaymentMethod> Query()
         {
-            throw new NotImplementedException();
+            return PaymentMethods.AsQueryable();
         }
 
         public PaymentMethod Update(PaymentMethod item)
         {
-            throw new NotImplementedException();
+            PaymentMethods.RemoveAll(x => x.AccountID == item.AccountID);
+            PaymentMethods.Add(item);
+            return item;
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            PaymentMethods.RemoveAll(x => x.AccountID == id);
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

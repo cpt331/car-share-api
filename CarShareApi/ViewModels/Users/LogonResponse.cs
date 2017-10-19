@@ -10,5 +10,7 @@
         public bool HasOpenBooking { get; set; }
 
         public bool HasAdminRights { get; set; }
+        public bool HasPaymentMethod { get; set; }
+
     }
 }
