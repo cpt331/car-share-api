@@ -12,10 +12,10 @@ namespace CarShareApi.Models.Repositories.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class BookingStatus
+    public partial class BookingStatu
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public BookingStatus()
+        public BookingStatu()
         {
             this.Bookings = new HashSet<Booking>();
         }

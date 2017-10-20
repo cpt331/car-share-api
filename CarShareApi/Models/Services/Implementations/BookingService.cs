@@ -128,7 +128,8 @@ namespace CarShareApi.Models.Services.Implementations
                 AccountID = accountId,
                 BookingStatus = Constants.BookingOpenStatus,
                 BillingRate = category.BillingRate,
-                CheckOut = DateTime.Now
+                CheckOut = DateTime.Now,
+                CityPickUp = car.Suburb
             };
             BookingRepository.Add(booking);
         
@@ -233,6 +234,7 @@ namespace CarShareApi.Models.Services.Implementations
             openBooking.BookingStatus = Constants.BookingClosedStatus;
             openBooking.TimeBilled = totalHours;
             openBooking.AmountBilled = totalAmount;
+            openBooking.CityDropOff = selectedCity.CityName;
 
             BookingRepository.Update(openBooking);
 
