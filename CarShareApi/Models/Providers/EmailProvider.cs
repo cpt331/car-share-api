@@ -16,14 +16,21 @@ namespace CarShareApi.Models.Providers
     public class WelcomeMailer : IEmailProvider
     {
 
+        public string SmtpUsername { get; set; }
+        public string SmtpPassword { get; set; }
+        public string SmtpServer { get; set; }
+        public int SmtpPort { get; set; }
 
         private string email;
         private string firstName;
         private string otpRecord;
 
-        public WelcomeMailer()
+        public WelcomeMailer(string smtpUsername, string smtpPassword, string smtpServer, int smtpPort)
         {
-            
+            SmtpUsername = smtpUsername;
+            SmtpPassword = smtpPassword;
+            SmtpServer = smtpServer;
+            SmtpPort = smtpPort;
         }
 
         public void Send(string email, string firstName, string otpRecord)
@@ -33,10 +40,6 @@ namespace CarShareApi.Models.Providers
             this.otpRecord = otpRecord;
             String from = "shawn.burriss@gmail.com";
             String fromName = "Ewebah Admin";
-            String smtpUsername = "AKIAIX7BCPEWPOAEY2OA";
-            String smtpPassword = "An9t0AOtJpQCdMEbDRCZdCWWXnliKUAB2L5cRemj+xqx";
-            String host = "email-smtp.us-east-1.amazonaws.com";
-            int port = 587;
             String subject = "Ewebah - Welcome to the App!";
             String body =
                 $"<h1>Welcome to Ewebah, {firstName}!</h1>" +
@@ -56,10 +59,10 @@ namespace CarShareApi.Models.Providers
             message.To.Add(new MailAddress(email));
 
             SmtpClient client =
-                new SmtpClient(host, port)
+                new SmtpClient(SmtpServer, SmtpPort)
                 {
                     // Pass SMTP credentials and enable SSL encryption
-                    Credentials = new NetworkCredential(smtpUsername, smtpPassword),
+                    Credentials = new NetworkCredential(SmtpUsername, SmtpPassword),
                     EnableSsl = true
                 };
             try

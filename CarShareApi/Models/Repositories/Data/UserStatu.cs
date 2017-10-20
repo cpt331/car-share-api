@@ -12,17 +12,17 @@ namespace CarShareApi.Models.Repositories.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class CarStatus
+    public partial class UserStatu
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CarStatus()
+        public UserStatu()
         {
-            this.Cars = new HashSet<Car>();
+            this.Users = new HashSet<User>();
         }
     
         public string Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Car> Cars { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

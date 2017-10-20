@@ -7,6 +7,7 @@ using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
 using CarShareApi.Models.ViewModels;
 using CarShareApi.Models.Providers;
+using CarShareApi.ViewModels.Bookings;
 using CarShareApi.ViewModels.Users;
 using NLog;
 
@@ -201,6 +202,16 @@ namespace CarShareApi.Models.Services.Implementations
                 Success = false,
                 Message = "Shawn hasn't completed his trello card yet..."
             };
+        }
+
+        public BookingHistoryResponse GetBookingHistory(int accountId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public BookingHistoryResponse GetBookingHistory(int accountId, int pageNumber, int pageSize)
+        {
+            throw new NotImplementedException();
         }
 
 

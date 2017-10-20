@@ -28,7 +28,12 @@ namespace CarShareApi
             var configuration = new HttpConfiguration();
             var container = new UnityContainer();
 
-            var context = new CarShareContext();
+            var config = new EwebahConfig();
+            var context = new CarShareContext(config);
+            var mailer = new WelcomeMailer(config.SmtpUsername, config.SmtpPassword, config.SmtpServer,
+                config.SmtpPort);
+
+            container.RegisterInstance<IEmailProvider>(mailer);
 
             //specify concrete instances of classes that should be injected when interface is marked
             container.RegisterType<IUserRepository, UserRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
@@ -45,7 +50,6 @@ namespace CarShareApi
             container.RegisterType<IBookingService, BookingService>(new TransientLifetimeManager());
             container.RegisterType<ICityService, CityService>(new TransientLifetimeManager());
 
-            container.RegisterType<IEmailProvider, WelcomeMailer>(new TransientLifetimeManager());
 
             //set this container as the http configurations dependency injection provider
             configuration.DependencyResolver = new UnityResolver(container);
