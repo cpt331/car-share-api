@@ -336,6 +336,66 @@ namespace CarShareApi.Models.Services.Implementations
 
         }
 
+        public TransactionResponse RecordTransaction(int bookingId, int accountId)
+        {
+            var closedBooking = BookingRepository.Find(bookingId);
+            var paymentMethod = PaymentMethodRepository.Find(closedBooking.AccountID);
+            var userAccount = UserRepository.find(closedBooking.AccountID);
+            var car = CarRepository.Find(closedBooking.VehicleId);
+
+            if (closedBooking == null)
+            {
+                return new TransactionResponse
+                {
+                    Message = $"Booking {bookingId} does not exist.",
+                    Success = false
+                };
+            }
+
+            if (paymentMethod == null)
+            {
+                return new TransactionResponse
+                {
+                    Message = $"Payment method for account {closedBooking.AccountID} does not exist.",
+                    Success = false
+                };
+            }
+
+            if (userAccount == null)
+            {
+                return new TransactionResponse
+                {
+                    Message = $"The user with ID {closedBooking.AccountID} does not exist.",
+                    Success = false
+                };
+            }
+
+            var tsx = new Transaction
+            {
+                BookingID = bookingId,
+                TransactionDate = DateTime.Now,
+                TransactionStatus = Constants.TransactionClearedStatus,
+                PaymentMethod = paymentMethod.CardType,
+                PaymentAmount = closedBooking.AmountBilled
+            };
+            TransactionHistoryRepository.Add(tsx);
+
+            //Code to create a receipt if we need to generate receipts later on
+
+            //var rec = new Receipt
+            //{
+            //    BookingID = bookingId,
+            //    Name = userAccount.FirstName + " " + userAccount.LastName,
+            //    CarDescription = car.Make + " " + car.Model + " (" + car.CarCategory + ")",
+            //    BillingRate = closedBooking.BillingRate,
+            //    BilledAmount = closedBooking.BilledAmount,
+            //    ReceiptDate = DateTime.Now,
+            //    CityDropOff = closedBooking.CityDropOff
+            //};
+
+
+        }
+
         public void Dispose()
         {
             BookingRepository?.Dispose();

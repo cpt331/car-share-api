@@ -376,6 +376,8 @@
     <Compile Include="Models\UnityResolver.cs" />
     <Compile Include="ViewModels\Bookings\BookingHistoryResponse.cs" />
     <Compile Include="ViewModels\Bookings\BookingViewModel.cs" />
+    <Compile Include="ViewModels\Bookings\TransactionResponse.cs" />
+    <Compile Include="ViewModels\Bookings\TransactionRequest.cs" />
     <Compile Include="ViewModels\Bookings\OpenBookingResponse.cs" />
     <Compile Include="ViewModels\Cars\CarCategoryViewModel.cs" />
     <Compile Include="ViewModels\Cars\CarSearchCriteria.cs" />

@@ -180,7 +180,8 @@ namespace CarShareApi.Models.Services.Implementations
                 PhoneNumber = request.PhoneNumber,
                 Postcode = request.Postcode,
                 State = request.State,
-                Suburb = request.Suburb
+                Suburb = request.Suburb,
+                UserGroup = Constants.UserGroupName
             };
             RegistrationRepository.Add(registration);
 
@@ -197,10 +198,91 @@ namespace CarShareApi.Models.Services.Implementations
 
         public AddPaymentMethodResponse AddPaymentMethod(AddPaymentMethodRequest request)
         {
+            var accID = request.AccountID;
+            DateTime expiry = new DateTime(request.ExpiryYear, request.ExpiryMonth, DateTime.DaysInMonth(ExpiryYear, ExpiryMonth));
+
+            var user = UserRepository.Find(request.accID);
+            if (user == null)
+            {
+                return new AddPaymentMethodResponse
+                {
+                    Message = $"Account {accID} does not exist",
+                    Success = false
+                };
+            }
+
+            if (user.Status != Constants.UserActiveStatus)
+            {
+                return new AddPaymentMethodResponse
+                {
+                    Message = $"Only activated users can book cars",
+                    Success = false
+                };
+            }
+
+            if (string.IsNullOrEmpty(request.CardNumber) || string.IsNullOrEmpty(request.CardVerificationValue))
+            {
+                return new AddPaymentMethodResponse
+                {
+                    Message = $"A credit card is required",
+                    Success = false
+                };
+            }
+
+            int sumOfDigits = request.CardNumber.Where((e) => e >= '0' && e <= '9')
+                    .Reverse()
+                    .Select((e, i) => ((int)e - 48) * (i % 2 == 0 ? 1 : 2))
+                    .Sum((e) => e / 10 + e % 10);
+
+            if (sumOfDigits % 10 != 0)
+            {
+                return new AddPaymentMethodResponse
+                {
+                    Message = $"The entered card number is invalid.",
+                    Success = false
+                };
+            }
+
+            {
+                return new AddPaymentMethodResponse
+                {
+                    Message = $"Only activated users can book cars",
+                    Success = false
+                };
+            }
+
+            if (DateTime.Now > expiry)
+            {
+                return new AddPaymentMethodResponse
+                {
+                    Message = $"The entered credit card has expired.",
+                    Success = false
+                };
+            }
+
+            {
+                return new AddPaymentMethodResponse
+                {
+                    Message = $"Only activated users can book cars",
+                    Success = false
+                };
+            }
+
+            var payment = new PaymentMethod
+            {
+                AccountID = accID,
+                CardNumber = request.CardNumber,
+                CardName = request.CardName,
+                CardType = request.CardType,
+                ExiryMonth = request.ExpiryMonth,
+                ExpiryYear = request.ExpiryYear,
+                CardVerificationValue = request.CardVerificationValue
+            };
+            PaymentMethodRepository.Add(payment);
             return new AddPaymentMethodResponse
             {
-                Success = false,
-                Message = "Shawn hasn't completed his trello card yet..."
+                Success = true,
+                Message = $"Payment method has been successfull added!"
             };
         }
 
