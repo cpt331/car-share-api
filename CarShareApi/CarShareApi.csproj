@@ -278,15 +278,16 @@
     </Compile>
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\Encryption.cs" />
+    <Compile Include="Models\EwebahConfig.cs" />
+    <Compile Include="Models\Extensions.cs" />
     <Compile Include="Models\Filters\AssignOAuth2SecurityRequirements.cs" />
     <Compile Include="Models\Helpers.cs" />
-    <Compile Include="Models\Mail.cs" />
     <Compile Include="Models\Providers\CarShareAuthorisationServerProvider.cs" />
     <Compile Include="Models\Providers\EmailProvider.cs" />
     <Compile Include="Models\Repositories\Data\Booking.cs">
       <DependentUpon>CarShareContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Repositories\Data\BookingStatus.cs">
+    <Compile Include="Models\Repositories\Data\BookingStatu.cs">
       <DependentUpon>CarShareContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Repositories\Data\Car.cs">
@@ -316,7 +317,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CarShareContext.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Repositories\Data\CarStatus.cs">
+    <Compile Include="Models\Repositories\Data\CarShareContextPartial.cs" />
+    <Compile Include="Models\Repositories\Data\CarStatu.cs">
       <DependentUpon>CarShareContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Repositories\Data\City.cs">
@@ -331,16 +333,19 @@
     <Compile Include="Models\Repositories\Data\Registration.cs">
       <DependentUpon>CarShareContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Repositories\Data\sysdiagram.cs">
+      <DependentUpon>CarShareContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Repositories\Data\TransactionHistory.cs">
       <DependentUpon>CarShareContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Repositories\Data\TransactionStatus.cs">
+    <Compile Include="Models\Repositories\Data\TransactionStatu.cs">
       <DependentUpon>CarShareContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Repositories\Data\User.cs">
       <DependentUpon>CarShareContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Repositories\Data\UserStatus.cs">
+    <Compile Include="Models\Repositories\Data\UserStatu.cs">
       <DependentUpon>CarShareContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Repositories\IBookingRepository.cs" />
@@ -369,6 +374,10 @@
     <Compile Include="Models\Services\Implementations\UserService.cs" />
     <Compile Include="Models\Services\IUserService.cs" />
     <Compile Include="Models\UnityResolver.cs" />
+    <Compile Include="ViewModels\Bookings\BookingHistoryResponse.cs" />
+    <Compile Include="ViewModels\Bookings\BookingViewModel.cs" />
+    <Compile Include="ViewModels\Bookings\TransactionResponse.cs" />
+    <Compile Include="ViewModels\Bookings\TransactionRequest.cs" />
     <Compile Include="ViewModels\Bookings\OpenBookingResponse.cs" />
     <Compile Include="ViewModels\Cars\CarCategoryViewModel.cs" />
     <Compile Include="ViewModels\Cars\CarSearchCriteria.cs" />

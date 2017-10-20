@@ -35,6 +35,6 @@ namespace CarShareApi.Models.Repositories.Data
         public virtual Registration Registration { get; set; }
         public virtual User Users1 { get; set; }
         public virtual User User1 { get; set; }
-        public virtual UserStatus UserStatu { get; set; }
+        public virtual UserStatu UserStatu { get; set; }
     }
 }
