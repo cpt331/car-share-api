@@ -37,8 +37,6 @@ namespace CarShareApi.Models.Repositories.Data
         public virtual BookingStatu BookingStatu { get; set; }
         public virtual Car Car { get; set; }
         public virtual User User { get; set; }
-        public virtual Booking Booking1 { get; set; }
-        public virtual Booking Booking2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TransactionHistory> TransactionHistories { get; set; }
     }
