@@ -25,6 +25,7 @@ namespace CarShareApi.Tests.Controllers
     public class AccountControllerTest
     {
         private IUserRepository UserRepository { get; set; }
+        private ICarRepository CarRepository { get; set; }
         private IBookingRepository BookingRepository { get; set; }
         private IPaymentMethodRepository PaymentMethodRepository { get; set; }
         private UserService UserService { get; set; }
@@ -71,11 +72,15 @@ namespace CarShareApi.Tests.Controllers
             PaymentMethodRepository = new FakePaymentMethodRepository(new List<PaymentMethod>()); //todo make this
             EmailProvider = new FakeEmailProvider();
 
+            var carsJson = GetInputFile("Cars.json").ReadToEnd();
+            var cars = JsonConvert.DeserializeObject<List<Car>>(carsJson);
+            CarRepository = new FakeCarRepository(cars);
+
             var bookingsJson = GetInputFile("Bookings.json").ReadToEnd();
             var bookings = JsonConvert.DeserializeObject<List<Booking>>(bookingsJson);
             BookingRepository = new FakeBookingRepository(bookings);
 
-            UserService = new UserService(UserRepository, RegistrationRepository, BookingRepository, PaymentMethodRepository, EmailProvider);
+            UserService = new UserService(UserRepository, RegistrationRepository, BookingRepository, PaymentMethodRepository, EmailProvider, CarRepository);
 
             Controller = new AccountController(UserService);
             Controller.Configuration = configuration;

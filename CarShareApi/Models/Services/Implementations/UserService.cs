@@ -23,13 +23,14 @@ namespace CarShareApi.Models.Services.Implementations
         private IBookingRepository BookingRepository { get; set; }
         private IPaymentMethodRepository PaymentMethodRepository { get; set; }
         private IEmailProvider EmailProvider { get; set; }
+        private ICarRepository CarRepository { get; set; }
 
         //repositories are injected to allow easier testing
         public UserService(IUserRepository userRepository, 
             IRegistrationRepository registrationRepository, 
             IBookingRepository bookingRepository, 
             IPaymentMethodRepository paymentMethodRepository, 
-            IEmailProvider emailProvider)
+            IEmailProvider emailProvider, ICarRepository carRepository)
         {
             Logger.Debug("UserService Instantiated");
             UserRepository = userRepository;
@@ -37,6 +38,7 @@ namespace CarShareApi.Models.Services.Implementations
             BookingRepository = bookingRepository;
             PaymentMethodRepository = paymentMethodRepository;
             EmailProvider = emailProvider;
+            CarRepository = carRepository;
         }
 
         /// <summary>
@@ -271,14 +273,79 @@ namespace CarShareApi.Models.Services.Implementations
             };
         }
 
-        public BookingHistoryResponse GetBookingHistory(int accountId)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Return a list of bookings for a user
+        /// </summary>
+        /// <param name="accountId">The user account id</param>
+        /// <param name="pageNumber">The page number of the list</param>
+        /// <param name="pageSize">the paging size required</param>
+        /// <returns>A page of bookings based on the input params</returns>
         public BookingHistoryResponse GetBookingHistory(int accountId, int pageNumber, int pageSize)
         {
-            throw new NotImplementedException();
+            var user = UserRepository.Find(accountId);
+
+            //check user is real
+            if (user == null)
+            {
+                return new BookingHistoryResponse
+                {
+                    Success = false,
+                    Message = $"User account {accountId} does not exist"
+                };
+            }
+
+            //grab all user bookings
+            var bookings = BookingRepository.FindByAccountId(accountId) ?? new List<Booking>();
+
+            //only grab closed bookings
+            bookings = bookings.Where(x => x.BookingStatus.Equals(Constants.BookingClosedStatus)).ToList();
+
+
+            //build response
+            var response = new BookingHistoryResponse
+            {
+                Success = true,
+                Count = bookings.Count,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalPages = (int)Math.Ceiling(Convert.ToDouble(bookings.Count) / Convert.ToDouble(pageSize))
+            };
+
+            //grab the records that relate to the requested page only
+            var bookingsPage = bookings.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+            var bookingViewModels = new List<BookingViewModel>();
+
+            //build the booking view models for the requested page
+            foreach (var booking in bookingsPage)
+            {
+                if (booking.Car == null)
+                {
+                    booking.Car = CarRepository.Find(booking.VehicleID);
+                }
+
+                if (booking.AmountBilled != null)
+                {
+                    var viewModel = new BookingViewModel
+                    {
+                        BookingId = booking.BookingID.ToString(),
+                        BookingStatus = booking.BookingStatus,
+                        CarMake = booking.Car.Make,
+                        CarModel = booking.Car.Model,
+                        CheckInDate = booking.CheckIn?.ToString() ?? "",
+                        CheckOutDate = booking.CheckOut.ToString(),
+                        CityDropOff = booking.CityDropOff,
+                        CityPickUp = booking.CityPickUp,
+                        TotalHours = booking.TimeBilled.ToString(),
+                        TotalAmount = booking.AmountBilled.Value.ToString("C"),
+                        HourlyRate = booking.BillingRate.ToString("C")
+                    };
+                    bookingViewModels.Add(viewModel);
+                }
+            }
+
+            response.Bookings = bookingViewModels.ToArray();
+            response.Message = $"Found {response.Bookings.Length} bookings";
+            return response;
         }
 
 
