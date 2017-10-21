@@ -17,6 +17,7 @@ using System.Web.Configuration;
 using System.Web.Http;
 using CarShareApi.Models.Repositories.Data;
 using CarShareApi.ViewModels;
+using CarShareApi.ViewModels.Bookings;
 using Newtonsoft.Json;
 using NLog;
 
@@ -54,6 +55,22 @@ namespace CarShareApi.Controllers
                 return user;
             }
             return null;
+        }
+
+        [HttpGet, Route("api/account/bookings")]
+        public BookingHistoryResponse Bookings(int pageNumber = 1, int pageSize = 10)
+        {
+            var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
+            if (userPrincipal.Id.HasValue)
+            {
+                var response = UserService.GetBookingHistory(userPrincipal.Id.Value, pageNumber, pageSize);
+                return response;
+            }
+            return new BookingHistoryResponse
+            {
+                Success = false,
+                Message = "No user is logged on."
+            };
         }
 
         /// <summary>
