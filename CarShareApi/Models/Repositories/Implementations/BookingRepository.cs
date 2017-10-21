@@ -59,7 +59,10 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public List<Booking> FindByAccountId(int accountId)
         {
-            var bookings = Context.Bookings.Where(x => x.AccountID == accountId).ToList();
+            var bookings = 
+                Context.Bookings
+                .Include(x=>x.Car)
+                .Where(x => x.AccountID == accountId).ToList();
             return bookings;
         }
 

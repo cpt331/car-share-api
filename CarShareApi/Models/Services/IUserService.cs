@@ -18,7 +18,6 @@ namespace CarShareApi.Models.Services
         LogonResponse Logon(LogonRequest request);
         RegisterResponse Register(RegisterRequest request);
         AddPaymentMethodResponse AddPaymentMethod(AddPaymentMethodRequest request);
-        BookingHistoryResponse GetBookingHistory(int accountId);
         BookingHistoryResponse GetBookingHistory(int accountId, int pageNumber, int pageSize);
     }
 }
