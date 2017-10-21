@@ -107,33 +107,51 @@ namespace CarShareApi.Controllers
             return response;
         }
 
-        [HttpPost, Route("api/account/paymentmethod"), AllowAnonymous]
+        [HttpPost, Route("api/account/paymentmethod")]
         public AddPaymentMethodResponse AddPaymentMethod(AddPaymentMethodRequest request)
         {
             Logger.Debug("Payment Method Request Received: {0}", JsonConvert.SerializeObject(request, Formatting.Indented));
 
-            AddPaymentMethodResponse response;
-            //use in built data annotations to ensure model has binded correctly
-            if (!ModelState.IsValid)
+            var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
+            if (userPrincipal.Id.HasValue)
             {
-                var errors = ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(x => x.ErrorMessage));
-                response = new AddPaymentMethodResponse
-                {
-                    Success = false,
-                    Message = "Form has validation errors",
-                    Errors = errors.ToArray()
-                };
 
+
+                AddPaymentMethodResponse response;
+                //use in built data annotations to ensure model has binded correctly
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(x => x.ErrorMessage));
+                    response = new AddPaymentMethodResponse
+                    {
+                        Success = false,
+                        Message = "Form has validation errors",
+                        Errors = errors.ToArray()
+                    };
+
+                }
+                else
+                {
+                    //send request to the user service and return the response (success or fail)
+                    response = UserService.AddPaymentMethod(request);
+
+                }
+                Logger.Debug("Sent Payment Method Response: {0}",
+                    JsonConvert.SerializeObject(response, Formatting.Indented));
+                return response;
             }
             else
             {
-                //send request to the user service and return the response (success or fail)
-                response = UserService.AddPaymentMethod(request);
-
+                response = new AddPaymentMethodResponse
+                {
+                    Success = false,
+                    Message = "Invalid user ID",
+                    Errors = errors.ToArray()
+                };
+                Logger.Debug("The user ID session is invalid",
+                    JsonConvert.SerializeObject(response, Formatting.Indented));
+                return response;
             }
-            Logger.Debug("Sent Payment Method Response: {0}",
-                JsonConvert.SerializeObject(response, Formatting.Indented));
-            return response;
         }
 
 
