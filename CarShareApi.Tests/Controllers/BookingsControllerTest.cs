@@ -33,6 +33,7 @@ namespace CarShareApi.Tests.Controllers
         private ICityRepository CityRepository { get; set; }
         private ITransactionHistoryRepository TransactionHistoryRepository { get; set; }
         private IBookingRepository BookingRepository { get; set; }
+        private IPaymentMethodRepository PaymentMethodRepository { get; set; }
 
         private BookingService BookingService { get; set; }
 
@@ -60,6 +61,7 @@ namespace CarShareApi.Tests.Controllers
             TransactionHistoryRepository = new FakeTransactionHistoryRepository(new List<TransactionHistory>());
             UserRepository = new FakeUserRepository();
             RegistrationRepository = new FakeRegistrationRepository();
+            PaymentMethodRepository = new FakePaymentMethodRepository(new List<PaymentMethod>()); //todo make this
 
             BookingService = new BookingService(
                     BookingRepository,
@@ -67,7 +69,8 @@ namespace CarShareApi.Tests.Controllers
                     UserRepository,
                     CarCategoryRepository,
                     CityRepository,
-                    TransactionHistoryRepository
+                    TransactionHistoryRepository,
+                    PaymentMethodRepository
                     );
 
             

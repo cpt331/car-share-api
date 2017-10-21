@@ -8,6 +8,7 @@ namespace CarShareApi.ViewModels.Users
     public class AddPaymentMethodRequest
     {
         public int AccountId { get; set; }
+        public string CardName { get; set; }
         public string CardType { get; set; }
         public string CardNumber { get; set; }
         public int ExpiryMonth { get; set; }

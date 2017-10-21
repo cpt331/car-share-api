@@ -5,7 +5,9 @@ using System.Linq;
 using System.Web;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
+using CarShareApi.Models.Repositories.Implementations;
 using CarShareApi.ViewModels;
+using CarShareApi.ViewModels.Bookings;
 
 namespace CarShareApi.Models.Services.Implementations
 {
@@ -18,6 +20,7 @@ namespace CarShareApi.Models.Services.Implementations
         private IUserRepository UserRepository { get; set; }
         private ICityRepository CityRepository { get; set; }
         private ITransactionHistoryRepository TransactionHistoryRepository { get; set; }
+        private IPaymentMethodRepository PaymentMethodRepository { get; set; }
 
         public BookingService(
             IBookingRepository bookingRepository,
@@ -25,7 +28,8 @@ namespace CarShareApi.Models.Services.Implementations
             IUserRepository userRepository, 
             ICarCategoryRepository carCategoryRepository, 
             ICityRepository cityRepository,
-            ITransactionHistoryRepository transactionHistoryRepository)
+            ITransactionHistoryRepository transactionHistoryRepository,
+            IPaymentMethodRepository paymentMethodRepository)
         {
             BookingRepository = bookingRepository;
             CarRepository = carRepository;
@@ -33,6 +37,7 @@ namespace CarShareApi.Models.Services.Implementations
             CarCategoryRepository = carCategoryRepository;
             CityRepository = cityRepository;
             TransactionHistoryRepository = transactionHistoryRepository;
+            PaymentMethodRepository = paymentMethodRepository;
         }
         
 
@@ -340,8 +345,8 @@ namespace CarShareApi.Models.Services.Implementations
         {
             var closedBooking = BookingRepository.Find(bookingId);
             var paymentMethod = PaymentMethodRepository.Find(closedBooking.AccountID);
-            var userAccount = UserRepository.find(closedBooking.AccountID);
-            var car = CarRepository.Find(closedBooking.VehicleId);
+            var userAccount = UserRepository.Find(closedBooking.AccountID);
+            var car = CarRepository.Find(closedBooking.VehicleID);
 
             if (closedBooking == null)
             {
@@ -370,7 +375,7 @@ namespace CarShareApi.Models.Services.Implementations
                 };
             }
 
-            var tsx = new Transaction
+            var tsx = new TransactionHistory
             {
                 BookingID = bookingId,
                 TransactionDate = DateTime.Now,
@@ -379,6 +384,12 @@ namespace CarShareApi.Models.Services.Implementations
                 PaymentAmount = closedBooking.AmountBilled
             };
             TransactionHistoryRepository.Add(tsx);
+
+            return new TransactionResponse
+            {
+                Success =  true,
+                Message = $"Transaction history has been recorded for booking {bookingId}"
+            };
 
             //Code to create a receipt if we need to generate receipts later on
 
