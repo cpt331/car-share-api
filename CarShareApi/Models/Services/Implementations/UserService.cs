@@ -180,8 +180,7 @@ namespace CarShareApi.Models.Services.Implementations
                 PhoneNumber = request.PhoneNumber,
                 Postcode = request.Postcode,
                 State = request.State,
-                Suburb = request.Suburb,
-                UserGroup = Constants.UserGroupName
+                Suburb = request.Suburb
             };
             RegistrationRepository.Add(registration);
 
@@ -198,10 +197,10 @@ namespace CarShareApi.Models.Services.Implementations
 
         public AddPaymentMethodResponse AddPaymentMethod(AddPaymentMethodRequest request)
         {
-            var accID = request.AccountID;
-            DateTime expiry = new DateTime(request.ExpiryYear, request.ExpiryMonth, DateTime.DaysInMonth(ExpiryYear, ExpiryMonth));
+            var accID = request.AccountId;
+            DateTime expiry = new DateTime(request.ExpiryYear, request.ExpiryMonth, DateTime.DaysInMonth(request.ExpiryYear, request.ExpiryMonth));
 
-            var user = UserRepository.Find(request.accID);
+            var user = UserRepository.Find(request.AccountId);
             if (user == null)
             {
                 return new AddPaymentMethodResponse
@@ -243,14 +242,6 @@ namespace CarShareApi.Models.Services.Implementations
                 };
             }
 
-            {
-                return new AddPaymentMethodResponse
-                {
-                    Message = $"Only activated users can book cars",
-                    Success = false
-                };
-            }
-
             if (DateTime.Now > expiry)
             {
                 return new AddPaymentMethodResponse
@@ -260,13 +251,7 @@ namespace CarShareApi.Models.Services.Implementations
                 };
             }
 
-            {
-                return new AddPaymentMethodResponse
-                {
-                    Message = $"Only activated users can book cars",
-                    Success = false
-                };
-            }
+
 
             var payment = new PaymentMethod
             {
@@ -274,7 +259,7 @@ namespace CarShareApi.Models.Services.Implementations
                 CardNumber = request.CardNumber,
                 CardName = request.CardName,
                 CardType = request.CardType,
-                ExiryMonth = request.ExpiryMonth,
+                ExpiryMonth = request.ExpiryMonth,
                 ExpiryYear = request.ExpiryYear,
                 CardVerificationValue = request.CardVerificationValue
             };

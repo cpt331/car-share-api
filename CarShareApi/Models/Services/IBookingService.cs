@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CarShareApi.ViewModels;
+using CarShareApi.ViewModels.Bookings;
 
 namespace CarShareApi.Models.Services
 {
@@ -12,6 +13,6 @@ namespace CarShareApi.Models.Services
         OpenBookingResponse OpenBooking(int vehicleId, int accountId);
         CloseBookingResponse CloseBooking(CloseBookingRequest request, int accountId);
         CloseBookingCheckResponse CloseBookingCheck(CloseBookingCheckRequest request, int accountId);
-        public TransactionResponse RecordTransaction(int bookingId, int accountId);
+        TransactionResponse RecordTransaction(int bookingId, int accountId);
     }
 }
