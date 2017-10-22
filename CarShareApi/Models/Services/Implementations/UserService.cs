@@ -297,6 +297,15 @@ namespace CarShareApi.Models.Services.Implementations
             //grab all user bookings
             var bookings = BookingRepository.FindByAccountId(accountId) ?? new List<Booking>();
 
+            if (bookings == null)
+            {
+                var response = new BookingHistoryResponse
+                {
+                    Success = false,
+                    Message = $"No bookings for this user exist"
+                };
+            }
+
             //only grab closed bookings
             bookings = bookings.Where(x => x.BookingStatus.Equals(Constants.BookingClosedStatus)).ToList();
 
