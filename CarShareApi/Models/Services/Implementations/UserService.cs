@@ -197,17 +197,17 @@ namespace CarShareApi.Models.Services.Implementations
             };
         }
 
-        public AddPaymentMethodResponse AddPaymentMethod(AddPaymentMethodRequest request)
+        public AddPaymentMethodResponse AddPaymentMethod(AddPaymentMethodRequest request, int accountId)
         {
-            var accID = request.AccountId;
+            
             DateTime expiry = new DateTime(request.ExpiryYear, request.ExpiryMonth, DateTime.DaysInMonth(request.ExpiryYear, request.ExpiryMonth));
 
-            var user = UserRepository.Find(request.AccountId);
+            var user = UserRepository.Find(accountId);
             if (user == null)
             {
                 return new AddPaymentMethodResponse
                 {
-                    Message = $"Account {accID} does not exist",
+                    Message = $"Account {accountId} does not exist",
                     Success = false
                 };
             }
@@ -216,7 +216,17 @@ namespace CarShareApi.Models.Services.Implementations
             {
                 return new AddPaymentMethodResponse
                 {
-                    Message = $"Only activated users can book cars",
+                    Message = $"Only activated users can add payment methods",
+                    Success = false
+                };
+            }
+
+            var existingPaymentMethod = PaymentMethodRepository.Find(accountId);
+            if (existingPaymentMethod != null)
+            {
+                return new AddPaymentMethodResponse
+                {
+                    Message = $"Payment method already exists for account {accountId}",
                     Success = false
                 };
             }
@@ -257,7 +267,7 @@ namespace CarShareApi.Models.Services.Implementations
 
             var payment = new PaymentMethod
             {
-                AccountID = accID,
+                AccountID = accountId,
                 CardNumber = request.CardNumber,
                 CardName = request.CardName,
                 CardType = request.CardType,
@@ -297,11 +307,15 @@ namespace CarShareApi.Models.Services.Implementations
             //grab all user bookings
             var bookings = BookingRepository.FindByAccountId(accountId) ?? new List<Booking>();
 
-            if (bookings == null)
+            if (!bookings.Any())
             {
-                var response = new BookingHistoryResponse
+                return new BookingHistoryResponse
                 {
                     Success = false,
+                    Count = 0,
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
+                    TotalPages = 0,
                     Message = $"No bookings for this user exist"
                 };
             }
