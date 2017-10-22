@@ -18,6 +18,7 @@ using System.Web.Http;
 using CarShareApi.Models.Repositories.Data;
 using CarShareApi.ViewModels;
 using CarShareApi.ViewModels.Bookings;
+using CarShareApi.ViewModels.Users;
 using Newtonsoft.Json;
 using NLog;
 
@@ -115,8 +116,6 @@ namespace CarShareApi.Controllers
             var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
             if (userPrincipal.Id.HasValue)
             {
-
-
                 AddPaymentMethodResponse response;
                 //use in built data annotations to ensure model has binded correctly
                 if (!ModelState.IsValid)
@@ -132,8 +131,9 @@ namespace CarShareApi.Controllers
                 }
                 else
                 {
+                    
                     //send request to the user service and return the response (success or fail)
-                    response = UserService.AddPaymentMethod(request);
+                    response = UserService.AddPaymentMethod(request, userPrincipal.Id.Value);
 
                 }
                 Logger.Debug("Sent Payment Method Response: {0}",
@@ -142,11 +142,11 @@ namespace CarShareApi.Controllers
             }
             else
             {
-                response = new AddPaymentMethodResponse
+                var response = new AddPaymentMethodResponse
                 {
                     Success = false,
                     Message = "Invalid user ID",
-                    Errors = errors.ToArray()
+                    Errors = new []{ "No user is logged on"}
                 };
                 Logger.Debug("The user ID session is invalid",
                     JsonConvert.SerializeObject(response, Formatting.Indented));
