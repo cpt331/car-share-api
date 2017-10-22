@@ -3,13 +3,15 @@
 <head>
     <!-- SCROLLS -->
     <!-- load bootstrap and fontawesome via CDN -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
+    <!--<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto" rel="stylesheet">
     <link rel="stylesheet" href="./Content/Site.css" />
+
 
     <!-- SPELLS -->
     <!-- load angular and angular route via CDN -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcAdBWdbkfkQmnqwxoPeIztYwlG2-D9O8"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
     <script src="./Scripts/app.js"></script>
@@ -18,44 +20,48 @@
     <script src="./Scripts/Controllers/CarsController.js"></script>
     <script src="./Scripts/Controllers/CarController.js"></script>
     <script src="./Scripts/Controllers/AboutController.js"></script>
-    <script src="./Scripts/Controllers/SearchController.js"></script>
+    <script src="./Scripts/Controllers/SearchController.js"></script>-->
 </head>
 <body>
-
-    <!-- HEADER AND NAVBAR -->
-    <header>
-        <nav class="navbar navbar-inverse">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/">Ewebah</a>
-                </div>
-
-                <ul class="nav navbar-nav navbar-right" ng-show="Token">
-                    
-                    <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-                    <li><a href="#cars"><i class="fa fa-car"></i> Cars</a></li>
-                    <li><a href="#search"><i class="fa fa-car"></i> Search</a></li>
-                    <li><a href="#about"><i class="fa fa-shield"></i> About</a></li>
-                    <li><a href="#logon"><i class="fa fa-user"></i> Logon</a></li>
-                    <li><a href="./swagger"><i class="fa fa-book"></i> Swagger</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right" ng-show="!Token">
-                    <li><a href="#logon"><i class="fa fa-user"></i> Logon</a></li>
-                    <li><a href="./swagger"><i class="fa fa-book"></i> Swagger</a></li>
-                </ul>
+    
+<div class="content">
+    <p><img src="./Content/Images/EweBah2.png" /></p>
+    <h2>Ewebah API</h2>
+    <p class="tagline">Book, Drive, Return</p>
+    <a href="./swagger"><i class="fa fa-book"></i>Swagger Documentation</a>
+</div>
+<!-- HEADER AND NAVBAR -->
+<!--<header>
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Ewebah</a>
             </div>
-        </nav>
-    </header>
 
-    <!-- MAIN CONTENT AND INJECTED VIEWS -->
-    <div id="main">
-       
-        <!-- angular templating -->
-        <!-- this is where content will be injected -->
-        <div ng-view></div>
-    </div>
+            <ul class="nav navbar-nav navbar-right" ng-show="Token">
+
+                <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+                <li><a href="#cars"><i class="fa fa-car"></i> Cars</a></li>
+                <li><a href="#search"><i class="fa fa-car"></i> Search</a></li>
+                <li><a href="#about"><i class="fa fa-shield"></i> About</a></li>
+                <li><a href="#logon"><i class="fa fa-user"></i> Logon</a></li>
+                <li><a href="./swagger"><i class="fa fa-book"></i> Swagger</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" ng-show="!Token">
+                <li><a href="#logon"><i class="fa fa-user"></i> Logon</a></li>
+                <li><a href="./swagger"><i class="fa fa-book"></i> Swagger</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>-->
+
+<!-- MAIN CONTENT AND INJECTED VIEWS -->
+<!--<div id="main">
+
+    <div ng-view></div>
+</div>
 <footer class="container">
     <p>{{Token.Name}}</p>
-</footer>
+</footer>-->
 </body>
 </html>

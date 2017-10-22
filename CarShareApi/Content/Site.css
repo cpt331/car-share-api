@@ -1,3 +1,26 @@
-﻿body {
-    background: #fdfdfd;
+﻿html {
+    background: url(./images/chicago.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.content {
+    width: 400px;
+    margin: 20vh auto;
+    background: #fff;
+    padding: 60px 40px;
+    border: solid 5px #333;
+    text-align: center;
+    border-radius: 5px;
+}
+.content img {  width: 50px;}
+.content a { display: block; padding: 12px 8px; text-decoration: none; border-radius: 5px; background: #89bf04; color: #fff; }
+    .content a:hover {
+        background: #78A504;
+    }
+.tagline {
+    color: #999;
 }
