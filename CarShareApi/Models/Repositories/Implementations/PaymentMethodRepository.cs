@@ -19,25 +19,25 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public PaymentMethod Add(PaymentMethod item)
         {
-            var paymentMethod = Context.PaymentMethods.Add(item);
+            var paymentMethod = Context.PaymentMethod.Add(item);
             Context.SaveChanges();
             return paymentMethod;
         }
 
         public PaymentMethod Find(int id)
         {
-            var paymentMethod = Context.PaymentMethods.FirstOrDefault(x => x.AccountID == id);
+            var paymentMethod = Context.PaymentMethod.FirstOrDefault(x => x.AccountID == id);
             return paymentMethod;
         }
 
         public List<PaymentMethod> FindAll()
         {
-            return Context.PaymentMethods.ToList();
+            return Context.PaymentMethod.ToList();
         }
 
         public IQueryable<PaymentMethod> Query()
         {
-            return Context.PaymentMethods.AsQueryable();
+            return Context.PaymentMethod.AsQueryable();
         }
 
         public PaymentMethod Update(PaymentMethod item)
@@ -49,7 +49,7 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public void Delete(int id)
         {
-            var paymentMethod = Context.PaymentMethods.FirstOrDefault(x => x.AccountID == id);
+            var paymentMethod = Context.PaymentMethod.FirstOrDefault(x => x.AccountID == id);
             if (paymentMethod != null)
             {
                 Context.Entry(paymentMethod).State = EntityState.Deleted;
