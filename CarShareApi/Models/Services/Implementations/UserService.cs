@@ -271,18 +271,30 @@ namespace CarShareApi.Models.Services.Implementations
                 case "5": cardType = "Mastercard"; break;
                 default: cardType = "Mastercard"; break;
             }
-            
-            var payment = new PaymentMethod
+
+            try
             {
-                AccountID = accountId,
-                CardNumber = request.CardNumber,
-                CardName = request.CardName,
-                CardType = cardType,
-                ExpiryMonth = request.ExpiryMonth,
-                ExpiryYear = request.ExpiryYear,
-                CardVerificationValue = request.CardVerificationValue
-            };
-            PaymentMethodRepository.Add(payment);
+                var payment = new PaymentMethod
+                {
+                    AccountID = accountId,
+                    CardNumber = request.CardNumber,
+                    CardName = request.CardName,
+                    CardType = cardType,
+                    ExpiryMonth = request.ExpiryMonth,
+                    ExpiryYear = request.ExpiryYear,
+                    CardVerificationValue = request.CardVerificationValue
+                };
+                PaymentMethodRepository.Add(payment);
+            }
+            catch(Exception e)
+            {
+                return new AddPaymentMethodResponse
+                {
+                    Message = $"Error in updating payment method. Error: {e}",
+                    Success = false
+                };
+            }
+            
             return new AddPaymentMethodResponse
             {
                 Success = true,
