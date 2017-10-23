@@ -263,14 +263,21 @@ namespace CarShareApi.Models.Services.Implementations
                 };
             }
 
-
-
+            String cardType = null;
+            switch (request.CardNumber.Substring(0, 1))
+            {
+                case "3": cardType = "AMEX"; break;
+                case "4": cardType = "Visa"; break;
+                case "5": cardType = "Mastercard"; break;
+                default: cardType = "Mastercard"; break;
+            }
+            
             var payment = new PaymentMethod
             {
                 AccountID = accountId,
                 CardNumber = request.CardNumber,
                 CardName = request.CardName,
-                CardType = request.CardType,
+                CardType = cardType,
                 ExpiryMonth = request.ExpiryMonth,
                 ExpiryYear = request.ExpiryYear,
                 CardVerificationValue = request.CardVerificationValue
