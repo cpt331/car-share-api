@@ -172,6 +172,35 @@ namespace CarShareApi.Controllers
             }
         }
 
+        [HttpPost, Route("api/account/passwordreset"), AllowAnonymous]
+        public PasswordResetResponse PasswordReset(PasswordResetRequest request)
+        {
+            Logger.Debug("Password Reset Request Received: {0}", JsonConvert.SerializeObject(request, Formatting.Indented));
+
+            PasswordResetResponse response;
+            //use in built data annotations to ensure model has binded correctly
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(x => x.ErrorMessage));
+                response = new PasswordResetResponse
+                {
+                    Success = false,
+                    Message = "Form has validation errors",
+                    Errors = errors.ToArray()
+                };
+            }
+            else
+            {
+                //send request to the user service and return the response (success or fail)
+                response = UserService.ResetPassword(request);
+
+            }
+            Logger.Debug("Sent Password Reset Response: {0}",
+                JsonConvert.SerializeObject(response, Formatting.Indented));
+            return response;
+        }
+
+
 
 
     }

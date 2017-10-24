@@ -17,6 +17,6 @@ namespace CarShareApi.ViewModels.Users
         public string State { get; set; }
         public string Postcode { get; set; }
         public string PhoneNumber { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
     }
 }

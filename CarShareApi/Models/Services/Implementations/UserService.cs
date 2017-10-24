@@ -469,7 +469,7 @@ namespace CarShareApi.Models.Services.Implementations
                     State = null,
                     Postcode = null,
                     PhoneNumber = null,
-                    DateOfBirth = DateTime.Now
+                    DateOfBirth = DateTime.Now.ToString("dd/MM/yyyy")
                 };
             }
             else
@@ -486,9 +486,51 @@ namespace CarShareApi.Models.Services.Implementations
                     State = registration.State,
                     Postcode = registration.Postcode,
                     PhoneNumber = registration.PhoneNumber,
-                    DateOfBirth = registration.DateOfBirth
+                    DateOfBirth = registration.DateOfBirth.ToString("dd/MM/yyyy")
                 };
             }
+        }
+        public PasswordResetResponse ResetPassword(PasswordResetRequest request)
+        {
+            string licence = request.LicenceNumber;
+            DateTime? dob = request.DateOfBirth;
+            
+            var user = UserRepository.FindByEmail(request.Email);
+            if (user == null)
+            {
+                return new PasswordResetResponse
+                {
+                    Success = false,
+                    Message = $"Password reset was unsuccessful"
+                };
+            }
+
+            var registration = RegistrationRepository.Find(user.AccountID);
+            if(registration != null)
+            {
+                return new PasswordResetResponse
+                {
+                    Success = false,
+                    Message = $"Password reset was unsuccessful"
+                };
+            }
+
+            if (licence != registration.DriversLicenceID || dob != registration.DateOfBirth)
+            {
+                return new PasswordResetResponse
+                {
+                    Success = false,
+                    Message = $"Password reset was unsuccessful"
+                };
+            }
+
+            user.Password = Encryption.EncryptString(request.Password);
+            UserRepository.Update(user);
+            return new PasswordResetResponse
+            {
+                Success = true,
+                Message = $"Password successfully reset"
+            };
         }
 
         public void Dispose()
