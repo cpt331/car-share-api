@@ -533,6 +533,48 @@ namespace CarShareApi.Models.Services.Implementations
             };
         }
 
+        public OTPResponse OTPActivation(OTPRequest request)
+        {
+            string email = request.Email;
+            string otp = request.OTP;
+            
+            var user = UserRepository.FindByEmail(request.Email);
+            if (user == null)
+            {
+                return new OTPResponse
+                {
+                    Success = false,
+                    Message = $"A user with this email address doesn't exist"
+                };
+            }
+
+            if (user.Status != Constants.UserInactiveStatus)
+            {
+                return new OTPResponse
+                {
+                    Success = false,
+                    Message = $"User account is not inactive"
+                };
+            }
+
+            if (otp != user.OTP)
+            {
+                return new OTPResponse
+                {
+                    Success = false,
+                    Message = $"The incorrect passcode has been applied. Check your email"
+                };
+            }
+
+            user.Status = Constants.UserActiveStatus;
+            UserRepository.Update(user);
+            return new OTPResponse
+            {
+                Success = true,
+                Message = $"Your account has now been activated"
+            };
+        }
+
         public void Dispose()
         {
             Logger.Debug("UserService Disposed");
