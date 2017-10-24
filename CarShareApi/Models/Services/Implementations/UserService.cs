@@ -438,9 +438,61 @@ namespace CarShareApi.Models.Services.Implementations
             throw new NotImplementedException();
         }
 
+        public RegisterViewModel GetRegistrationRecord(int accountId)
+        {
+            var user = UserRepository.Find(accountId);
+
+            //check user is real
+            if (user == null)
+            {
+                return new RegisterViewModel
+                {
+                    Success = false,
+                    Message = $"User account {accountId} does not exist"
+                };
+            }
+
+            //grab users registration record and check if it exists
+            var registration = RegistrationRepository.Find(accountId);
+
+            if (registration == null)
+            {
+                return new RegisterViewModel
+                {
+                    Success = false,
+                    Message = $"User account {accountId} registration record doesn't exists",
+                    DriversLicenceID = null,
+                    DriversLicenceState = null,
+                    AddressLine1 = null,
+                    AddressLine2 = null,
+                    Suburb = null,
+                    State = null,
+                    Postcode = null,
+                    PhoneNumber = null,
+                    DateOfBirth = DateTime.Now
+                };
+            }
+            else
+            {
+                return new RegisterViewModel
+                {
+                    Success = true,
+                    Message = $"User account {accountId} registration record exists",
+                    DriversLicenceID = registration.DriversLicenceID,
+                    DriversLicenceState = registration.DriversLicenceState,
+                    AddressLine1 = registration.AddressLine1,
+                    AddressLine2 = registration.AddressLine2,
+                    Suburb = registration.Suburb,
+                    State = registration.State,
+                    Postcode = registration.Postcode,
+                    PhoneNumber = registration.PhoneNumber,
+                    DateOfBirth = registration.DateOfBirth
+                };
+            }
+        }
+
         public void Dispose()
         {
-
             Logger.Debug("UserService Disposed");
             UserRepository?.Dispose();
             RegistrationRepository?.Dispose();

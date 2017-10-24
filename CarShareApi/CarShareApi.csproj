@@ -384,6 +384,7 @@
     <Compile Include="ViewModels\CityViewModel.cs" />
     <Compile Include="ViewModels\Users\AddPaymentMethodRequest.cs" />
     <Compile Include="ViewModels\Users\AddPaymentMethodResponse.cs" />
+    <Compile Include="ViewModels\Users\RegisterViewModel.cs" />
     <Compile Include="ViewModels\Users\LogonRequest.cs" />
     <Compile Include="ViewModels\Users\LogonResponse.cs" />
     <Compile Include="ViewModels\Users\RegisterRequest.cs" />

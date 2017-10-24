@@ -108,6 +108,24 @@ namespace CarShareApi.Controllers
             return response;
         }
 
+        [HttpGet, Route("api/account/registerupdatereturn")]
+        public RegisterViewModel Register()
+        {
+            var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
+            if (userPrincipal.Id.HasValue)
+            {
+                var response = UserService.GetRegistrationRecord(userPrincipal.Id.Value);
+                return response;
+            }
+            return new RegisterViewModel
+            {
+                Success = false,
+                Message = "No user is logged on."
+            };
+        }
+
+
+
         [HttpPost, Route("api/account/paymentmethod")]
         public AddPaymentMethodResponse AddPaymentMethod(AddPaymentMethodRequest request)
         {
