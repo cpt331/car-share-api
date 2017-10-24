@@ -384,6 +384,11 @@
     <Compile Include="ViewModels\CityViewModel.cs" />
     <Compile Include="ViewModels\Users\AddPaymentMethodRequest.cs" />
     <Compile Include="ViewModels\Users\AddPaymentMethodResponse.cs" />
+    <Compile Include="ViewModels\Users\OTPRequest.cs" />
+    <Compile Include="ViewModels\Users\OTPResponse.cs" />
+    <Compile Include="ViewModels\Users\PasswordResetRequest.cs" />
+    <Compile Include="ViewModels\Users\PasswordResetResponse.cs" />
+    <Compile Include="ViewModels\Users\RegisterViewModel.cs" />
     <Compile Include="ViewModels\Users\LogonRequest.cs" />
     <Compile Include="ViewModels\Users\LogonResponse.cs" />
     <Compile Include="ViewModels\Users\RegisterRequest.cs" />

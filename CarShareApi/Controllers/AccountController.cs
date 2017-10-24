@@ -108,6 +108,24 @@ namespace CarShareApi.Controllers
             return response;
         }
 
+        [HttpGet, Route("api/account/registerupdatereturn")]
+        public RegisterViewModel Register()
+        {
+            var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
+            if (userPrincipal.Id.HasValue)
+            {
+                var response = UserService.GetRegistrationRecord(userPrincipal.Id.Value);
+                return response;
+            }
+            return new RegisterViewModel
+            {
+                Success = false,
+                Message = "No user is logged on."
+            };
+        }
+
+
+
         [HttpPost, Route("api/account/paymentmethod")]
         public AddPaymentMethodResponse AddPaymentMethod(AddPaymentMethodRequest request)
         {
@@ -147,6 +165,81 @@ namespace CarShareApi.Controllers
                     Success = false,
                     Message = "Invalid user ID",
                     Errors = new []{ "No user is logged on"}
+                };
+                Logger.Debug("The user ID session is invalid",
+                    JsonConvert.SerializeObject(response, Formatting.Indented));
+                return response;
+            }
+        }
+
+        [HttpPost, Route("api/account/passwordreset"), AllowAnonymous]
+        public PasswordResetResponse PasswordReset(PasswordResetRequest request)
+        {
+            Logger.Debug("Password Reset Request Received: {0}", JsonConvert.SerializeObject(request, Formatting.Indented));
+
+            PasswordResetResponse response;
+            //use in built data annotations to ensure model has binded correctly
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(x => x.ErrorMessage));
+                response = new PasswordResetResponse
+                {
+                    Success = false,
+                    Message = "Form has validation errors",
+                    Errors = errors.ToArray()
+                };
+            }
+            else
+            {
+                //send request to the user service and return the response (success or fail)
+                response = UserService.ResetPassword(request);
+
+            }
+            Logger.Debug("Sent Password Reset Response: {0}",
+                JsonConvert.SerializeObject(response, Formatting.Indented));
+            return response;
+        }
+
+
+        [HttpPost, Route("api/account/otp")]
+        public OTPResponse OTPActivation(OTPRequest request)
+        {
+            Logger.Debug("OTP Activation request received: {0}", JsonConvert.SerializeObject(request, Formatting.Indented));
+
+            var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
+            if (userPrincipal.Id.HasValue)
+            {
+                OTPResponse response;
+                //use in built data annotations to ensure model has binded correctly
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(x => x.ErrorMessage));
+                    response = new OTPResponse
+                    {
+                        Success = false,
+                        Message = "Form has validation errors",
+                        Errors = errors.ToArray()
+                    };
+
+                }
+                else
+                {
+
+                    //send request to the user service and return the response (success or fail)
+                    response = UserService.OTPActivation(request);
+
+                }
+                Logger.Debug("Sent OTP Response: {0}",
+                    JsonConvert.SerializeObject(response, Formatting.Indented));
+                return response;
+            }
+            else
+            {
+                var response = new OTPResponse
+                {
+                    Success = false,
+                    Message = "Invalid user ID",
+                    Errors = new[] { "No user is logged on" }
                 };
                 Logger.Debug("The user ID session is invalid",
                     JsonConvert.SerializeObject(response, Formatting.Indented));

@@ -19,5 +19,8 @@ namespace CarShareApi.Models.Services
         RegisterResponse Register(RegisterRequest request);
         AddPaymentMethodResponse AddPaymentMethod(AddPaymentMethodRequest request, int accountId);
         BookingHistoryResponse GetBookingHistory(int accountId, int pageNumber, int pageSize);
+        RegisterViewModel GetRegistrationRecord(int accoundId);
+        PasswordResetResponse ResetPassword(PasswordResetRequest request);
+        OTPResponse OTPActivation(OTPRequest request);
     }
 }
