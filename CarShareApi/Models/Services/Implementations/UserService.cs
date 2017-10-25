@@ -557,12 +557,12 @@ namespace CarShareApi.Models.Services.Implementations
                 };
             }
 
-            if (otp != user.OTP)
+            if (otp != user.OTP.Substring(0,6))
             {
                 return new OTPResponse
                 {
                     Success = false,
-                    Message = $"The incorrect passcode has been applied. Check your email"
+                    Message = $"The incorrect passcode has been applied. Check your email {user.OTP}"
                 };
             }
 
