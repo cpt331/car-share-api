@@ -562,7 +562,7 @@ namespace CarShareApi.Models.Services.Implementations
                 return new OTPResponse
                 {
                     Success = false,
-                    Message = $"The incorrect passcode has been applied. Check your email {user.OTP}"
+                    Message = $"The incorrect passcode has been applied. Check your email"
                 };
             }
 
