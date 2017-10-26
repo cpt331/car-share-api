@@ -381,6 +381,8 @@
     <Compile Include="ViewModels\Bookings\OpenBookingResponse.cs" />
     <Compile Include="ViewModels\Cars\CarCategoryViewModel.cs" />
     <Compile Include="ViewModels\Cars\CarSearchCriteria.cs" />
+    <Compile Include="ViewModels\Cars\UpdateCarRequest.cs" />
+    <Compile Include="ViewModels\Cars\UpdateCarResponse.cs" />
     <Compile Include="ViewModels\CityViewModel.cs" />
     <Compile Include="ViewModels\Users\AddPaymentMethodRequest.cs" />
     <Compile Include="ViewModels\Users\AddPaymentMethodResponse.cs" />

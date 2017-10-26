@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using CarShareApi.Models.Repositories.Data;
+using CarShareApi.ViewModels.Cars;
 using Newtonsoft.Json;
 using NLog;
 
@@ -67,11 +68,51 @@ namespace CarShareApi.Controllers
             return cars;
         }
 
+        /// <summary>
+        /// Get a list of available car categories
+        /// </summary>
+        /// <returns> Return a list of available car categories</returns>
         [HttpGet, Route("api/cars/categories")]
         public IEnumerable<CarCategoryViewModel> Categories()
         {
             var categories = CarService.GetCarCategories();
             return categories;
+        }
+
+        /// <summary>
+        /// Get a list of available car statuses for selection during creation/update
+        /// </summary>
+        /// <returns>Return a list of available car statuses for selection during creation/update</returns>
+        [HttpGet, Route("api/cars/statuses")]
+        public IEnumerable<string> Statuses()
+        {
+            var statuses = CarService.GetCarStatuses();
+            return statuses;
+        }
+
+        [HttpPost, Route("api/cars/update")]
+        public UpdateCarResponse Update(UpdateCarRequest request)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(x => x.ErrorMessage));
+                var response = new UpdateCarResponse
+                {
+                    Success = false,
+                    Message = "Form has validation errors",
+                    Errors = errors.ToArray()
+                };
+                return response;
+            }
+            else
+            {
+
+                //send request to the car service and return the response (success or fail)
+                return   CarService.UpdateCar(request);
+
+            }
+
         }
 
         // GET api/values/5

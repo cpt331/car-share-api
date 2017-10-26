@@ -321,7 +321,10 @@ namespace CarShareApi.Models.Services.Implementations
             }
 
             //only grab closed bookings
-            bookings = bookings.Where(x => x.BookingStatus.Equals(Constants.BookingClosedStatus)).ToList();
+            bookings = bookings
+                .Where(x => x.BookingStatus.Equals(Constants.BookingClosedStatus))
+                .OrderByDescending(x=>x.CheckIn)
+                .ToList();
 
 
             //build response
