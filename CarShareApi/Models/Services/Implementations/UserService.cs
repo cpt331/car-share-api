@@ -263,19 +263,38 @@ namespace CarShareApi.Models.Services.Implementations
                 };
             }
 
-
-
-            var payment = new PaymentMethod
+            String cardType = null;
+            switch (request.CardNumber.Substring(0, 1))
             {
-                AccountID = accountId,
-                CardNumber = request.CardNumber,
-                CardName = request.CardName,
-                CardType = request.CardType,
-                ExpiryMonth = request.ExpiryMonth,
-                ExpiryYear = request.ExpiryYear,
-                CardVerificationValue = request.CardVerificationValue
-            };
-            PaymentMethodRepository.Add(payment);
+                case "3": cardType = "AMEX"; break;
+                case "4": cardType = "Visa"; break;
+                case "5": cardType = "Mastercard"; break;
+                default: cardType = "Mastercard"; break;
+            }
+
+            try
+            {
+                var payment = new PaymentMethod
+                {
+                    AccountID = accountId,
+                    CardNumber = request.CardNumber,
+                    CardName = request.CardName,
+                    CardType = cardType,
+                    ExpiryMonth = request.ExpiryMonth,
+                    ExpiryYear = request.ExpiryYear,
+                    CardVerificationValue = request.CardVerificationValue
+                };
+                PaymentMethodRepository.Add(payment);
+            }
+            catch(Exception e)
+            {
+                return new AddPaymentMethodResponse
+                {
+                    Message = $"Error in updating payment method. Error: {e}",
+                    Success = false
+                };
+            }
+            
             return new AddPaymentMethodResponse
             {
                 Success = true,
@@ -422,9 +441,145 @@ namespace CarShareApi.Models.Services.Implementations
             throw new NotImplementedException();
         }
 
+        public RegisterViewModel GetRegistrationRecord(int accountId)
+        {
+            var user = UserRepository.Find(accountId);
+
+            //check user is real
+            if (user == null)
+            {
+                return new RegisterViewModel
+                {
+                    Success = false,
+                    Message = $"User account {accountId} does not exist"
+                };
+            }
+
+            //grab users registration record and check if it exists
+            var registration = RegistrationRepository.Find(accountId);
+
+            if (registration == null)
+            {
+                return new RegisterViewModel
+                {
+                    Success = false,
+                    Message = $"User account {accountId} registration record doesn't exists",
+                    DriversLicenceID = null,
+                    DriversLicenceState = null,
+                    AddressLine1 = null,
+                    AddressLine2 = null,
+                    Suburb = null,
+                    State = null,
+                    Postcode = null,
+                    PhoneNumber = null,
+                    DateOfBirth = DateTime.Now.ToString("dd/MM/yyyy")
+                };
+            }
+            else
+            {
+                return new RegisterViewModel
+                {
+                    Success = true,
+                    Message = $"User account {accountId} registration record exists",
+                    DriversLicenceID = registration.DriversLicenceID,
+                    DriversLicenceState = registration.DriversLicenceState,
+                    AddressLine1 = registration.AddressLine1,
+                    AddressLine2 = registration.AddressLine2,
+                    Suburb = registration.Suburb,
+                    State = registration.State,
+                    Postcode = registration.Postcode,
+                    PhoneNumber = registration.PhoneNumber,
+                    DateOfBirth = registration.DateOfBirth.ToString("dd/MM/yyyy")
+                };
+            }
+        }
+        public PasswordResetResponse ResetPassword(PasswordResetRequest request)
+        {
+            string licence = request.LicenceNumber;
+            DateTime? dob = request.DateOfBirth;
+            
+            var user = UserRepository.FindByEmail(request.Email);
+            if (user == null)
+            {
+                return new PasswordResetResponse
+                {
+                    Success = false,
+                    Message = $"Password reset was unsuccessful"
+                };
+            }
+
+            var registration = RegistrationRepository.Find(user.AccountID);
+            if(registration != null)
+            {
+                return new PasswordResetResponse
+                {
+                    Success = false,
+                    Message = $"Password reset was unsuccessful"
+                };
+            }
+
+            if (licence != registration.DriversLicenceID || dob != registration.DateOfBirth)
+            {
+                return new PasswordResetResponse
+                {
+                    Success = false,
+                    Message = $"Password reset was unsuccessful"
+                };
+            }
+
+            user.Password = Encryption.EncryptString(request.Password);
+            UserRepository.Update(user);
+            return new PasswordResetResponse
+            {
+                Success = true,
+                Message = $"Password successfully reset"
+            };
+        }
+
+        public OTPResponse OTPActivation(OTPRequest request)
+        {
+            string email = request.Email;
+            string otp = request.OTP;
+            
+            var user = UserRepository.FindByEmail(request.Email);
+            if (user == null)
+            {
+                return new OTPResponse
+                {
+                    Success = false,
+                    Message = $"A user with this email address doesn't exist"
+                };
+            }
+
+            if (user.Status != Constants.UserInactiveStatus)
+            {
+                return new OTPResponse
+                {
+                    Success = false,
+                    Message = $"User account is not inactive"
+                };
+            }
+
+            if (otp != user.OTP)
+            {
+                return new OTPResponse
+                {
+                    Success = false,
+                    Message = $"The incorrect passcode has been applied. Check your email"
+                };
+            }
+
+            user.Status = Constants.UserActiveStatus;
+            UserRepository.Update(user);
+            return new OTPResponse
+            {
+                Success = true,
+                Message = $"Your account has now been activated"
+            };
+        }
+
         public void Dispose()
         {
-
             Logger.Debug("UserService Disposed");
             UserRepository?.Dispose();
             RegistrationRepository?.Dispose();
