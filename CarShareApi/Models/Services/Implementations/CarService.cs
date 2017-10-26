@@ -6,6 +6,7 @@ using System.Device.Location;
 using System.Linq;
 using System.Web;
 using CarShareApi.Models.Repositories.Data;
+using CarShareApi.ViewModels.Cars;
 
 namespace CarShareApi.Models.Services.Implementations
 {
@@ -101,6 +102,77 @@ namespace CarShareApi.Models.Services.Implementations
         public List<CarCategoryViewModel> GetCarCategories()
         {
             return CarCategoryRepository.FindAll().Select(x=> new CarCategoryViewModel(x)).ToList();
+        }
+
+        public UpdateCarResponse UpdateCar(UpdateCarRequest request)
+        {
+           
+
+            var category = CarCategoryRepository.Find(request.CarCategory);
+            if (category == null)
+            {
+                return new UpdateCarResponse
+                {
+                    Message = $"Category {request.CarCategory} does not exist",
+                    Success = false
+                };
+            }
+
+            Car car;
+            if (request.Id.HasValue)
+            {
+                car = CarRepository.Find(request.Id.Value);
+                if (car == null)
+                {
+                    return new UpdateCarResponse
+                    {
+                        Message = $"Vehicle {request.Id} does not exist",
+                        Success = false
+                    };
+                }
+            }
+            else
+            {
+                car = new Car();
+            }
+
+            car.CarCategory = request.CarCategory;
+            car.Make = request.Make;
+            car.Model = request.Model;
+            car.Status = request.Status;
+            car.Suburb = request.Suburb;
+            car.LatPos = request.LatPos;
+            car.LongPos = request.LongPos;
+            car.Transmission = request.Transmission;
+
+            if (request.Id.HasValue)
+            {
+                var updatedCar = CarRepository.Update(car);
+            }
+            else
+            {
+                var updatedCar = CarRepository.Add(car);
+            }
+                
+
+            var response = new UpdateCarResponse
+            {
+                Success = true,
+                Message = $"{request.Make} {request.Model} has been updated",
+                Errors = null
+            };
+
+            return response;
+
+        }
+
+        public List<string> GetCarStatuses()
+        {
+            return new List<string>
+            {
+                Constants.CarAvailableStatus,
+                Constants.CarRemovedStatus
+            };
         }
 
         public CarViewModel FindCar(int id)
