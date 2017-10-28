@@ -22,5 +22,6 @@ namespace CarShareApi.Models.Services
         RegisterViewModel GetRegistrationRecord(int accoundId);
         PasswordResetResponse ResetPassword(PasswordResetRequest request);
         OTPResponse OTPActivation(OTPRequest request);
+        InterfaceResponse UpdateRegistration(RegisterUpdateRequest request, int accountId);
     }
 }

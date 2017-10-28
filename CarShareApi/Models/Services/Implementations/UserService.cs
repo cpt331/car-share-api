@@ -464,14 +464,14 @@ namespace CarShareApi.Models.Services.Implementations
                 {
                     Success = false,
                     Message = $"User account {accountId} registration record doesn't exists",
-                    DriversLicenceID = null,
-                    DriversLicenceState = null,
-                    AddressLine1 = null,
-                    AddressLine2 = null,
-                    Suburb = null,
-                    State = null,
-                    Postcode = null,
-                    PhoneNumber = null,
+                    DriversLicenceID = "",
+                    DriversLicenceState = "",
+                    AddressLine1 = "",
+                    AddressLine2 = "",
+                    Suburb = "",
+                    State = "",
+                    Postcode = "",
+                    PhoneNumber = "",
                     DateOfBirth = DateTime.Now.ToString("dd/MM/yyyy")
                 };
             }
@@ -493,6 +493,83 @@ namespace CarShareApi.Models.Services.Implementations
                 };
             }
         }
+
+        public InterfaceResponse UpdateRegistration(RegisterUpdateRequest request, int accountId)
+        {
+            var user = UserRepository.Find(accountId);
+
+            //check user is real
+            if (user == null)
+            {
+                return new InterfaceResponse
+                {
+                    Success = false,
+                    Message = $"User account {accountId} does not exist"
+                };
+            }
+
+            DateTime dob = request.DateOfBirth ?? DateTime.Now; //this is because dob could be null
+
+            if (dob.Date > DateTime.Now)
+            {
+                return new InterfaceResponse
+                {
+                    Success = false,
+                    Message = $"You must enter a date before today's date",
+                    Errors = new string[]
+                    {
+                        "User does not meet the age requirement"
+                    }
+                };
+            }
+
+            DateTime minAge = DateTime.Now.AddYears(-Constants.UserMinimumAge); //minage is todays date minus 18 years
+            if (dob.Date > minAge.Date)
+            {
+                return new InterfaceResponse
+                {
+                    Success = false,
+                    Message = $"You must be at least " + Constants.UserMinimumAge + " to register",
+                    Errors = new string[]
+                    {
+                        "User does not meet the age requirement"
+                    }
+                };
+            }
+
+            var record = RegistrationRepository.Find(accountId);
+
+            var registration = new Registration
+            {
+                AccountID = user.AccountID,
+                AddressLine1 = request.AddressLine1,
+                AddressLine2 = request.AddressLine2,
+                DateOfBirth = request.DateOfBirth.Value,
+                DriversLicenceID = request.LicenceNumber,
+                DriversLicenceState = request.LicenceState,
+                PhoneNumber = request.PhoneNumber,
+                Postcode = request.Postcode,
+                State = request.State,
+                Suburb = request.Suburb
+            };
+
+            if (record == null)
+            {
+                RegistrationRepository.Add(registration);
+            }
+            else
+            {
+                RegistrationRepository.Update(registration);
+            }
+
+            return new InterfaceResponse
+            {
+                Success = true,
+                Message = $"Registration record updated"
+            };
+
+        }
+
         public PasswordResetResponse ResetPassword(PasswordResetRequest request)
         {
             string licence = request.LicenceNumber;

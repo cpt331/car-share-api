@@ -124,6 +124,52 @@ namespace CarShareApi.Controllers
             };
         }
 
+        [HttpPost, Route("api/account/registerupdate")]
+        public InterfaceResponse UpdateRegister(RegisterUpdateRequest request)
+        {
+            Logger.Debug("Registration details received: {0}", JsonConvert.SerializeObject(request, Formatting.Indented));
+
+            var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
+            if (userPrincipal.Id.HasValue)
+            {
+                InterfaceResponse response;
+                //use in built data annotations to ensure model has binded correctly
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(x => x.ErrorMessage));
+                    response = new InterfaceResponse
+                    {
+                        Success = false,
+                        Message = "Form has validation errors",
+                        Errors = errors.ToArray()
+                    };
+
+                }
+                else
+                {
+
+                    //send request to the user service and return the response (success or fail)
+                    response = UserService.UpdateRegistration(request, userPrincipal.Id.Value);
+
+                }
+                Logger.Debug("Registration update sent Response: {0}",
+                    JsonConvert.SerializeObject(response, Formatting.Indented));
+                return response;
+            }
+            else
+            {
+                var response = new InterfaceResponse
+                {
+                    Success = false,
+                    Message = "Invalid user ID",
+                    Errors = new[] { "No user is logged on" }
+                };
+                Logger.Debug("The user ID session is invalid",
+                    JsonConvert.SerializeObject(response, Formatting.Indented));
+                return response;
+            }
+        }
+
 
 
         [HttpPost, Route("api/account/paymentmethod")]
