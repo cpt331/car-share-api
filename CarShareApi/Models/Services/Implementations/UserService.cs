@@ -504,7 +504,7 @@ namespace CarShareApi.Models.Services.Implementations
                 return new PasswordResetResponse
                 {
                     Success = false,
-                    Message = $"Password reset was unsuccessful"
+                    Message = $"A user could not be identified"
                 };
             }
 
@@ -514,7 +514,7 @@ namespace CarShareApi.Models.Services.Implementations
                 return new PasswordResetResponse
                 {
                     Success = false,
-                    Message = $"Password reset was unsuccessful"
+                    Message = $"No registration record was returned"
                 };
             }
 
@@ -523,7 +523,7 @@ namespace CarShareApi.Models.Services.Implementations
                 return new PasswordResetResponse
                 {
                     Success = false,
-                    Message = $"Password reset was unsuccessful"
+                    Message = $"Drivers licence / dob mismatch"
                 };
             }
 
