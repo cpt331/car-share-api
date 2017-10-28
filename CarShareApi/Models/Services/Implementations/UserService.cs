@@ -504,17 +504,17 @@ namespace CarShareApi.Models.Services.Implementations
                 return new PasswordResetResponse
                 {
                     Success = false,
-                    Message = $"A user could not be identified"
+                    Message = $"Password reset failed"
                 };
             }
 
             var registration = RegistrationRepository.Find(user.AccountID);
-            if(registration != null)
+            if(registration == null)
             {
                 return new PasswordResetResponse
                 {
                     Success = false,
-                    Message = $"No registration record was returned"
+                    Message = $"Password reset failed"
                 };
             }
 
@@ -523,7 +523,7 @@ namespace CarShareApi.Models.Services.Implementations
                 return new PasswordResetResponse
                 {
                     Success = false,
-                    Message = $"Drivers licence / dob mismatch"
+                    Message = $"Password reset failed"
                 };
             }
 
