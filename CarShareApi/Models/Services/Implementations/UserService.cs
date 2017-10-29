@@ -539,27 +539,38 @@ namespace CarShareApi.Models.Services.Implementations
 
             var record = RegistrationRepository.Find(accountId);
 
-            var registration = new Registration
-            {
-                AccountID = user.AccountID,
-                AddressLine1 = request.AddressLine1,
-                AddressLine2 = request.AddressLine2,
-                DateOfBirth = request.DateOfBirth.Value,
-                DriversLicenceID = request.LicenceNumber,
-                DriversLicenceState = request.LicenceState,
-                PhoneNumber = request.PhoneNumber,
-                Postcode = request.Postcode,
-                State = request.State,
-                Suburb = request.Suburb
-            };
+            
 
             if (record == null)
             {
+                var registration = new Registration
+                {
+                    AccountID = user.AccountID,
+                    AddressLine1 = request.AddressLine1,
+                    AddressLine2 = request.AddressLine2,
+                    DateOfBirth = request.DateOfBirth.Value,
+                    DriversLicenceID = request.LicenceNumber,
+                    DriversLicenceState = request.LicenceState,
+                    PhoneNumber = request.PhoneNumber,
+                    Postcode = request.Postcode,
+                    State = request.State,
+                    Suburb = request.Suburb
+                };
                 RegistrationRepository.Add(registration);
             }
             else
             {
-                RegistrationRepository.Update(registration);
+                record.AccountID = user.AccountID;
+                record.AddressLine1 = request.AddressLine1;
+                record.AddressLine2 = request.AddressLine2;
+                record.DateOfBirth = request.DateOfBirth.Value;
+                record.DriversLicenceID = request.LicenceNumber;
+                record.DriversLicenceState = request.LicenceState;
+                record.PhoneNumber = request.PhoneNumber;
+                record.Postcode = request.Postcode;
+                record.State = request.State;
+                record.Suburb = request.Suburb;
+                RegistrationRepository.Update(record);
             }
 
             return new InterfaceResponse
