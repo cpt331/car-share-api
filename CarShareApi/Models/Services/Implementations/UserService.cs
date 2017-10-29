@@ -592,7 +592,7 @@ namespace CarShareApi.Models.Services.Implementations
                 return new PasswordResetResponse
                 {
                     Success = false,
-                    Message = $"Password reset failed"
+                    Message = $"Password reset failed email mismatch"
                 };
             }
 
@@ -602,7 +602,7 @@ namespace CarShareApi.Models.Services.Implementations
                 return new PasswordResetResponse
                 {
                     Success = false,
-                    Message = $"Password reset failed"
+                    Message = $"Password reset failed no registration"
                 };
             }
 
@@ -611,7 +611,7 @@ namespace CarShareApi.Models.Services.Implementations
                 return new PasswordResetResponse
                 {
                     Success = false,
-                    Message = $"Password reset failed"
+                    Message = $"Password reset failed drivers licence and dob"
                 };
             }
 
