@@ -44,11 +44,13 @@ namespace CarShareApi
             container.RegisterType<ICityRepository, CityRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
             container.RegisterType<ITransactionHistoryRepository, TransactionHistoryRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
             container.RegisterType<IPaymentMethodRepository, PaymentMethodRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
+            container.RegisterType<ITemplateRepository, TemplateRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
 
             container.RegisterType<IUserService, UserService>(new TransientLifetimeManager());
             container.RegisterType<ICarService, CarService>(new TransientLifetimeManager());
             container.RegisterType<IBookingService, BookingService>(new TransientLifetimeManager());
             container.RegisterType<ICityService, CityService>(new TransientLifetimeManager());
+            container.RegisterType<IAdminService, AdminService>(new TransientLifetimeManager());
 
 
             //set this container as the http configurations dependency injection provider
