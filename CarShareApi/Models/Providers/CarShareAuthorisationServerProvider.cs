@@ -156,9 +156,17 @@ namespace CarShareApi.Models.Providers
             var identity = new ClaimsIdentity(new[] {
                 new Claim(ClaimTypes.Name, $"{user.Firstname} {user.Lastname}"),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.PrimarySid, user.AccountId.ToString()),
-                new Claim(ClaimTypes.Role, "User")
+                new Claim(ClaimTypes.PrimarySid, user.AccountId.ToString())
             }, type);
+
+            if (user.HasAdminRights)
+            {
+                identity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+            }
+            else
+            {
+                identity.AddClaim(new Claim(ClaimTypes.Role, "User"));
+            }
             return identity;
         }
 

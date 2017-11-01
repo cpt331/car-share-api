@@ -41,5 +41,6 @@ namespace CarShareApi.Models.Repositories.Data
         public virtual DbSet<TransactionStatu> TransactionStatus { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserStatu> UserStatus { get; set; }
+        public virtual DbSet<Template> Templates { get; set; }
     }
 }

@@ -270,6 +270,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BookingsController.cs" />
     <Compile Include="Controllers\CarsController.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
@@ -336,6 +337,9 @@
     <Compile Include="Models\Repositories\Data\sysdiagram.cs">
       <DependentUpon>CarShareContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Repositories\Data\Template.cs">
+      <DependentUpon>CarShareContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Repositories\Data\TransactionHistory.cs">
       <DependentUpon>CarShareContext.tt</DependentUpon>
     </Compile>
@@ -358,15 +362,19 @@
     <Compile Include="Models\Repositories\Implementations\CityRepository.cs" />
     <Compile Include="Models\Repositories\Implementations\PaymentMethodRepository.cs" />
     <Compile Include="Models\Repositories\Implementations\RegistrationRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\TemplateRepository.cs" />
     <Compile Include="Models\Repositories\Implementations\TransactionHistoryRepository.cs" />
     <Compile Include="Models\Repositories\IPaymentMethodRepository.cs" />
     <Compile Include="Models\Repositories\IRegistrationRepository.cs" />
     <Compile Include="Models\Repositories\IRepository.cs" />
+    <Compile Include="Models\Repositories\ITemplateRepository.cs" />
     <Compile Include="Models\Repositories\ITransactionHistoryRepository.cs" />
     <Compile Include="Models\Repositories\IUserRepository.cs" />
     <Compile Include="Models\Repositories\Implementations\UserRepository.cs" />
+    <Compile Include="Models\Services\IAdminService.cs" />
     <Compile Include="Models\Services\IBookingService.cs" />
     <Compile Include="Models\Services\ICityService.cs" />
+    <Compile Include="Models\Services\Implementations\AdminService.cs" />
     <Compile Include="Models\Services\Implementations\BookingService.cs" />
     <Compile Include="Models\Services\Implementations\CarService.cs" />
     <Compile Include="Models\Services\ICarService.cs" />
@@ -374,6 +382,8 @@
     <Compile Include="Models\Services\Implementations\UserService.cs" />
     <Compile Include="Models\Services\IUserService.cs" />
     <Compile Include="Models\UnityResolver.cs" />
+    <Compile Include="ViewModels\Admin\TemplateUpdateRequest.cs" />
+    <Compile Include="ViewModels\Admin\TemplateUpdateResponse.cs" />
     <Compile Include="ViewModels\Bookings\BookingHistoryResponse.cs" />
     <Compile Include="ViewModels\Bookings\BookingViewModel.cs" />
     <Compile Include="ViewModels\Bookings\TransactionResponse.cs" />
