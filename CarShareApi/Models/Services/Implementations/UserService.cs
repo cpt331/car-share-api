@@ -60,12 +60,13 @@ namespace CarShareApi.Models.Services.Implementations
                 {
                     if (user.Status == Constants.UserOTPStatus)
                     {
-                        return new LogonResponse
+                        var response = new LogonResponse
                         {
                             Success = false,
                             Message = "Account activation required. Please activate your account.",
                             HasOpenBooking = false
                         };
+                        return response;
 
                     }
                     //if the password check passes, check if the user has an active status
