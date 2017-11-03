@@ -10,5 +10,7 @@ namespace CarShareApi.Models.Services
     public interface IAdminService
     {
         TemplateUpdateResponse UpdateTemplate(TemplateUpdateRequest request);
+        TemplateViewModel GetTemplate();
+        Dictionary<string, string> GetTemplateMergeFields();
     }
 }

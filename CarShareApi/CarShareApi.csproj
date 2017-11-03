@@ -384,6 +384,7 @@
     <Compile Include="Models\UnityResolver.cs" />
     <Compile Include="ViewModels\Admin\TemplateUpdateRequest.cs" />
     <Compile Include="ViewModels\Admin\TemplateUpdateResponse.cs" />
+    <Compile Include="ViewModels\Admin\TemplateViewModel.cs" />
     <Compile Include="ViewModels\Bookings\BookingHistoryResponse.cs" />
     <Compile Include="ViewModels\Bookings\BookingViewModel.cs" />
     <Compile Include="ViewModels\Bookings\TransactionResponse.cs" />

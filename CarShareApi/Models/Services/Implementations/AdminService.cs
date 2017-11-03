@@ -51,5 +51,47 @@ namespace CarShareApi.Models.Services.Implementations
                 Message = "Template has been updated successfully."
             };
         }
+
+        public TemplateViewModel GetTemplate()
+        {
+            var template = TemplateRepository.FindAll().FirstOrDefault();
+            if (template == null)
+            {
+                var viewModel = new TemplateViewModel
+                {
+                    Subject = string.Empty,
+                    Title = string.Empty,
+                    Body = string.Empty,
+                    Footer = string.Empty
+                };
+                return viewModel;
+            }
+            else
+            {
+                var viewModel = new TemplateViewModel
+                {
+                    Subject = template.Subject,
+                    Title = template.Title,
+                    Body = template.Body,
+                    Footer = template.Footer
+                };
+                return viewModel;
+            }
+            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, string> GetTemplateMergeFields()
+        {
+            return new Dictionary<string, string>()
+            {
+                { Constants.TemplateNameField, Constants.TemplateNameFieldDescription },
+                { Constants.TemplateEmailField, Constants.TemplateEmailFieldDescription },
+                { Constants.TemplateOTPField, Constants.TemplateOTPFieldDescription }
+            };
+        }
     }
 }
