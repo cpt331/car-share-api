@@ -58,8 +58,18 @@ namespace CarShareApi.Models.Services.Implementations
                 //encrypt the provided password so it can be compared against the encrypted values in the database
                 if (user.Password.Equals(Encryption.EncryptString(request.Password)))
                 {
+                    if (user.Status == Constants.UserOTPStatus)
+                    {
+                        return new LogonResponse
+                        {
+                            Success = false,
+                            Message = "Account activation required. Please activate your account.",
+                            HasOpenBooking = false
+                        };
+
+                    }
                     //if the password check passes, check if the user has an active status
-                    if (user.Status == Constants.UserActiveStatus || user.Status == Constants.UserPartialStatus)
+                    else if (user.Status == Constants.UserActiveStatus || user.Status == Constants.UserPartialStatus)
                     {
 
                         var response = new LogonResponse
@@ -161,9 +171,9 @@ namespace CarShareApi.Models.Services.Implementations
                 Email = request.Email,
                 Password = Encryption.EncryptString(request.Password),
                 OTP = otpRecord,
-                Status = Constants.UserActiveStatus,
-                UserGroup = Constants.UserGroupName
-                //Status = UserInactiveStatus
+                //Status = Constants.UserActiveStatus,
+                UserGroup = Constants.UserGroupName,
+                Status = Constants.UserOTPStatus
             };
 
             
