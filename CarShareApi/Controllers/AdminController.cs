@@ -45,5 +45,17 @@ namespace CarShareApi.Controllers
             return response;
         }
 
+        [HttpGet, Route("api/admin/gettemplate")]
+        public TemplateViewModel GetTemplate()
+        {
+            return AdminService.GetTemplate();
+        }
+
+        [HttpGet, Route("api/admin/gettemplatefields")]
+        public Dictionary<string,string> GetTemplateFields()
+        {
+            return AdminService.GetTemplateMergeFields();
+        }
+
     }
 }

@@ -32,5 +32,13 @@ namespace CarShareApi.Models
         public const string TransactionPendingStatus = "Pending";
         public const string TransactionClearedStatus = "Cleared";
 
+        //admin fields
+        public const string TemplateNameField = "(@@NAME@@)";
+        public const string TemplateNameFieldDescription = "Name";
+        public const string TemplateEmailField = "(@@EMAIL@@)";
+        public const string TemplateEmailFieldDescription = "Email";
+        public const string TemplateOTPField = "(@@OTP@@)";
+        public const string TemplateOTPFieldDescription = "One Time Password";
+
     }
 }
