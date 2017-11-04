@@ -84,13 +84,13 @@ namespace CarShareApi.Models.Services.Implementations
         /// 
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, string> GetTemplateMergeFields()
+        public List<TemplateField> GetTemplateMergeFields()
         {
-            return new Dictionary<string, string>()
+            return new List<TemplateField>()
             {
-                { Constants.TemplateNameField, Constants.TemplateNameFieldDescription },
-                { Constants.TemplateEmailField, Constants.TemplateEmailFieldDescription },
-                { Constants.TemplateOTPField, Constants.TemplateOTPFieldDescription }
+                new TemplateField { Name =  Constants.TemplateNameField, Description = Constants.TemplateNameFieldDescription},
+                new TemplateField { Name =  Constants.TemplateEmailField, Description =  Constants.TemplateEmailFieldDescription},
+                new TemplateField { Name =  Constants.TemplateOTPField, Description = Constants.TemplateOTPFieldDescription}
             };
         }
     }

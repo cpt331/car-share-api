@@ -382,6 +382,7 @@
     <Compile Include="Models\Services\Implementations\UserService.cs" />
     <Compile Include="Models\Services\IUserService.cs" />
     <Compile Include="Models\UnityResolver.cs" />
+    <Compile Include="ViewModels\Admin\TemplateField.cs" />
     <Compile Include="ViewModels\Admin\TemplateUpdateRequest.cs" />
     <Compile Include="ViewModels\Admin\TemplateUpdateResponse.cs" />
     <Compile Include="ViewModels\Admin\TemplateViewModel.cs" />

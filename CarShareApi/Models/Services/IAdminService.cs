@@ -11,6 +11,6 @@ namespace CarShareApi.Models.Services
     {
         TemplateUpdateResponse UpdateTemplate(TemplateUpdateRequest request);
         TemplateViewModel GetTemplate();
-        Dictionary<string, string> GetTemplateMergeFields();
+        List<TemplateField> GetTemplateMergeFields();
     }
 }
