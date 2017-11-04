@@ -461,21 +461,7 @@
       <LastGenOutput>CarShareContext.cs</LastGenOutput>
     </Content>
     <Content Include="Models\Repositories\Data\SqlSeedingScripts.txt" />
-    <Content Include="Pages\Car.html" />
-    <Content Include="Pages\Search.html" />
-    <Content Include="Pages\Cars.html" />
-    <Content Include="Pages\About.html" />
-    <Content Include="Pages\Home.html" />
     <Content Include="index.html" />
-    <Content Include="Pages\Register.html" />
-    <Content Include="Pages\Logon.html" />
-    <Content Include="Scripts\App.js" />
-    <Content Include="Scripts\Controllers\AboutController.js" />
-    <Content Include="Scripts\Controllers\CarController.js" />
-    <Content Include="Scripts\Controllers\SearchController.js" />
-    <Content Include="Scripts\Controllers\CarsController.js" />
-    <Content Include="Scripts\Controllers\RegisterController.js" />
-    <Content Include="Scripts\Controllers\LogonController.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -489,7 +475,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Diagrams\" />
-    <Folder Include="Scripts\Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

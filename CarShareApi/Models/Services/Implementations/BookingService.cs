@@ -310,13 +310,6 @@ namespace CarShareApi.Models.Services.Implementations
             var paymentMethod = PaymentMethodRepository.Find(closedBooking.AccountID);
             var userAccount = UserRepository.Find(closedBooking.AccountID);
 
-            if (closedBooking == null)
-                return new TransactionResponse
-                {
-                    Message = $"Booking {bookingId} does not exist.",
-                    Success = false
-                };
-
             if (paymentMethod == null)
                 return new TransactionResponse
                 {

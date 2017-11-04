@@ -30,9 +30,6 @@ namespace CarShareApi.Models.Providers
 
         public void Send(string email, string firstName, string otpRecord)
         {
-            this.email = email;
-            this.firstName = firstName;
-            this.otpRecord = otpRecord;
 
             var from = "shawn.burriss@gmail.com";
             var fromName = "Ewebah Admin";
