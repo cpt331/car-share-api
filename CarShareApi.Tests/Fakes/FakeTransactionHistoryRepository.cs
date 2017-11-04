@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.Tests.Fakes
 {
-    public class FakeTransactionHistoryRepository : ITransactionHistoryRepository
+    public class
+        FakeTransactionHistoryRepository : ITransactionHistoryRepository
     {
-        private List<TransactionHistory> TransactionHistories { get; set; }
-
-        public FakeTransactionHistoryRepository(List<TransactionHistory> transactionHistories)
+        public FakeTransactionHistoryRepository(
+            List<TransactionHistory> transactionHistories)
         {
             TransactionHistories = transactionHistories;
         }
+
+        private List<TransactionHistory> TransactionHistories { get; }
 
         public TransactionHistory Add(TransactionHistory item)
         {
@@ -25,7 +24,8 @@ namespace CarShareApi.Tests.Fakes
 
         public TransactionHistory Find(int id)
         {
-            return TransactionHistories.FirstOrDefault(x => x.TransactionID == id);
+            return TransactionHistories.FirstOrDefault(x =>
+                x.TransactionID == id);
         }
 
         public List<TransactionHistory> FindAll()
@@ -40,7 +40,8 @@ namespace CarShareApi.Tests.Fakes
 
         public TransactionHistory Update(TransactionHistory item)
         {
-            TransactionHistories.RemoveAll(x => x.TransactionID == item.TransactionID);
+            TransactionHistories.RemoveAll(x =>
+                x.TransactionID == item.TransactionID);
             TransactionHistories.Add(item);
             return item;
         }

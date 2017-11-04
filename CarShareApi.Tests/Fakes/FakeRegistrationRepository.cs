@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
-using System.Text;
-using System.Threading.Tasks;
-using CarShareApi.Models;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
 
@@ -12,31 +9,78 @@ namespace CarShareApi.Tests.Fakes
 {
     public class FakeRegistrationRepository : IRegistrationRepository
     {
-        public List<Registration> Registrations { get; set; }
-
-
         public FakeRegistrationRepository()
         {
             if (MemoryCache.Default.Contains("Registrations"))
-            {
-                Registrations = MemoryCache.Default["Registrations"] as List<Registration>;
-            }
+                Registrations =
+                    MemoryCache.Default["Registrations"] as List<Registration>;
 
             if (Registrations == null)
             {
                 Registrations = new List<Registration>
                 {
-                    new Registration { AccountID = 1, DriversLicenceID = "F1234", DriversLicenceState = "NSW", AddressLine1= "22 Kent St", AddressLine2 = "", Suburb = "Sydney", DateOfBirth = new DateTime(1970,1,1), PhoneNumber = "0290008000", State = "NSW", Postcode = "2000"},
-                    new Registration { AccountID = 2, DriversLicenceID = "F1234", DriversLicenceState = "NSW", AddressLine1= "22 Kent St", AddressLine2 = "", Suburb = "Sydney", DateOfBirth = new DateTime(1970,1,1), PhoneNumber = "0290008000", State = "NSW", Postcode = "2000"},
-                    new Registration { AccountID = 3, DriversLicenceID = "F1234", DriversLicenceState = "NSW", AddressLine1= "22 Kent St", AddressLine2 = "", Suburb = "Sydney", DateOfBirth = new DateTime(1970,1,1), PhoneNumber = "0290008000", State = "NSW", Postcode = "2000"},
-                    new Registration { AccountID = 4, DriversLicenceID = "F1234", DriversLicenceState = "NSW", AddressLine1= "22 Kent St", AddressLine2 = "", Suburb = "Sydney", DateOfBirth = new DateTime(1970,1,1), PhoneNumber = "0290008000", State = "NSW", Postcode = "2000"}
+                    new Registration
+                    {
+                        AccountID = 1,
+                        DriversLicenceID = "F1234",
+                        DriversLicenceState = "NSW",
+                        AddressLine1 = "22 Kent St",
+                        AddressLine2 = "",
+                        Suburb = "Sydney",
+                        DateOfBirth = new DateTime(1970, 1, 1),
+                        PhoneNumber = "0290008000",
+                        State = "NSW",
+                        Postcode = "2000"
+                    },
+                    new Registration
+                    {
+                        AccountID = 2,
+                        DriversLicenceID = "F1234",
+                        DriversLicenceState = "NSW",
+                        AddressLine1 = "22 Kent St",
+                        AddressLine2 = "",
+                        Suburb = "Sydney",
+                        DateOfBirth = new DateTime(1970, 1, 1),
+                        PhoneNumber = "0290008000",
+                        State = "NSW",
+                        Postcode = "2000"
+                    },
+                    new Registration
+                    {
+                        AccountID = 3,
+                        DriversLicenceID = "F1234",
+                        DriversLicenceState = "NSW",
+                        AddressLine1 = "22 Kent St",
+                        AddressLine2 = "",
+                        Suburb = "Sydney",
+                        DateOfBirth = new DateTime(1970, 1, 1),
+                        PhoneNumber = "0290008000",
+                        State = "NSW",
+                        Postcode = "2000"
+                    },
+                    new Registration
+                    {
+                        AccountID = 4,
+                        DriversLicenceID = "F1234",
+                        DriversLicenceState = "NSW",
+                        AddressLine1 = "22 Kent St",
+                        AddressLine2 = "",
+                        Suburb = "Sydney",
+                        DateOfBirth = new DateTime(1970, 1, 1),
+                        PhoneNumber = "0290008000",
+                        State = "NSW",
+                        Postcode = "2000"
+                    }
                 };
-                MemoryCache.Default.Add("Registrations", Registrations, DateTime.Now.AddDays(1));
+                MemoryCache.Default.Add("Registrations", Registrations,
+                    DateTime.Now.AddDays(1));
             }
         }
+
+        public List<Registration> Registrations { get; set; }
+
         public Registration Add(Registration item)
         {
-            
             Registrations.Add(item);
             return item;
         }

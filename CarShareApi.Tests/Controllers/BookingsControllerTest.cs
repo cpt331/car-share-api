@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Web.Http;
 using CarShareApi.Controllers;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
-using CarShareApi.Models.Repositories.Implementations;
 using CarShareApi.Models.Services.Implementations;
 using CarShareApi.Tests.Fakes;
 using CarShareApi.ViewModels;
@@ -23,7 +19,6 @@ namespace CarShareApi.Tests.Controllers
     [TestClass]
     public class BookingsControllerTest
     {
-        
         private BookingsController Controller { get; set; }
 
         private IUserRepository UserRepository { get; set; }
@@ -31,7 +26,13 @@ namespace CarShareApi.Tests.Controllers
         private ICarCategoryRepository CarCategoryRepository { get; set; }
         private ICarRepository CarRepository { get; set; }
         private ICityRepository CityRepository { get; set; }
-        private ITransactionHistoryRepository TransactionHistoryRepository { get; set; }
+
+        private ITransactionHistoryRepository TransactionHistoryRepository
+        {
+            get;
+            set;
+        }
+
         private IBookingRepository BookingRepository { get; set; }
         private IPaymentMethodRepository PaymentMethodRepository { get; set; }
 
@@ -47,7 +48,9 @@ namespace CarShareApi.Tests.Controllers
             CarRepository = new FakeCarRepository(cars);
 
             var categoriesJson = GetInputFile("Categories.json").ReadToEnd();
-            var categories = JsonConvert.DeserializeObject<List<CarCategory>>(categoriesJson);
+            var categories =
+                JsonConvert
+                    .DeserializeObject<List<CarCategory>>(categoriesJson);
             CarCategoryRepository = new FakeCarCategoryRepository(categories);
 
             var citiesJson = GetInputFile("Cities.json").ReadToEnd();
@@ -55,43 +58,49 @@ namespace CarShareApi.Tests.Controllers
             CityRepository = new FakeCityRepository(cities);
 
             var bookingsJson = GetInputFile("Bookings.json").ReadToEnd();
-            var bookings = JsonConvert.DeserializeObject<List<Booking>>(bookingsJson);
+            var bookings =
+                JsonConvert.DeserializeObject<List<Booking>>(bookingsJson);
             BookingRepository = new FakeBookingRepository(bookings);
 
-            TransactionHistoryRepository = new FakeTransactionHistoryRepository(new List<TransactionHistory>());
+            TransactionHistoryRepository =
+                new FakeTransactionHistoryRepository(
+                    new List<TransactionHistory>());
             UserRepository = new FakeUserRepository();
             RegistrationRepository = new FakeRegistrationRepository();
-            PaymentMethodRepository = new FakePaymentMethodRepository(new List<PaymentMethod>()); //todo make this
+            PaymentMethodRepository =
+                new FakePaymentMethodRepository(
+                    new List<PaymentMethod>()); //todo make this
 
             BookingService = new BookingService(
-                    BookingRepository,
-                    CarRepository, 
-                    UserRepository,
-                    CarCategoryRepository,
-                    CityRepository,
-                    TransactionHistoryRepository,
-                    PaymentMethodRepository
-                    );
+                BookingRepository,
+                CarRepository,
+                UserRepository,
+                CarCategoryRepository,
+                CityRepository,
+                TransactionHistoryRepository,
+                PaymentMethodRepository
+            );
 
-            
+
             Controller = new BookingsController(BookingService);
             Controller.Configuration = configuration;
             TestStartupConfiguration.HttpConfiguration = configuration;
             TestStartupConfiguration.UserRepository = UserRepository;
             TestStartupConfiguration.BookingRepository = BookingRepository;
             TestStartupConfiguration.CityRepository = CityRepository;
-            TestStartupConfiguration.CarCategoryRepository = CarCategoryRepository;
-            TestStartupConfiguration.RegistrationRepository = RegistrationRepository;
-            TestStartupConfiguration.TransactionHistoryRepository = TransactionHistoryRepository;
+            TestStartupConfiguration.CarCategoryRepository =
+                CarCategoryRepository;
+            TestStartupConfiguration.RegistrationRepository =
+                RegistrationRepository;
+            TestStartupConfiguration.TransactionHistoryRepository =
+                TransactionHistoryRepository;
             TestStartupConfiguration.CarRepository = CarRepository;
             TestStartupConfiguration.BookingService = BookingService;
-
         }
 
         [TestMethod]
         public void BookingOpen_VehicleIsAvailable_CarIsBooked()
         {
-
             //Controller.RequestContext.Principal = 
             Thread.CurrentPrincipal = new TestPrincipal(
                 new Claim("name", "John Doe"),
@@ -107,13 +116,11 @@ namespace CarShareApi.Tests.Controllers
 
             //assert
             Assert.IsTrue(result.Success);
-
         }
 
         [TestMethod]
         public void BookingOpen_VehicleIsUnavailable_CarIsNotBooked()
         {
-
             //Controller.RequestContext.Principal = 
             Thread.CurrentPrincipal = new TestPrincipal(
                 new Claim("name", "John Doe"),
@@ -129,13 +136,11 @@ namespace CarShareApi.Tests.Controllers
 
             //assert
             Assert.IsFalse(result.Success);
-
         }
 
         [TestMethod]
         public void BookingCheck_VehicleIsInRange_CheckInIsAllowed()
         {
-
             //Controller.RequestContext.Principal = 
             Thread.CurrentPrincipal = new TestPrincipal(
                 new Claim("name", "John Doe"),
@@ -156,16 +161,16 @@ namespace CarShareApi.Tests.Controllers
 
             //assert
             Assert.IsFalse(result.Success);
-
         }
 
         public static TextReader GetInputFile(string filename)
         {
-            Assembly thisAssembly = Assembly.GetExecutingAssembly();
+            var thisAssembly = Assembly.GetExecutingAssembly();
 
-            string path = "CarShareApi.Tests.Fakes.Data";
+            var path = "CarShareApi.Tests.Fakes.Data";
 
-            return new StreamReader(thisAssembly.GetManifestResourceStream(path + "." + filename));
+            return new StreamReader(
+                thisAssembly.GetManifestResourceStream(path + "." + filename));
         }
     }
 }
