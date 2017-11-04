@@ -1,38 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using CarShareApi.Models.Repositories.Data;
 using CarShareApi.Models;
+using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.ViewModels
 {
     public class UserViewModel
     {
-        public int AccountId { get; set; }
-        public string Firstname { get; set; }
-        public string Lastname { get; set; }
-        public string Email { get; set; }
-
-        public string LicenceNumber { get; set; }
-        public string LicenceState { get; set; }
-        public string AddressLine1 { get; set; }
-        public string AddressLine2 { get; set; }
-        public string Suburb { get; set; }
-        public string State { get; set; }
-        public string Postcode { get; set; }
-        public string PhoneNumber { get; set; }
-        public string DateOfBirth { get; set; }
-
-        public int? OpenBookingId { get; set; }
-
-        public bool HasOpenBooking { get; set; }
-        public bool HasAdminRights { get; set; }
-        public bool HasPaymentMethod { get; set; }
-
         public UserViewModel()
         {
-
         }
 
         public UserViewModel(User user)
@@ -54,17 +29,33 @@ namespace CarShareApi.ViewModels
                 DateOfBirth = user.Registration.DateOfBirth.ToString("dd/MM/yyyy");
             }
             if (!string.IsNullOrWhiteSpace(user.UserGroup))
-            {
-                HasAdminRights = Constants.UserAdminGroupName.Equals(user.UserGroup.Trim(), StringComparison.InvariantCultureIgnoreCase);
-            }
+                HasAdminRights = Constants.UserAdminGroupName.Equals(user.UserGroup.Trim(),
+                    StringComparison.InvariantCultureIgnoreCase);
             else
-            {
                 HasAdminRights = false;
-            }
             if (user.PaymentMethod != null)
-            {
                 HasPaymentMethod = true;
-            }
         }
+
+        public int AccountId { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public string Email { get; set; }
+
+        public string LicenceNumber { get; set; }
+        public string LicenceState { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
+        public string Suburb { get; set; }
+        public string State { get; set; }
+        public string Postcode { get; set; }
+        public string PhoneNumber { get; set; }
+        public string DateOfBirth { get; set; }
+
+        public int? OpenBookingId { get; set; }
+
+        public bool HasOpenBooking { get; set; }
+        public bool HasAdminRights { get; set; }
+        public bool HasPaymentMethod { get; set; }
     }
 }

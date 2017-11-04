@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace CarShareApi.ViewModels.Bookings
 {
@@ -13,6 +10,5 @@ namespace CarShareApi.ViewModels.Bookings
         public DateTime TransactionDate { get; set; }
         public string TransactionStatus { get; set; }
         public string PaymentMethod { get; set; }
-
     }
 }

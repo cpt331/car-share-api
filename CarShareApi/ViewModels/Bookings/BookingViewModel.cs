@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace CarShareApi.ViewModels.Bookings
+﻿namespace CarShareApi.ViewModels.Bookings
 {
     public class BookingViewModel
     {
@@ -18,6 +13,5 @@ namespace CarShareApi.ViewModels.Bookings
         public string TotalHours { get; set; }
         public string HourlyRate { get; set; }
         public string TotalAmount { get; set; }
-
     }
 }

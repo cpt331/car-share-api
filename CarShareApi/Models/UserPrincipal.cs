@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Web;
+﻿using System.Security.Claims;
 
 namespace CarShareApi.Models
 {
     public class UserPrincipal : ClaimsPrincipal
     {
-        public UserPrincipal(ClaimsPrincipal principal): base(principal)
+        public UserPrincipal(ClaimsPrincipal principal) : base(principal)
         {
         }
 
@@ -16,19 +12,17 @@ namespace CarShareApi.Models
         {
             get
             {
-                var idString = this.FindFirst(ClaimTypes.PrimarySid)?.Value;
+                var idString = FindFirst(ClaimTypes.PrimarySid)?.Value;
                 if (string.IsNullOrWhiteSpace(idString))
-                {
                     return null;
-                }
                 return int.Parse(idString);
             }
         }
 
-        public string Name => this.FindFirst(ClaimTypes.Name)?.Value;
+        public string Name => FindFirst(ClaimTypes.Name)?.Value;
 
-        public string Email => this.FindFirst(ClaimTypes.Email)?.Value;
+        public string Email => FindFirst(ClaimTypes.Email)?.Value;
 
-        public string Role => this.FindFirst(ClaimTypes.Role)?.Value;
+        public string Role => FindFirst(ClaimTypes.Role)?.Value;
     }
 }

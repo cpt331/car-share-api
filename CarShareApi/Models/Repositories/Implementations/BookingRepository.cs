@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.Models.Repositories.Implementations
 {
     public class BookingRepository : IBookingRepository
     {
-
-        private CarShareContext Context { get; set; }
-
         public BookingRepository(CarShareContext context)
         {
             Context = context;
         }
+
+        private CarShareContext Context { get; }
 
         public Booking Add(Booking item)
         {
@@ -59,10 +56,10 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public List<Booking> FindByAccountId(int accountId)
         {
-            var bookings = 
+            var bookings =
                 Context.Bookings
-                .Include(x=>x.Car)
-                .Where(x => x.AccountID == accountId).ToList();
+                    .Include(x => x.Car)
+                    .Where(x => x.AccountID == accountId).ToList();
             return bookings;
         }
 

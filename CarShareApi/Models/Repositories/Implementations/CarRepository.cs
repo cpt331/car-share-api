@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
-
 using CarShareApi.Models.Repositories.Data;
-
 
 namespace CarShareApi.Models.Repositories.Implementations
 {
     public class CarRepository : ICarRepository
     {
-        private CarShareContext Context { get; set; }
         public CarRepository(CarShareContext context)
         {
             Context = context;
         }
+
+        private CarShareContext Context { get; }
+
         public Car Add(Car item)
         {
             var car = Context.Cars.Add(item);
@@ -48,7 +46,7 @@ namespace CarShareApi.Models.Repositories.Implementations
         {
             return Context
                 .Cars
-                .Include(x=>x.CarCategory1)
+                .Include(x => x.CarCategory1)
                 .AsQueryable();
         }
 

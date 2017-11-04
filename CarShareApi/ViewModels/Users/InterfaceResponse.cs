@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace CarShareApi.ViewModels.Users
+﻿namespace CarShareApi.ViewModels.Users
 {
     public class InterfaceResponse
     {

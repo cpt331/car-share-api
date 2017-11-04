@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
 using CarShareApi.ViewModels.Admin;
@@ -10,15 +8,15 @@ namespace CarShareApi.Models.Services.Implementations
 {
     public class AdminService : IAdminService
     {
-        private ITemplateRepository TemplateRepository { get; set; }
-
         public AdminService(ITemplateRepository templateRepository)
         {
             TemplateRepository = templateRepository;
         }
 
+        private ITemplateRepository TemplateRepository { get; }
+
         /// <summary>
-        /// Updates the email template used by the system for emails sent to new users
+        ///     Updates the email template used by the system for emails sent to new users
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -77,20 +75,30 @@ namespace CarShareApi.Models.Services.Implementations
                 };
                 return viewModel;
             }
-            
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <returns></returns>
         public List<TemplateField> GetTemplateMergeFields()
         {
-            return new List<TemplateField>()
+            return new List<TemplateField>
             {
-                new TemplateField { Name =  Constants.TemplateNameField, Description = Constants.TemplateNameFieldDescription},
-                new TemplateField { Name =  Constants.TemplateEmailField, Description =  Constants.TemplateEmailFieldDescription},
-                new TemplateField { Name =  Constants.TemplateOTPField, Description = Constants.TemplateOTPFieldDescription}
+                new TemplateField
+                {
+                    Name = Constants.TemplateNameField,
+                    Description = Constants.TemplateNameFieldDescription
+                },
+                new TemplateField
+                {
+                    Name = Constants.TemplateEmailField,
+                    Description = Constants.TemplateEmailFieldDescription
+                },
+                new TemplateField
+                {
+                    Name = Constants.TemplateOTPField,
+                    Description = Constants.TemplateOTPFieldDescription
+                }
             };
         }
     }

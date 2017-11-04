@@ -2,22 +2,19 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Runtime.Caching;
-using System.Web;
 using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.Models.Repositories.Implementations
 {
     public class UserRepository : IUserRepository
     {
-        private CarShareContext Context { get; set; }
-
-
-
         public UserRepository(CarShareContext context)
         {
             Context = context;
         }
+
+        private CarShareContext Context { get; }
+
         public User Add(User item)
         {
             var user = Context.Users.Add(item);
@@ -38,7 +35,7 @@ namespace CarShareApi.Models.Repositories.Implementations
         public User Find(int id)
         {
             var user = Context.Users
-                .Include(x=>x.Registration)
+                .Include(x => x.Registration)
                 .FirstOrDefault(x => x.AccountID == id);
             return user;
         }
@@ -55,7 +52,8 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public User FindByEmail(string email)
         {
-            return Context.Users.FirstOrDefault(x => x.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
+            return Context.Users.FirstOrDefault(x =>
+                x.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public User Update(User item)

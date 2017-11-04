@@ -1,24 +1,22 @@
-﻿using CarShareApi.Models.Providers;
-using CarShareApi.Models.Repositories.Implementations;
-using CarShareApi.Models.Services.Implementations;
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OAuth;
-using Owin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System;
 using System.Web.Http;
-using CarShareApi.Models.Repositories.Data;
 using System.Web.Http.Cors;
+using CarShareApi;
 using CarShareApi.Models;
+using CarShareApi.Models.Providers;
 using CarShareApi.Models.Repositories;
+using CarShareApi.Models.Repositories.Data;
+using CarShareApi.Models.Repositories.Implementations;
 using CarShareApi.Models.Services;
+using CarShareApi.Models.Services.Implementations;
+using Microsoft.Owin;
+using Microsoft.Owin.Cors;
+using Microsoft.Owin.Security.OAuth;
 using Microsoft.Practices.Unity;
+using Owin;
 
-[assembly: OwinStartup(typeof(CarShareApi.Startup))]
+[assembly: OwinStartup(typeof(Startup))]
+
 namespace CarShareApi
 {
     public class Startup
@@ -36,15 +34,24 @@ namespace CarShareApi
             container.RegisterInstance<IEmailProvider>(mailer);
 
             //specify concrete instances of classes that should be injected when interface is marked
-            container.RegisterType<IUserRepository, UserRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
-            container.RegisterType<IBookingRepository, BookingRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
-            container.RegisterType<IRegistrationRepository, RegistrationRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
-            container.RegisterType<ICarRepository, CarRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
-            container.RegisterType<ICarCategoryRepository, CarCategoryRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
-            container.RegisterType<ICityRepository, CityRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
-            container.RegisterType<ITransactionHistoryRepository, TransactionHistoryRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
-            container.RegisterType<IPaymentMethodRepository, PaymentMethodRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
-            container.RegisterType<ITemplateRepository, TemplateRepository>(new TransientLifetimeManager(), new InjectionConstructor(context));
+            container.RegisterType<IUserRepository, UserRepository>(new TransientLifetimeManager(),
+                new InjectionConstructor(context));
+            container.RegisterType<IBookingRepository, BookingRepository>(new TransientLifetimeManager(),
+                new InjectionConstructor(context));
+            container.RegisterType<IRegistrationRepository, RegistrationRepository>(new TransientLifetimeManager(),
+                new InjectionConstructor(context));
+            container.RegisterType<ICarRepository, CarRepository>(new TransientLifetimeManager(),
+                new InjectionConstructor(context));
+            container.RegisterType<ICarCategoryRepository, CarCategoryRepository>(new TransientLifetimeManager(),
+                new InjectionConstructor(context));
+            container.RegisterType<ICityRepository, CityRepository>(new TransientLifetimeManager(),
+                new InjectionConstructor(context));
+            container.RegisterType<ITransactionHistoryRepository, TransactionHistoryRepository>(
+                new TransientLifetimeManager(), new InjectionConstructor(context));
+            container.RegisterType<IPaymentMethodRepository, PaymentMethodRepository>(new TransientLifetimeManager(),
+                new InjectionConstructor(context));
+            container.RegisterType<ITemplateRepository, TemplateRepository>(new TransientLifetimeManager(),
+                new InjectionConstructor(context));
 
             container.RegisterType<IUserService, UserService>(new TransientLifetimeManager());
             container.RegisterType<ICarService, CarService>(new TransientLifetimeManager());
@@ -64,12 +71,13 @@ namespace CarShareApi
             var config = GetInjectionConfiguration();
 
             //open authorisation configuration options
-            var openAuthServerOptions = new OAuthAuthorizationServerOptions()
+            var openAuthServerOptions = new OAuthAuthorizationServerOptions
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
-                Provider = new CarShareAuthorisationServerProvider((IUserService)config.DependencyResolver.GetService(typeof(IUserService)))
+                Provider = new CarShareAuthorisationServerProvider(
+                    (IUserService) config.DependencyResolver.GetService(typeof(IUserService)))
             };
 
             // Token Generation
@@ -80,15 +88,15 @@ namespace CarShareApi
             EnableCrossSiteRequests(config);
             WebApiConfig.Register(config);
             app.UseWebApi(config);
-            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-            
+            app.UseCors(CorsOptions.AllowAll);
         }
+
         private static void EnableCrossSiteRequests(HttpConfiguration config)
         {
             var cors = new EnableCorsAttribute(
-                origins: "*",
-                headers: "*",
-                methods: "*");
+                "*",
+                "*",
+                "*");
             config.EnableCors(cors);
         }
     }

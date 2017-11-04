@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace CarShareApi.ViewModels.Bookings
+﻿namespace CarShareApi.ViewModels.Bookings
 {
     public class TransactionResponse
     {

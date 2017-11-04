@@ -1,15 +1,11 @@
-﻿using CarShareApi.Models.Services;
-using Microsoft.Owin.Security.OAuth;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
-using CarShareApi.Models.Repositories.Data;
-using Microsoft.Owin.Security;
+using CarShareApi.Models.Services;
 using CarShareApi.Models.ViewModels;
 using CarShareApi.ViewModels;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json;
 using NLog;
 
@@ -19,15 +15,15 @@ namespace CarShareApi.Models.Providers
     //http://bitoftech.net/2014/06/01/token-based-authentication-asp-net-web-api-2-owin-asp-net-identity/
     public class CarShareAuthorisationServerProvider : OAuthAuthorizationServerProvider
     {
-
-        //class is constructed by passing in a user service
-        private IUserService UserService { get; set; }
-        private static Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public CarShareAuthorisationServerProvider(IUserService userService)
         {
             UserService = userService;
         }
+
+        //class is constructed by passing in a user service
+        private IUserService UserService { get; }
 
 
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
@@ -46,7 +42,7 @@ namespace CarShareApi.Models.Providers
             }, Formatting.Indented));
 
             //allow requests from all domains (unsecure)
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {"*"});
 
             //confirm username and password is valid
             var response = UserService.Logon(new LogonRequest
@@ -73,7 +69,7 @@ namespace CarShareApi.Models.Providers
                 JsonConvert.SerializeObject(response, Formatting.Indented));
 
             var identity = CreateIdentity(
-                user, 
+                user,
                 context.Options.AuthenticationType);
 
             //add some additional fields to the ticket so the client application can consume
@@ -93,27 +89,21 @@ namespace CarShareApi.Models.Providers
                 },
                 {
                     "HasAdminRights", user.HasAdminRights.ToString()
-                }
-                ,
+                },
                 {
                     "HasPaymentMethod", user.HasPaymentMethod.ToString()
                 }
             });
 
             if (user.OpenBookingId.HasValue)
-            {
                 props.Dictionary.Add("OpenBookingId", user.OpenBookingId.Value.ToString());
-            }
 
 
             var ticket = new AuthenticationTicket(identity, props);
 
-           
 
             //validate request and return token
             context.Validated(ticket);
-
-           
         }
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
@@ -121,7 +111,7 @@ namespace CarShareApi.Models.Providers
             Logger.Debug("Token Endpoint:");
 
             //add each property in the authentication properties to the output response
-            foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
+            foreach (var property in context.Properties.Dictionary)
             {
                 Logger.Debug("{0}:{1}", property.Key, property.Value);
 
@@ -138,12 +128,8 @@ namespace CarShareApi.Models.Providers
                 else
                 {
                     if (property.Value != null)
-                    {
                         context.AdditionalResponseParameters.Add(property.Key, property.Value);
-                    }
-                    
                 }
-                
             }
 
 
@@ -153,23 +139,18 @@ namespace CarShareApi.Models.Providers
         private ClaimsIdentity CreateIdentity(UserViewModel user, string type)
         {
             //creates a claims identity based on the supplied user
-            var identity = new ClaimsIdentity(new[] {
+            var identity = new ClaimsIdentity(new[]
+            {
                 new Claim(ClaimTypes.Name, $"{user.Firstname} {user.Lastname}"),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.PrimarySid, user.AccountId.ToString())
             }, type);
 
             if (user.HasAdminRights)
-            {
                 identity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
-            }
             else
-            {
                 identity.AddClaim(new Claim(ClaimTypes.Role, "User"));
-            }
             return identity;
         }
-
-        
     }
 }

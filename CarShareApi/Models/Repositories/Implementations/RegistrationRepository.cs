@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.Models.Repositories.Implementations
 {
     public class RegistrationRepository : IRegistrationRepository
     {
-        private CarShareContext Context {get;set;}
-
         public RegistrationRepository(CarShareContext context)
         {
             Context = context;
         }
+
+        private CarShareContext Context { get; }
 
         public Registration Add(Registration item)
         {

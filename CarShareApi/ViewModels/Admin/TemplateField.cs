@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace CarShareApi.ViewModels.Admin
+﻿namespace CarShareApi.ViewModels.Admin
 {
     public class TemplateField
     {
