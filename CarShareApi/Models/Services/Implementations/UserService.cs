@@ -650,12 +650,12 @@ namespace CarShareApi.Models.Services.Implementations
                 };
             }
 
-            if (user.Status != Constants.UserInactiveStatus)
+            if (user.Status != Constants.UserOTPStatus)
             {
                 return new OTPResponse
                 {
                     Success = false,
-                    Message = $"User account is not inactive"
+                    Message = $"User account has already been activated"
                 };
             }
 
