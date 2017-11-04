@@ -34,6 +34,11 @@ namespace CarShareApi.Models.Providers
         public void Send(string email, string firstName, string otpRecord,
             Template emailTemplate)
         {
+            Console.WriteLine("Attempting to run email service");
+            Console.WriteLine($"Subject : {emailTemplate.Subject}");
+            Console.WriteLine($"Body : {emailTemplate.Body}");
+            Console.WriteLine($"Footer : {emailTemplate.Footer}");
+
             var from = "shawn.burriss@gmail.com";
             var fromName = "Ewebah Admin";
             var subject = emailTemplate.Subject;
