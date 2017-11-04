@@ -562,6 +562,7 @@ namespace CarShareApi.Models.Services.Implementations
                 record.Postcode = request.Postcode;
                 record.State = request.State;
                 record.Suburb = request.Suburb;
+                UserRepository.Update(user);
                 RegistrationRepository.Update(record);
             }
 
