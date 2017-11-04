@@ -16,6 +16,7 @@ using CarShareApi.Models.Services;
 using CarShareApi.Models.Services.Implementations;
 using CarShareApi.Tests.Fakes;
 using CarShareApi.ViewModels;
+using CarShareApi.ViewModels.Cars;
 using Newtonsoft.Json;
 
 namespace CarShareApi.Tests.Controllers
@@ -23,6 +24,7 @@ namespace CarShareApi.Tests.Controllers
     [TestClass]
     public class CarsControllerTest
     {
+        private ICityRepository CityRepository { get; set; }
         private ICarCategoryRepository CarCategoryRepository { get; set; }
         private ICarRepository CarRepository { get; set; }
         private ICarService CarService { get; set; }
@@ -41,7 +43,11 @@ namespace CarShareApi.Tests.Controllers
             var categories = JsonConvert.DeserializeObject<List<CarCategory>>(categoriesJson);
             CarCategoryRepository = new FakeCarCategoryRepository(categories);
 
-            CarService = new CarService(CarRepository, CarCategoryRepository);
+            var citiesJson = GetInputFile("Cities.json").ReadToEnd();
+            var cities = JsonConvert.DeserializeObject<List<City>>(citiesJson);
+            CityRepository = new FakeCityRepository(cities);
+
+            CarService = new CarService(CarRepository, CarCategoryRepository, CityRepository);
 
             Controller = new CarsController(CarService);
             Controller.Configuration = configuration;
@@ -194,6 +200,52 @@ namespace CarShareApi.Tests.Controllers
                 Assert.IsTrue(car.Distance.HasValue && car.Distance.Value <= criteria.Radius.Value);
             }
 
+        }
+
+        [TestMethod]
+        public void CarUpdate_OutsideCityLimits_DoesNotUpdate()
+        {
+            //Arrange
+            var request = new UpdateCarRequest
+            {
+                Id = 95,
+                CarCategory = "Sedan",
+                Make = "Mercedes-Benz",
+                Model = "CLS250",
+                Transmission = "AT",
+                Status = "Available",
+                LatPos = (decimal)-27.571280,
+                LongPos = (decimal)152.964494
+            };
+
+            // Act
+            UpdateCarResponse result = Controller.Update(request);
+
+            //Assert
+            Assert.AreEqual("No cities are within a 10000m radius", result.Message);
+        }
+
+        [TestMethod]
+        public void CarUpdate_InsideCityLimits_DoesUpdate()
+        {
+            //Arrange
+            var request = new UpdateCarRequest
+            {
+                Id = 95,
+                CarCategory = "Sedan",
+                Make = "Mercedes-Benz",
+                Model = "CLS250",
+                Transmission = "AT",
+                Status = "Available",
+                LatPos = (decimal)-37.813600,
+                LongPos = (decimal)144.963100
+            };
+
+            // Act
+            UpdateCarResponse result = Controller.Update(request);
+
+            //Assert
+            Assert.IsTrue(result.Success);
         }
 
         public static TextReader GetInputFile(string filename)

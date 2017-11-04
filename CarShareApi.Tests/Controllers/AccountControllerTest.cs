@@ -454,7 +454,7 @@ namespace CarShareApi.Tests.Controllers
         }
 
         [TestMethod]
-        public void Register_UserIsRegistered_UserCanLogon()
+        public void Register_UserIsRegistered_UserCantLogon()
         {
 
             var model = new RegisterRequest
@@ -480,7 +480,7 @@ namespace CarShareApi.Tests.Controllers
                 Password = model.Password
             });
 
-            Assert.IsTrue(logonResponse.Success);
+            Assert.IsFalse(logonResponse.Success);
            
         }
 
