@@ -19,9 +19,6 @@ namespace CarShareApi.ViewModels.Users
         public string Email { get; set; }
 
         [Required]
-        public DateTime? DateOfBirth { get; set; }
-
-        [Required]
         [StringLength(20, ErrorMessage = "The {0} must be at least {2} " +
                                          "characters long.", MinimumLength = 1)]
         public string LicenceNumber { get; set; }

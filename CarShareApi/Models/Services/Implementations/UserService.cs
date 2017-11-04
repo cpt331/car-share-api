@@ -468,8 +468,7 @@ namespace CarShareApi.Models.Services.Implementations
                     Suburb = "",
                     State = "",
                     Postcode = "",
-                    PhoneNumber = "",
-                    DateOfBirth = DateTime.Now.ToString("dd/MM/yyyy")
+                    PhoneNumber = ""
                 };
             return new RegisterViewModel
             {
@@ -485,8 +484,7 @@ namespace CarShareApi.Models.Services.Implementations
                 Suburb = registration.Suburb,
                 State = registration.State,
                 Postcode = registration.Postcode,
-                PhoneNumber = registration.PhoneNumber,
-                DateOfBirth = registration.DateOfBirth.ToString("dd/MM/yyyy")
+                PhoneNumber = registration.PhoneNumber
             };
         }
 
@@ -502,31 +500,6 @@ namespace CarShareApi.Models.Services.Implementations
                     Message = $"User account {accountId} does not exist"
                 };
 
-            var dob = request.DateOfBirth ?? DateTime.Now; //this is because dob could be null
-
-            if (dob.Date > DateTime.Now)
-                return new InterfaceResponse
-                {
-                    Success = false,
-                    Message = "You must enter a date before today's date",
-                    Errors = new[]
-                    {
-                        "User does not meet the age requirement"
-                    }
-                };
-
-            var minAge = DateTime.Now.AddYears(-Constants.UserMinimumAge); //minage is todays date minus 18 years
-            if (dob.Date > minAge.Date)
-                return new InterfaceResponse
-                {
-                    Success = false,
-                    Message = "You must be at least " + Constants.UserMinimumAge + " to register",
-                    Errors = new[]
-                    {
-                        "User does not meet the age requirement"
-                    }
-                };
-
             var record = RegistrationRepository.Find(accountId);
 
 
@@ -537,7 +510,6 @@ namespace CarShareApi.Models.Services.Implementations
                     AccountID = user.AccountID,
                     AddressLine1 = request.AddressLine1,
                     AddressLine2 = request.AddressLine2,
-                    DateOfBirth = request.DateOfBirth.Value,
                     DriversLicenceID = request.LicenceNumber,
                     DriversLicenceState = request.LicenceState,
                     PhoneNumber = request.PhoneNumber,
@@ -555,7 +527,6 @@ namespace CarShareApi.Models.Services.Implementations
                 user.Email = request.Email;
                 record.AddressLine1 = request.AddressLine1;
                 record.AddressLine2 = request.AddressLine2;
-                record.DateOfBirth = request.DateOfBirth.Value;
                 record.DriversLicenceID = request.LicenceNumber;
                 record.DriversLicenceState = request.LicenceState;
                 record.PhoneNumber = request.PhoneNumber;
