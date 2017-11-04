@@ -4,6 +4,9 @@
     {
         public bool Success { get; set; }
         public string Message { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
         public string DriversLicenceID { get; set; }
         public string DriversLicenceState { get; set; }
         public string AddressLine1 { get; set; }

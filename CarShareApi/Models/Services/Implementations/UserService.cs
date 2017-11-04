@@ -458,6 +458,9 @@ namespace CarShareApi.Models.Services.Implementations
                 {
                     Success = false,
                     Message = $"User account {accountId} registration record doesn't exists",
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
                     DriversLicenceID = "",
                     DriversLicenceState = "",
                     AddressLine1 = "",
@@ -472,6 +475,9 @@ namespace CarShareApi.Models.Services.Implementations
             {
                 Success = true,
                 Message = $"User account {accountId} registration record exists",
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
                 DriversLicenceID = registration.DriversLicenceID,
                 DriversLicenceState = registration.DriversLicenceState,
                 AddressLine1 = registration.AddressLine1,
@@ -544,6 +550,9 @@ namespace CarShareApi.Models.Services.Implementations
             else
             {
                 record.AccountID = user.AccountID;
+                user.FirstName = request.FirstName;
+                user.LastName = request.LastName;
+                user.Email = request.Email;
                 record.AddressLine1 = request.AddressLine1;
                 record.AddressLine2 = request.AddressLine2;
                 record.DateOfBirth = request.DateOfBirth.Value;
