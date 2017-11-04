@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CarShareApi.Models.Providers;
+﻿using CarShareApi.Models.Providers;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
 using CarShareApi.Models.ViewModels;
@@ -9,6 +6,9 @@ using CarShareApi.ViewModels;
 using CarShareApi.ViewModels.Bookings;
 using CarShareApi.ViewModels.Users;
 using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CarShareApi.Models.Services.Implementations
 {
@@ -198,7 +198,14 @@ namespace CarShareApi.Models.Services.Implementations
                 };
             }
 
-            EmailProvider.Send(request.Email, emailTemplate.Subject, emailTemplate.Title, emailTemplate.Body, emailTemplate.Footer, request.FirstName, otpRecord);
+            //convert the email template to replace the keys within the template
+            string subject = EmailKeyReplacer(emailTemplate.Subject, user);
+            string title = EmailKeyReplacer(emailTemplate.Title, user);
+            string body = EmailKeyReplacer(emailTemplate.Body, user);
+            string footer = EmailKeyReplacer(emailTemplate.Footer, user);
+
+            //This will send an email based on the fields passed
+            EmailProvider.Send(request.Email, subject, title, body, footer);
 
             //return successful operation
             return new RegisterResponse
@@ -208,6 +215,18 @@ namespace CarShareApi.Models.Services.Implementations
                     $"User {user.Email} has been created. An email to validate this email address will be sent shortly."
             };
         }
+
+        public string EmailKeyReplacer(string field, User user)
+        {
+            //this method passes a field from the email template and the user 
+            //account details then replaces the keys within the field so that
+            //it can be output clearly in HTML
+
+            field = field.Replace(Constants.TemplateNameField, user.FirstName);
+            field = field.Replace(Constants.TemplateEmailField, user.Email);
+            field = field.Replace(Constants.TemplateOTPField, user.OTP);
+            return field;
+    }
 
         public AddPaymentMethodResponse AddPaymentMethod(AddPaymentMethodRequest request, int accountId)
         {
