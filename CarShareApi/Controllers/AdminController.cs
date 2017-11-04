@@ -52,7 +52,7 @@ namespace CarShareApi.Controllers
         }
 
         [HttpGet, Route("api/admin/gettemplatefields")]
-        public Dictionary<string,string> GetTemplateFields()
+        public List<TemplateField> GetTemplateFields()
         {
             return AdminService.GetTemplateMergeFields();
         }
