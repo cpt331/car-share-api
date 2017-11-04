@@ -58,8 +58,19 @@ namespace CarShareApi.Models.Services.Implementations
                 //encrypt the provided password so it can be compared against the encrypted values in the database
                 if (user.Password.Equals(Encryption.EncryptString(request.Password)))
                 {
+                    if (user.Status == Constants.UserOTPStatus)
+                    {
+                        var response = new LogonResponse
+                        {
+                            Success = false,
+                            Message = "Account activation required. Please activate your account.",
+                            HasOpenBooking = false
+                        };
+                        return response;
+
+                    }
                     //if the password check passes, check if the user has an active status
-                    if (user.Status == Constants.UserActiveStatus || user.Status == Constants.UserPartialStatus)
+                    else if (user.Status == Constants.UserActiveStatus || user.Status == Constants.UserPartialStatus)
                     {
 
                         var response = new LogonResponse
@@ -161,9 +172,9 @@ namespace CarShareApi.Models.Services.Implementations
                 Email = request.Email,
                 Password = Encryption.EncryptString(request.Password),
                 OTP = otpRecord,
-                Status = Constants.UserActiveStatus,
-                UserGroup = Constants.UserGroupName
-                //Status = UserInactiveStatus
+                //Status = Constants.UserActiveStatus,
+                UserGroup = Constants.UserGroupName,
+                Status = Constants.UserOTPStatus
             };
 
             
@@ -539,27 +550,38 @@ namespace CarShareApi.Models.Services.Implementations
 
             var record = RegistrationRepository.Find(accountId);
 
-            var registration = new Registration
-            {
-                AccountID = user.AccountID,
-                AddressLine1 = request.AddressLine1,
-                AddressLine2 = request.AddressLine2,
-                DateOfBirth = request.DateOfBirth.Value,
-                DriversLicenceID = request.LicenceNumber,
-                DriversLicenceState = request.LicenceState,
-                PhoneNumber = request.PhoneNumber,
-                Postcode = request.Postcode,
-                State = request.State,
-                Suburb = request.Suburb
-            };
+            
 
             if (record == null)
             {
+                var registration = new Registration
+                {
+                    AccountID = user.AccountID,
+                    AddressLine1 = request.AddressLine1,
+                    AddressLine2 = request.AddressLine2,
+                    DateOfBirth = request.DateOfBirth.Value,
+                    DriversLicenceID = request.LicenceNumber,
+                    DriversLicenceState = request.LicenceState,
+                    PhoneNumber = request.PhoneNumber,
+                    Postcode = request.Postcode,
+                    State = request.State,
+                    Suburb = request.Suburb
+                };
                 RegistrationRepository.Add(registration);
             }
             else
             {
-                RegistrationRepository.Update(registration);
+                record.AccountID = user.AccountID;
+                record.AddressLine1 = request.AddressLine1;
+                record.AddressLine2 = request.AddressLine2;
+                record.DateOfBirth = request.DateOfBirth.Value;
+                record.DriversLicenceID = request.LicenceNumber;
+                record.DriversLicenceState = request.LicenceState;
+                record.PhoneNumber = request.PhoneNumber;
+                record.Postcode = request.Postcode;
+                record.State = request.State;
+                record.Suburb = request.Suburb;
+                RegistrationRepository.Update(record);
             }
 
             return new InterfaceResponse
@@ -581,7 +603,7 @@ namespace CarShareApi.Models.Services.Implementations
                 return new PasswordResetResponse
                 {
                     Success = false,
-                    Message = $"Password reset failed"
+                    Message = $"Password reset failed email mismatch"
                 };
             }
 
@@ -591,7 +613,7 @@ namespace CarShareApi.Models.Services.Implementations
                 return new PasswordResetResponse
                 {
                     Success = false,
-                    Message = $"Password reset failed"
+                    Message = $"Password reset failed no registration"
                 };
             }
 
@@ -600,7 +622,7 @@ namespace CarShareApi.Models.Services.Implementations
                 return new PasswordResetResponse
                 {
                     Success = false,
-                    Message = $"Password reset failed"
+                    Message = $"Password reset failed drivers licence and dob"
                 };
             }
 
@@ -628,12 +650,12 @@ namespace CarShareApi.Models.Services.Implementations
                 };
             }
 
-            if (user.Status != Constants.UserInactiveStatus)
+            if (user.Status != Constants.UserOTPStatus)
             {
                 return new OTPResponse
                 {
                     Success = false,
-                    Message = $"User account is not inactive"
+                    Message = $"User account has already been activated"
                 };
             }
 
