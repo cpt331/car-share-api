@@ -196,7 +196,7 @@ namespace CarShareApi.Models.Services.Implementations
                 };
             }
 
-            EmailProvider.Send(request.Email, request.FirstName, otpRecord, emailTemplate);
+            EmailProvider.Send(request.Email, emailTemplate.Subject, emailTemplate.Title, emailTemplate.Body, emailTemplate.Footer, request.FirstName, otpRecord);
 
             //return successful operation
             return new RegisterResponse
