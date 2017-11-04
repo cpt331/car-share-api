@@ -183,6 +183,20 @@ namespace CarShareApi.Models.Services.Implementations
 
             var emailTemplate = TemplateRepository.Find(1);
 
+            if (emailTemplate == null)
+            {
+                return new RegisterResponse
+                {
+                    Success = false,
+                    Message = "An error has occurred",
+                    Errors = new[]
+                    {
+                        "User account registered. No email template defined."
+                    }
+                };
+            }
+
+
             EmailProvider.Send(request.Email, request.FirstName, otpRecord, emailTemplate);
 
             //return successful operation
