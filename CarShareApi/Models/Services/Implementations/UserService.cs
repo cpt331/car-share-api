@@ -21,7 +21,8 @@ namespace CarShareApi.Models.Services.Implementations
             IRegistrationRepository registrationRepository,
             IBookingRepository bookingRepository,
             IPaymentMethodRepository paymentMethodRepository,
-            IEmailProvider emailProvider, ICarRepository carRepository)
+            IEmailProvider emailProvider, ICarRepository carRepository,
+            ITemplateRepository templateRepository)
         {
             Logger.Debug("UserService Instantiated");
             UserRepository = userRepository;
@@ -30,6 +31,7 @@ namespace CarShareApi.Models.Services.Implementations
             PaymentMethodRepository = paymentMethodRepository;
             EmailProvider = emailProvider;
             CarRepository = carRepository;
+            TemplateRepository = templateRepository;
         }
 
         //repositories used by the service for operation
