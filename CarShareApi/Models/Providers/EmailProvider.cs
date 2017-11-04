@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Net;
 using System.Net.Mail;
+using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.Models.Providers
 {
     public interface IEmailProvider
     {
-        void Send(string email, string firstName, string otpRecord);
+        void Send(string email, string firstName, string otpRecord,
+            Template emailTemplate);
     }
 
     public class WelcomeMailer : IEmailProvider
@@ -15,7 +17,8 @@ namespace CarShareApi.Models.Providers
         private string firstName;
         private string otpRecord;
 
-        public WelcomeMailer(string smtpUsername, string smtpPassword, string smtpServer, int smtpPort)
+        public WelcomeMailer(string smtpUsername, string smtpPassword,
+            string smtpServer, int smtpPort)
         {
             SmtpUsername = smtpUsername;
             SmtpPassword = smtpPassword;
@@ -28,19 +31,18 @@ namespace CarShareApi.Models.Providers
         public string SmtpServer { get; set; }
         public int SmtpPort { get; set; }
 
-        public void Send(string email, string firstName, string otpRecord)
+        public void Send(string email, string firstName, string otpRecord,
+            Template emailTemplate)
         {
-
             var from = "shawn.burriss@gmail.com";
             var fromName = "Ewebah Admin";
-            var subject = "Ewebah - Welcome to the App!";
+            var subject = emailTemplate.Subject;
             var body =
-                $"<h1>Welcome to Ewebah, {firstName}!</h1>" +
-                "<p>Thank you for registering with  " +
-                "<a href='ewebah.s3-website-us-east-1.amazonaws.com'>Ewebah</a>. Your account is set up! " +
+                $"<h1>{emailTemplate.Title}, " + $"{firstName}!</h1>" +
+                $"<p>{emailTemplate.Body}  " +
                 "<p>Your activation key to finalise your account is: " +
                 $"<p><b>{otpRecord}</b>" +
-                "<p>Are you ready to ride with us?";
+                $"<p>{emailTemplate.Footer}";
 
             var message = new MailMessage
             {
@@ -55,7 +57,8 @@ namespace CarShareApi.Models.Providers
                 new SmtpClient(SmtpServer, SmtpPort)
                 {
                     // Pass SMTP credentials and enable SSL encryption
-                    Credentials = new NetworkCredential(SmtpUsername, SmtpPassword),
+                    Credentials =
+                        new NetworkCredential(SmtpUsername, SmtpPassword),
                     EnableSsl = true
                 };
             try

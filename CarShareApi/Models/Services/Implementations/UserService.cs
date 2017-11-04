@@ -40,6 +40,7 @@ namespace CarShareApi.Models.Services.Implementations
         private IPaymentMethodRepository PaymentMethodRepository { get; }
         private IEmailProvider EmailProvider { get; }
         private ICarRepository CarRepository { get; }
+        private ITemplateRepository TemplateRepository { get; }
 
         /// <summary>
         ///     Validates username and password provided match a user record in the system
@@ -180,7 +181,9 @@ namespace CarShareApi.Models.Services.Implementations
             };
             RegistrationRepository.Add(registration);
 
-            EmailProvider.Send(request.Email, request.FirstName, otpRecord);
+            var emailTemplate = TemplateRepository.Find(1);
+
+            EmailProvider.Send(request.Email, request.FirstName, otpRecord, emailTemplate);
 
             //return successful operation
             return new RegisterResponse
