@@ -67,8 +67,8 @@ namespace CarShareApi.Models.Providers
             }
             catch (Exception ex)
             {
-                //Console.WriteLine("The email was not sent.");
-                //Console.WriteLine("Error message: " + ex.Message);
+                Console.WriteLine("The email was not sent.");
+                Console.WriteLine("Error message: " + ex.Message);
             }
         }
     }
