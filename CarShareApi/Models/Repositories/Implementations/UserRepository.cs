@@ -8,8 +8,10 @@ namespace CarShareApi.Models.Repositories.Implementations
 {
     public class UserRepository : IUserRepository
     {
+        //This class inherits the IuserRepository register
         public UserRepository(CarShareContext context)
         {
+            //Inherits the DB context
             Context = context;
         }
 
@@ -17,6 +19,7 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public User Add(User item)
         {
+            //Function to add a new user item to the DB and save changes
             var user = Context.Users.Add(item);
             Context.SaveChanges();
             return user;
@@ -24,6 +27,7 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public void Delete(int id)
         {
+            //Allows the user to delete a user based on ID before saving
             var user = Context.Users.FirstOrDefault(x => x.AccountID == id);
             if (user != null)
             {
@@ -34,6 +38,7 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public User Find(int id)
         {
+            //Finds a user based on the user ID and returns first input
             var user = Context.Users
                 .Include(x => x.Registration)
                 .FirstOrDefault(x => x.AccountID == id);
@@ -42,6 +47,7 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public List<User> FindAll()
         {
+            //Finds all users and returns a list
             return Context.Users.ToList();
         }
 
@@ -52,12 +58,15 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public User FindByEmail(string email)
         {
+            //Finds user by parsing an email and a user object first found
             return Context.Users.FirstOrDefault(x =>
-                x.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
+                x.Email.Equals(email, 
+                StringComparison.InvariantCultureIgnoreCase));
         }
 
         public User Update(User item)
         {
+            //The user state that is currently modified is saved to the DB
             Context.Entry(item).State = EntityState.Modified;
             Context.SaveChanges();
             return item;

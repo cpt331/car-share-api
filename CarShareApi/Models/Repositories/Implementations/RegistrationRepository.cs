@@ -7,8 +7,10 @@ namespace CarShareApi.Models.Repositories.Implementations
 {
     public class RegistrationRepository : IRegistrationRepository
     {
+        //This class inherits the IregistrationRepository register
         public RegistrationRepository(CarShareContext context)
         {
+            //Inherits the DB context
             Context = context;
         }
 
@@ -16,6 +18,7 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public Registration Add(Registration item)
         {
+            //Function to add a new registration item to the DB and save
             var registration = Context.Registrations.Add(item);
             Context.SaveChanges();
             return registration;
@@ -23,12 +26,15 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public Registration Find(int id)
         {
-            var registration = Context.Registrations.FirstOrDefault(x => x.AccountID == id);
+            //Finds a registration based on the account ID and returns first
+            var registration = Context.Registrations.FirstOrDefault(x => 
+            x.AccountID == id);
             return registration;
         }
 
         public List<Registration> FindAll()
         {
+            //Finds all registrations and returns a list
             return Context.Registrations.ToList();
         }
 
@@ -39,6 +45,7 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public Registration Update(Registration item)
         {
+            //The registration state that is currently modified is saved
             Context.Entry(item).State = EntityState.Modified;
             Context.SaveChanges();
             return item;
@@ -46,7 +53,9 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public void Delete(int id)
         {
-            var registration = Context.Registrations.FirstOrDefault(x => x.AccountID == id);
+            //Allows the user to delete a registration based on ID
+            var registration = Context.Registrations.FirstOrDefault(x => 
+            x.AccountID == id);
             if (registration != null)
             {
                 Context.Entry(registration).State = EntityState.Deleted;

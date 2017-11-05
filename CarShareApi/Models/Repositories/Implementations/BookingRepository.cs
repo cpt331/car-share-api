@@ -7,8 +7,10 @@ namespace CarShareApi.Models.Repositories.Implementations
 {
     public class BookingRepository : IBookingRepository
     {
+        //This class inherits the IBookingRepository register
         public BookingRepository(CarShareContext context)
         {
+            //Inherits the DB context
             Context = context;
         }
 
@@ -16,6 +18,7 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public Booking Add(Booking item)
         {
+            //Function to add a new booking item to the DB and save changes
             var booking = Context.Bookings.Add(item);
             Context.SaveChanges();
             return booking;
@@ -23,12 +26,15 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public Booking Find(int id)
         {
-            var booking = Context.Bookings.FirstOrDefault(x => x.BookingID == id);
+            //Finds a booking based on the booking ID and returns first input
+            var booking = Context.Bookings.FirstOrDefault(x => 
+            x.BookingID == id);
             return booking;
         }
 
         public List<Booking> FindAll()
         {
+            //Finds all bookings and returns a list
             return Context.Bookings.ToList();
         }
 
@@ -39,6 +45,7 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public Booking Update(Booking item)
         {
+            //The booking state that is currently modified is saved to the DB
             Context.Entry(item).State = EntityState.Modified;
             Context.SaveChanges();
             return item;
@@ -46,7 +53,9 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public void Delete(int id)
         {
-            var city = Context.Bookings.FirstOrDefault(x => x.BookingID == id);
+            //Allows the user to delete a booking based on ID before saving
+            var city = Context.Bookings.FirstOrDefault(x => 
+            x.BookingID == id);
             if (city != null)
             {
                 Context.Entry(city).State = EntityState.Deleted;
@@ -56,6 +65,7 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public List<Booking> FindByAccountId(int accountId)
         {
+            //creates a list of bookings that belong to a user ID
             var bookings =
                 Context.Bookings
                     .Include(x => x.Car)
@@ -65,18 +75,23 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public List<Booking> FindByVehicleId(int vehicleId)
         {
+            //creates a list of bookings that belong to a vehicle ID
             var bookings = Context.Bookings.Where(x => x.VehicleID == vehicleId).ToList();
             return bookings;
         }
 
-        public List<Booking> FindByAccountIdAndVehicleId(int accountId, int vehicleId)
+        public List<Booking> FindByAccountIdAndVehicleId(int accountId, 
+            int vehicleId)
         {
-            var bookings = Context.Bookings.Where(x => x.VehicleID == vehicleId && x.AccountID == accountId).ToList();
+            //creates a list of bookings that belongs to a user and a vehicle
+            var bookings = Context.Bookings.Where(x => x.VehicleID == vehicleId
+            && x.AccountID == accountId).ToList();
             return bookings;
         }
 
         public void Dispose()
         {
+            //Discards the context
             Context?.Dispose();
         }
     }
