@@ -2,6 +2,11 @@
 {
     public class BookingViewModel
     {
+
+        //This is a view model that allows the collection of all booking data
+        //so that it can be displayed to the user (or passed onto another
+        //method). This is collecting info from the bookings table
+
         public string BookingId { get; set; }
         public string CarMake { get; set; }
         public string CarModel { get; set; }
