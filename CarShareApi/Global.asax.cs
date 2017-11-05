@@ -19,7 +19,8 @@ namespace CarShareApi
         {
         }
 
-        protected void Application_AuthenticateRequest(object sender, EventArgs e)
+        protected void Application_AuthenticateRequest(
+            object sender, EventArgs e)
         {
         }
 

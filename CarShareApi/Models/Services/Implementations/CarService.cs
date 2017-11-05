@@ -8,6 +8,8 @@ using CarShareApi.ViewModels.Cars;
 
 namespace CarShareApi.Models.Services.Implementations
 {
+    //this module provides the functionality for a user to search for a car
+
     public class CarService : ICarService
     {
 
@@ -29,6 +31,9 @@ namespace CarShareApi.Models.Services.Implementations
 
         public List<CarViewModel> FindCarsByLocation(double lat, double lng)
         {
+            //method returns all cars from the car table in the database 
+            //then applies filters to show cars that are available
+
             var cars = CarRepository.FindAll();
 
             //dont show inactive cars
@@ -97,6 +102,9 @@ namespace CarShareApi.Models.Services.Implementations
 
         public UpdateCarResponse UpdateCar(UpdateCarRequest request)
         {
+            //this method allows cars to be updated after passing some basic checks
+
+            //validate the a car category exists and fail if it doesnt
             var category = CarCategoryRepository.Find(request.CarCategory);
             if (category == null)
                 return new UpdateCarResponse
@@ -105,6 +113,7 @@ namespace CarShareApi.Models.Services.Implementations
                     Success = false
                 };
 
+            //validate the a car exists and fail if it doesnt
             Car car;
             if (request.Id.HasValue)
             {
@@ -137,15 +146,18 @@ namespace CarShareApi.Models.Services.Implementations
                 }
             }
 
+            //validates that a selected city exists
             if (selectedCity == null)
             {
                 return new UpdateCarResponse
                 {
-                    Message = $"No cities are within a {Constants.BookingMaxRangeFromCityCentre}m radius",
+                    Message = "No cities are within a " +
+                         $"{Constants.BookingMaxRangeFromCityCentre}m radius",
                     Success = false
                 };
             }
 
+            //assigns car values based on the parsed request to change the car
             car.CarCategory = request.CarCategory;
             car.Make = request.Make;
             car.Model = request.Model;
@@ -154,6 +166,9 @@ namespace CarShareApi.Models.Services.Implementations
             car.LatPos = request.LatPos;
             car.LongPos = request.LongPos;
             car.Transmission = request.Transmission;
+
+            //switch to determine whether the car needs to be updated or added
+            //to the car table
 
             if (request.Id.HasValue)
             {
@@ -164,6 +179,7 @@ namespace CarShareApi.Models.Services.Implementations
                 var updatedCar = CarRepository.Add(car);
             }
 
+            //message returned after car has been updated
 
             var response = new UpdateCarResponse
             {
@@ -177,6 +193,8 @@ namespace CarShareApi.Models.Services.Implementations
 
         public List<string> GetCarStatuses()
         {
+            //returns the car status - this is a constants list for 
+            //front end work
             return new List<string>
             {
                 Constants.CarAvailableStatus,

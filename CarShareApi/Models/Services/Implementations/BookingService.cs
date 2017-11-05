@@ -8,6 +8,9 @@ using CarShareApi.ViewModels.Bookings;
 
 namespace CarShareApi.Models.Services.Implementations
 {
+    //this booking module provides the methods to allow users to make a booking
+    //and return a car. it has also been extended to handle the transaction 
+    //processing against a users payment method
     public class BookingService : IBookingService
     {
         public BookingService(
@@ -44,6 +47,8 @@ namespace CarShareApi.Models.Services.Implementations
 
         public OpenBookingResponse OpenBooking(int vehicleId, int accountId)
         {
+            //this method allows a car to be checked out
+
             //check car exists and is correct status
             var car = CarRepository.Find(vehicleId);
             if (car == null)
@@ -56,7 +61,8 @@ namespace CarShareApi.Models.Services.Implementations
                 return new OpenBookingResponse
                 {
                     Message =
-                        $"{car.Make} {car.Model} is not available to be booked",
+                        $"{car.Make} {car.Model} is not available to " +
+                        "be booked",
                     Success = false
                 };
 
@@ -88,7 +94,8 @@ namespace CarShareApi.Models.Services.Implementations
                 return new OpenBookingResponse
                 {
                     Message =
-                        $"{car.Make} {car.Model} is not available to be booked",
+                        $"{car.Make} {car.Model} is not available " +
+                        $"to be booked",
                     Success = false
                 };
             }
@@ -113,7 +120,8 @@ namespace CarShareApi.Models.Services.Implementations
                     return new OpenBookingResponse
                     {
                         Message =
-                            "Car has an invalid category and can not be checked out",
+                            "Car has an invalid category and can not " +
+                            "be checked out",
                         Success = false
                     };
             }
@@ -140,7 +148,8 @@ namespace CarShareApi.Models.Services.Implementations
                 CheckOutTime = booking.CheckOut.ToString(),
                 Success = true,
                 Message =
-                    $"{car.Make} {car.Model} has been booked out at ${category.BillingRate} per hour"
+                    $"{car.Make} {car.Model} has been booked out " +
+                    $"at ${category.BillingRate} per hour"
             };
         }
 
@@ -154,7 +163,8 @@ namespace CarShareApi.Models.Services.Implementations
                 return new CloseBookingResponse
                 {
                     Message =
-                        "No open bookings were found for this account and vehicle",
+                        "No open bookings were found for " +
+                        "this account and vehicle",
                     Success = false
                 };
 
@@ -163,14 +173,16 @@ namespace CarShareApi.Models.Services.Implementations
             if (car == null)
                 return new CloseBookingResponse
                 {
-                    Message = $"Vehicle {openBooking.VehicleID} does not exist",
+                    Message = $"Vehicle {openBooking.VehicleID} " +
+                              "does not exist",
                     Success = false
                 };
             if (car.Status != Constants.CarBookedStatus)
                 return new CloseBookingResponse
                 {
                     Message =
-                        $"{car.Make} {car.Model} is not booked and can not be returned",
+                        $"{car.Make} {car.Model} is not booked " +
+                        $"and can not be returned",
                     Success = false
                 };
 
@@ -202,14 +214,17 @@ namespace CarShareApi.Models.Services.Implementations
                 }
             }
 
+            //if city doesn't exist throw error
             if (selectedCity == null)
                 return new CloseBookingResponse
                 {
                     Message =
-                        $"No cities are within a {Constants.BookingMaxRangeFromCityCentre}m radius",
+                        "No cities are within a " +
+                        $"{Constants.BookingMaxRangeFromCityCentre}m radius",
                     Success = false
                 };
 
+            //set parameters to return car and calculate billing amount
             var returnDate = DateTime.Now;
             var ts = returnDate - openBooking.CheckOut;
             var totalHours = (int) Math.Ceiling(ts.TotalHours);
@@ -233,15 +248,14 @@ namespace CarShareApi.Models.Services.Implementations
 
             BookingRepository.Update(openBooking);
 
-
-            //TODO: record transaction or debt somewhere
-
+            //return a successful message that booking was closed
             return new CloseBookingResponse
             {
                 City = selectedCity.CityName,
                 HourlyRate = openBooking.BillingRate.ToString("C"),
                 Message =
-                    $"{car.Make} {car.Model} has been returned at a cost of {totalAmount:C}",
+                    $"{car.Make} {car.Model} has been returned at " +
+                    $"a cost of {totalAmount:C}",
                 Success = true,
                 TotalHours = totalHours.ToString(),
                 TotalAmount = totalAmount.ToString("C")
@@ -251,6 +265,7 @@ namespace CarShareApi.Models.Services.Implementations
         public CloseBookingCheckResponse CloseBookingCheck(
             CloseBookingCheckRequest request, int accountId)
         {
+
             //get booking by id and ensure it exists
             var openBooking = BookingRepository.Find(request.BookingId);
             if (openBooking == null || openBooking.BookingStatus !=
@@ -258,7 +273,8 @@ namespace CarShareApi.Models.Services.Implementations
                 return new CloseBookingCheckResponse
                 {
                     Message =
-                        "No open bookings were found for this account and vehicle",
+                        "No open bookings were found for " +
+                        "this account and vehicle",
                     Success = false
                 };
 
@@ -267,14 +283,16 @@ namespace CarShareApi.Models.Services.Implementations
             if (car == null)
                 return new CloseBookingCheckResponse
                 {
-                    Message = $"Vehicle {openBooking.VehicleID} does not exist",
+                    Message = $"Vehicle {openBooking.VehicleID} " +
+                              "does not exist",
                     Success = false
                 };
             if (car.Status != Constants.CarBookedStatus)
                 return new CloseBookingCheckResponse
                 {
                     Message =
-                        $"{car.Make} {car.Model} is not booked and can not be returned",
+                        $"{car.Make} {car.Model} is not booked " +
+                        "and can not be returned",
                     Success = false
                 };
 
@@ -309,7 +327,8 @@ namespace CarShareApi.Models.Services.Implementations
                 return new CloseBookingCheckResponse
                 {
                     Message =
-                        $"No cities are within a {Constants.BookingMaxRangeFromCityCentre}m radius",
+                        "No cities are within a " +
+                        $"{Constants.BookingMaxRangeFromCityCentre}m radius",
                     Success = false
                 };
 
@@ -322,7 +341,8 @@ namespace CarShareApi.Models.Services.Implementations
                 City = selectedCity.CityName,
                 HourlyRate = openBooking.BillingRate.ToString("C"),
                 Message =
-                    $"{car.Make} {car.Model} is eligible for return at a cost of {totalAmount:C}",
+                    $"{car.Make} {car.Model} is eligible " +
+                    $"for return at a cost of {totalAmount:C}",
                 Success = true,
                 TotalHours = totalHours.ToString(),
                 TotalAmount = totalAmount.ToString("C")
@@ -332,27 +352,36 @@ namespace CarShareApi.Models.Services.Implementations
         public TransactionResponse RecordTransaction(int bookingId,
             int accountId)
         {
+            //this method allows the closed booking to be recorded as a 
+            //transaction using the users payment method
+
+            //bring in the users account, payment method and booking
             var closedBooking = BookingRepository.Find(bookingId);
             var paymentMethod =
                 PaymentMethodRepository.Find(closedBooking.AccountID);
             var userAccount = UserRepository.Find(closedBooking.AccountID);
 
+            //error check to make sure a payment method has been supplied
             if (paymentMethod == null)
                 return new TransactionResponse
                 {
                     Message =
-                        $"Payment method for account {closedBooking.AccountID} does not exist.",
+                        "Payment method for account " +
+                        $"{closedBooking.AccountID} does not exist.",
                     Success = false
                 };
 
+            //error check to make sure user does exist
             if (userAccount == null)
                 return new TransactionResponse
                 {
                     Message =
-                        $"The user with ID {closedBooking.AccountID} does not exist.",
+                        $"The user with ID " +
+                        $"{closedBooking.AccountID} does not exist.",
                     Success = false
                 };
 
+            //bundle a new transaction with neccessary values and add tsx
             var tsx = new TransactionHistory
             {
                 BookingID = bookingId,
@@ -363,25 +392,15 @@ namespace CarShareApi.Models.Services.Implementations
             };
             TransactionHistoryRepository.Add(tsx);
 
+            //return a successful transaction
             return new TransactionResponse
             {
                 Success = true,
                 Message =
-                    $"Transaction history has been recorded for booking {bookingId}"
+                    "Transaction history has been " +
+                    $"recorded for booking {bookingId}"
             };
 
-            //Code to create a receipt if we need to generate receipts later on
-
-            //var rec = new Receipt
-            //{
-            //    BookingID = bookingId,
-            //    Name = userAccount.FirstName + " " + userAccount.LastName,
-            //    CarDescription = car.Make + " " + car.Model + " (" + car.CarCategory + ")",
-            //    BillingRate = closedBooking.BillingRate,
-            //    BilledAmount = closedBooking.BilledAmount,
-            //    ReceiptDate = DateTime.Now,
-            //    CityDropOff = closedBooking.CityDropOff
-            //};
         }
 
         public void Dispose()

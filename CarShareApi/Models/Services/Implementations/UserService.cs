@@ -183,7 +183,7 @@ namespace CarShareApi.Models.Services.Implementations
             };
             RegistrationRepository.Add(registration);
 
-            var emailTemplate = TemplateRepository.Find(1);
+            var emailTemplate = TemplateRepository.FindAll().FirstOrDefault();
 
             if (emailTemplate == null)
             {

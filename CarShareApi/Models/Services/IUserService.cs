@@ -9,6 +9,9 @@ namespace CarShareApi.Models.Services
 {
     public interface IUserService : IDisposable
     {
+        //This interface provides the overarching activities related to
+        //The users service actions
+
         List<UserViewModel> FindUsers();
         UserViewModel FindUser(int id);
         LogonResponse Logon(LogonRequest request);
