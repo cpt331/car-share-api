@@ -6,6 +6,10 @@ namespace CarShareApi.Models
     {
         public EwebahConfig()
         {
+            //this assists masking the credentials used to secure the DB and 
+            //the SMTP mailer
+
+            //DB Credentials being parsed
             DbServer = ConfigurationManager.AppSettings["DbServer"].Decode();
             DbName = ConfigurationManager.AppSettings["DbName"].Decode();
             DbUsername =
@@ -13,6 +17,7 @@ namespace CarShareApi.Models
             DbPassword =
                 ConfigurationManager.AppSettings["DbPassword"].Decode();
 
+            //SMTP Credentials being parsed
             SmtpUsername =
                 ConfigurationManager.AppSettings["SmtpUsername"].Decode();
             SmtpPassword =
@@ -20,7 +25,8 @@ namespace CarShareApi.Models
             SmtpServer =
                 ConfigurationManager.AppSettings["SmtpServer"].Decode();
             SmtpPort =
-                int.Parse(ConfigurationManager.AppSettings["SmtpPort"].Decode());
+                int.Parse(ConfigurationManager.AppSettings
+                ["SmtpPort"].Decode());
         }
 
         public string DbServer { get; set; }

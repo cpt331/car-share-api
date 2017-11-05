@@ -13,7 +13,8 @@ namespace CarShareApi.Models.Providers
 {
     //the following URL was used in assisting to create this provider
     //http://bitoftech.net/2014/06/01/token-based-authentication-asp-net-web-api-2-owin-asp-net-identity/
-    public class CarShareAuthorisationServerProvider : OAuthAuthorizationServerProvider
+    public class CarShareAuthorisationServerProvider : 
+        OAuthAuthorizationServerProvider
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -26,23 +27,27 @@ namespace CarShareApi.Models.Providers
         private IUserService UserService { get; }
 
 
-        public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
+        public override async Task ValidateClientAuthentication
+            (OAuthValidateClientAuthenticationContext context)
         {
             //yes this application is authorised to make credential requests
             context.Validated();
         }
 
 
-        public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
+        public override async Task GrantResourceOwnerCredentials
+            (OAuthGrantResourceOwnerCredentialsContext context)
         {
-            Logger.Debug("Logon Request Received: {0}", JsonConvert.SerializeObject(new LogonRequest
+            Logger.Debug("Logon Request Received: {0}", 
+                JsonConvert.SerializeObject(new LogonRequest
             {
                 Email = context.UserName,
                 Password = context.Password
             }, Formatting.Indented));
 
             //allow requests from all domains (unsecure)
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {"*"});
+            context.OwinContext.Response.Headers.Add
+                ("Access-Control-Allow-Origin", new[] {"*"});
 
             //confirm username and password is valid
             var response = UserService.Logon(new LogonRequest
@@ -57,7 +62,8 @@ namespace CarShareApi.Models.Providers
             //return error if not successful
             if (!response.Success || !response.Id.HasValue)
             {
-                context.SetError("invalid_grant", "The user name or password is incorrect.");
+                context.SetError("invalid_grant", "The user name or " +
+                                                  "password is incorrect.");
 
                 return;
             }
@@ -72,8 +78,10 @@ namespace CarShareApi.Models.Providers
                 user,
                 context.Options.AuthenticationType);
 
-            //add some additional fields to the ticket so the client application can consume
-            var props = new AuthenticationProperties(new Dictionary<string, string>
+            //add some additional fields to the ticket so the 
+            //client application can consume
+            var props = new AuthenticationProperties(new 
+                Dictionary<string, string>
             {
                 {
                     "Name", $"{user.Firstname} {user.Lastname}"
@@ -96,7 +104,8 @@ namespace CarShareApi.Models.Providers
             });
 
             if (user.OpenBookingId.HasValue)
-                props.Dictionary.Add("OpenBookingId", user.OpenBookingId.Value.ToString());
+                props.Dictionary.Add("OpenBookingId", 
+                    user.OpenBookingId.Value.ToString());
 
 
             var ticket = new AuthenticationTicket(identity, props);
@@ -110,7 +119,8 @@ namespace CarShareApi.Models.Providers
         {
             Logger.Debug("Token Endpoint:");
 
-            //add each property in the authentication properties to the output response
+            //add each property in the authentication properties to 
+            //the output response
             foreach (var property in context.Properties.Dictionary)
             {
                 Logger.Debug("{0}:{1}", property.Key, property.Value);
@@ -119,16 +129,19 @@ namespace CarShareApi.Models.Providers
                 int propertyInt;
                 if (bool.TryParse(property.Value, out propertyBool))
                 {
-                    context.AdditionalResponseParameters.Add(property.Key, propertyBool);
+                    context.AdditionalResponseParameters.Add
+                        (property.Key, propertyBool);
                 }
                 else if (int.TryParse(property.Value, out propertyInt))
                 {
-                    context.AdditionalResponseParameters.Add(property.Key, propertyInt);
+                    context.AdditionalResponseParameters.Add
+                        (property.Key, propertyInt);
                 }
                 else
                 {
                     if (property.Value != null)
-                        context.AdditionalResponseParameters.Add(property.Key, property.Value);
+                        context.AdditionalResponseParameters.Add
+                            (property.Key, property.Value);
                 }
             }
 

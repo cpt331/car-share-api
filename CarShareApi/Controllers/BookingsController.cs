@@ -10,7 +10,6 @@ namespace CarShareApi.Controllers
     [Authorize]
     public class BookingsController : ApiController
     {
-        //private static Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IBookingService BookingService;
 
         //inject service to make testing easier
@@ -30,7 +29,8 @@ namespace CarShareApi.Controllers
         {
             var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
             if (userPrincipal.Id.HasValue)
-                return BookingService.OpenBooking(vehicleId, userPrincipal.Id.Value);
+                return BookingService.OpenBooking(
+                    vehicleId, userPrincipal.Id.Value);
             return new OpenBookingResponse
             {
                 Success = false,
@@ -45,11 +45,14 @@ namespace CarShareApi.Controllers
         /// <returns>The response indicating success and calculated costs</returns>
         [HttpPost]
         [Route("api/bookings/check")]
-        public CloseBookingCheckResponse CloseCheck(CloseBookingCheckRequest request)
+        public CloseBookingCheckResponse CloseCheck(
+            CloseBookingCheckRequest request)
         {
-            var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
+            var userPrincipal = new UserPrincipal(
+                ClaimsPrincipal.Current);
             if (userPrincipal.Id.HasValue)
-                return BookingService.CloseBookingCheck(request, userPrincipal.Id.Value);
+                return BookingService.CloseBookingCheck(
+                    request, userPrincipal.Id.Value);
             return new CloseBookingCheckResponse
             {
                 Success = false,
@@ -68,7 +71,8 @@ namespace CarShareApi.Controllers
         {
             var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
             if (userPrincipal.Id.HasValue)
-                return BookingService.CloseBooking(request, userPrincipal.Id.Value);
+                return BookingService.CloseBooking(
+                    request, userPrincipal.Id.Value);
             return new CloseBookingResponse
             {
                 Success = false,

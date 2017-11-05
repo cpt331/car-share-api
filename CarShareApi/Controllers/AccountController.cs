@@ -18,7 +18,8 @@ namespace CarShareApi.Controllers
     [Authorize]
     public class AccountController : ApiController
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = 
+            LogManager.GetCurrentClassLogger();
         private readonly IUserService UserService;
 
         //inject service to make testing easier
@@ -52,7 +53,8 @@ namespace CarShareApi.Controllers
             var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
             if (userPrincipal.Id.HasValue)
             {
-                var response = UserService.GetBookingHistory(userPrincipal.Id.Value, pageNumber, pageSize);
+                var response = UserService.GetBookingHistory(
+                    userPrincipal.Id.Value, pageNumber, pageSize);
                 return response;
             }
             return new BookingHistoryResponse
@@ -72,13 +74,15 @@ namespace CarShareApi.Controllers
         [AllowAnonymous]
         public RegisterResponse Register(RegisterRequest request)
         {
-            Logger.Debug("Register Request Received: {0}", JsonConvert.SerializeObject(request, Formatting.Indented));
+            Logger.Debug("Register Request Received: {0}", 
+                JsonConvert.SerializeObject(request, Formatting.Indented));
 
             RegisterResponse response;
             //use in built data annotations to ensure model has binded correctly
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Keys.SelectMany(key => ModelState[key].Errors.Select(x => x.ErrorMessage));
+                var errors = ModelState.Keys.SelectMany(key => 
+                ModelState[key].Errors.Select(x => x.ErrorMessage));
                 response = new RegisterResponse
                 {
                     Success = false,
@@ -92,7 +96,8 @@ namespace CarShareApi.Controllers
                 response = UserService.Register(request);
             }
             Logger.Debug("Sent Register Response: {0}",
-                JsonConvert.SerializeObject(response, Formatting.Indented));
+                JsonConvert.SerializeObject(response, 
+                Formatting.Indented));
             return response;
         }
 
@@ -103,7 +108,8 @@ namespace CarShareApi.Controllers
             var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
             if (userPrincipal.Id.HasValue)
             {
-                var response = UserService.GetRegistrationRecord(userPrincipal.Id.Value);
+                var response = UserService.GetRegistrationRecord(
+                    userPrincipal.Id.Value);
                 return response;
             }
             return new RegisterViewModel
@@ -124,10 +130,12 @@ namespace CarShareApi.Controllers
             if (userPrincipal.Id.HasValue)
             {
                 InterfaceResponse response;
-                //use in built data annotations to ensure model has binded correctly
+                //use in built data annotations to ensure model has 
+                //binded correctly
                 if (!ModelState.IsValid)
                 {
-                    var errors = ModelState.Keys.SelectMany(key => ModelState[key].Errors.Select(x => x.ErrorMessage));
+                    var errors = ModelState.Keys.SelectMany(key => 
+                    ModelState[key].Errors.Select(x => x.ErrorMessage));
                     response = new InterfaceResponse
                     {
                         Success = false,
@@ -137,11 +145,14 @@ namespace CarShareApi.Controllers
                 }
                 else
                 {
-                    //send request to the user service and return the response (success or fail)
-                    response = UserService.UpdateRegistration(request, userPrincipal.Id.Value);
+                    //send request to the user service and return the 
+                    //response (success or fail)
+                    response = UserService.UpdateRegistration(
+                        request, userPrincipal.Id.Value);
                 }
                 Logger.Debug("Registration update sent Response: {0}",
-                    JsonConvert.SerializeObject(response, Formatting.Indented));
+                    JsonConvert.SerializeObject(
+                        response, Formatting.Indented));
                 return response;
             }
             else
@@ -153,7 +164,8 @@ namespace CarShareApi.Controllers
                     Errors = new[] {"No user is logged on"}
                 };
                 Logger.Debug("The user ID session is invalid",
-                    JsonConvert.SerializeObject(response, Formatting.Indented));
+                    JsonConvert.SerializeObject(
+                        response, Formatting.Indented));
                 return response;
             }
         }
@@ -161,7 +173,8 @@ namespace CarShareApi.Controllers
 
         [HttpPost]
         [Route("api/account/paymentmethod")]
-        public AddPaymentMethodResponse AddPaymentMethod(AddPaymentMethodRequest request)
+        public AddPaymentMethodResponse AddPaymentMethod(
+            AddPaymentMethodRequest request)
         {
             Logger.Debug("Payment Method Request Received: {0}",
                 JsonConvert.SerializeObject(request, Formatting.Indented));
@@ -170,10 +183,12 @@ namespace CarShareApi.Controllers
             if (userPrincipal.Id.HasValue)
             {
                 AddPaymentMethodResponse response;
-                //use in built data annotations to ensure model has binded correctly
+                //use in built data annotations to ensure model has 
+                //binded correctly
                 if (!ModelState.IsValid)
                 {
-                    var errors = ModelState.Keys.SelectMany(key => ModelState[key].Errors.Select(x => x.ErrorMessage));
+                    var errors = ModelState.Keys.SelectMany(key => 
+                    ModelState[key].Errors.Select(x => x.ErrorMessage));
                     response = new AddPaymentMethodResponse
                     {
                         Success = false,
@@ -183,11 +198,14 @@ namespace CarShareApi.Controllers
                 }
                 else
                 {
-                    //send request to the user service and return the response (success or fail)
-                    response = UserService.AddPaymentMethod(request, userPrincipal.Id.Value);
+                    //send request to the user service and return the 
+                    //response (success or fail)
+                    response = UserService.AddPaymentMethod(
+                        request, userPrincipal.Id.Value);
                 }
                 Logger.Debug("Sent Payment Method Response: {0}",
-                    JsonConvert.SerializeObject(response, Formatting.Indented));
+                    JsonConvert.SerializeObject(
+                        response, Formatting.Indented));
                 return response;
             }
             else
@@ -199,7 +217,8 @@ namespace CarShareApi.Controllers
                     Errors = new[] {"No user is logged on"}
                 };
                 Logger.Debug("The user ID session is invalid",
-                    JsonConvert.SerializeObject(response, Formatting.Indented));
+                    JsonConvert.SerializeObject(
+                        response, Formatting.Indented));
                 return response;
             }
         }
@@ -207,7 +226,8 @@ namespace CarShareApi.Controllers
         [HttpPost]
         [Route("api/account/passwordreset")]
         [AllowAnonymous]
-        public PasswordResetResponse PasswordReset(PasswordResetRequest request)
+        public PasswordResetResponse PasswordReset(
+            PasswordResetRequest request)
         {
             Logger.Debug("Password Reset Request Received: {0}",
                 JsonConvert.SerializeObject(request, Formatting.Indented));
@@ -216,7 +236,8 @@ namespace CarShareApi.Controllers
             //use in built data annotations to ensure model has binded correctly
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Keys.SelectMany(key => ModelState[key].Errors.Select(x => x.ErrorMessage));
+                var errors = ModelState.Keys.SelectMany(key => 
+                ModelState[key].Errors.Select(x => x.ErrorMessage));
                 response = new PasswordResetResponse
                 {
                     Success = false,
@@ -226,7 +247,8 @@ namespace CarShareApi.Controllers
             }
             else
             {
-                //send request to the user service and return the response (success or fail)
+                //send request to the user service and return 
+                //the response (success or fail)
                 response = UserService.ResetPassword(request);
             }
             Logger.Debug("Sent Password Reset Response: {0}",
@@ -248,7 +270,8 @@ namespace CarShareApi.Controllers
             //use in built data annotations to ensure model has binded correctly
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Keys.SelectMany(key => ModelState[key].Errors.Select(x => x.ErrorMessage));
+                var errors = ModelState.Keys.SelectMany(key => 
+                ModelState[key].Errors.Select(x => x.ErrorMessage));
                 response = new OTPResponse
                 {
                     Success = false,
@@ -258,7 +281,8 @@ namespace CarShareApi.Controllers
             }
             else
             {
-                //send request to the user service and return the response (success or fail)
+                //send request to the user service and return the 
+                //response (success or fail)
                 response = UserService.OtpActivation(request);
             }
             Logger.Debug("Sent OTP Response: {0}",

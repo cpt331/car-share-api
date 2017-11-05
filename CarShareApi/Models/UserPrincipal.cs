@@ -4,6 +4,9 @@ namespace CarShareApi.Models
 {
     public class UserPrincipal : ClaimsPrincipal
     {
+        //this module allows parsing user account details to be used
+        //to identify the users main detals as well as their role
+
         public UserPrincipal(ClaimsPrincipal principal) : base(principal)
         {
         }

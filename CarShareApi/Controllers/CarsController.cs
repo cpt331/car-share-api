@@ -12,7 +12,8 @@ namespace CarShareApi.Controllers
     [Authorize]
     public class CarsController : ApiController
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = 
+            LogManager.GetCurrentClassLogger();
         private readonly ICarService CarService;
 
         //inject service to make testing easier
@@ -43,11 +44,13 @@ namespace CarShareApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("api/cars/coords")]
-        public IEnumerable<CarViewModel> Get(double lat, double lng, double radius = 5000, int max = 100,
+        public IEnumerable<CarViewModel> Get(double lat, double lng, 
+            double radius = 5000, int max = 100,
             string carCategory = "")
         {
             var cars = CarService.FindCarsByLocation(lat, lng);
-            return cars.Where(x => x.Distance.HasValue && x.Distance <= radius).Take(max);
+            return cars.Where(x => x.Distance.HasValue && x.Distance <= 
+            radius).Take(max);
         }
 
         /// <summary>
@@ -59,7 +62,8 @@ namespace CarShareApi.Controllers
         [Route("api/cars/search")]
         public IEnumerable<CarViewModel> Search(CarSearchCriteria criteria)
         {
-            Logger.Debug("CarSearchCriteria Received: {0}", JsonConvert.SerializeObject(criteria, Formatting.Indented));
+            Logger.Debug("CarSearchCriteria Received: {0}", 
+                JsonConvert.SerializeObject(criteria, Formatting.Indented));
             var cars = CarService.SearchCars(criteria);
             return cars;
         }
@@ -94,7 +98,8 @@ namespace CarShareApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Keys.SelectMany(key => ModelState[key].Errors.Select(x => x.ErrorMessage));
+                var errors = ModelState.Keys.SelectMany(key => 
+                ModelState[key].Errors.Select(x => x.ErrorMessage));
                 var response = new UpdateCarResponse
                 {
                     Success = false,
@@ -103,7 +108,8 @@ namespace CarShareApi.Controllers
                 };
                 return response;
             }
-            //send request to the car service and return the response (success or fail)
+            //send request to the car service and return the 
+            //response (success or fail)
             return CarService.UpdateCar(request);
         }
 

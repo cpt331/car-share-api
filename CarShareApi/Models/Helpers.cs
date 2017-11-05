@@ -6,11 +6,12 @@ namespace CarShareApi.Models
     {
         public static string GetIssuerUri()
         {
+            //provides resources for debugging and help
             if (Debugger.IsAttached)
                 return "http://localhost:63130";
 
             return
-                "http://careshareapi-env.hdwwh7zgb3.us-east-1.elasticbeanstalk.com";
+                "https://ewebahapi.azurewebsites.net/";
         }
     }
 }

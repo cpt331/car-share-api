@@ -25,7 +25,8 @@ namespace CarShareApi.Controllernlogs
             TemplateUpdateResponse response;
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Keys.SelectMany(key => ModelState[key].Errors.Select(x => x.ErrorMessage));
+                var errors = ModelState.Keys.SelectMany(key => 
+                ModelState[key].Errors.Select(x => x.ErrorMessage));
                 response = new TemplateUpdateResponse
                 {
                     Success = false,
@@ -35,7 +36,8 @@ namespace CarShareApi.Controllernlogs
             }
             else
             {
-                //send request to the admin service and return the response (success or fail)
+                //send request to the admin service and return the 
+                //response (success or fail)
                 response = AdminService.UpdateTemplate(request);
             }
             return response;
