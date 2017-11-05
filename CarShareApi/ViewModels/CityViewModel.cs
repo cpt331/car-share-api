@@ -5,6 +5,8 @@ namespace CarShareApi.ViewModels
 {
     public class CityViewModel
     {
+        //The cityview model handles the object related to the city which 
+        //includes the city names and their geographical position.
         public CityViewModel()
         {
         }

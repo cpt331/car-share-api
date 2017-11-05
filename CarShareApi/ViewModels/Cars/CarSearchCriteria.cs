@@ -2,6 +2,10 @@
 {
     public class CarSearchCriteria
     {
+        //This method allows for a user to be able to search for a car based 
+        //on search critera including Car category the suburb and the make and
+        //model.The latitude and longitude are also used for returning results
+
         public decimal? Latitude { get; set; }
         public decimal? Longitude { get; set; }
         public double? Radius { get; set; }

@@ -4,6 +4,11 @@ namespace CarShareApi.ViewModels
 {
     public class CarCategoryViewModel
     {
+        //this view model allows the parsing of car category information
+        //as the billing rate is dependant on the car category within the
+        //car category table. this holds two fields being type (ie suv, sedan)
+        //and an hourly rate
+
         public CarCategoryViewModel()
         {
         }

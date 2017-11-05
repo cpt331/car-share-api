@@ -6,6 +6,9 @@ namespace CarShareApi.ViewModels
 {
     public class UserViewModel
     {
+        //User view model provides the objects needed to handle displaying 
+        //a user account and their corresponding details for fields that 
+        //relate to the user and registrations table.
         public UserViewModel()
         {
         }
@@ -29,7 +32,8 @@ namespace CarShareApi.ViewModels
                 DateOfBirth = user.Registration.DateOfBirth.ToString("dd/MM/yyyy");
             }
             if (!string.IsNullOrWhiteSpace(user.UserGroup))
-                HasAdminRights = Constants.UserAdminGroupName.Equals(user.UserGroup.Trim(),
+                HasAdminRights = Constants.UserAdminGroupName.Equals(
+                    user.UserGroup.Trim(),
                     StringComparison.InvariantCultureIgnoreCase);
             else
                 HasAdminRights = false;

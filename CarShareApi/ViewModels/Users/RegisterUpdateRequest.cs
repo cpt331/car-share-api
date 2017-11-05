@@ -5,6 +5,11 @@ namespace CarShareApi.ViewModels.Users
 {
     public class RegisterUpdateRequest
     {
+        //Register update request provides the objects needed to allow the 
+        //user to update their registration records which includes all of 
+        //the same Fields used when they originally registered period 
+        //again this will interact with the user and registrations table.
+        
         [Required]
         [MaxLength(100)]
         public string FirstName { get; set; }
@@ -19,8 +24,9 @@ namespace CarShareApi.ViewModels.Users
         public string Email { get; set; }
 
         [Required]
-        [StringLength(20, ErrorMessage = "The {0} must be at least {2} " +
-                                         "characters long.", MinimumLength = 1)]
+        [StringLength(20, ErrorMessage = 
+            "The {0} must be at least {2} characters long.", 
+            MinimumLength = 1)]
         public string LicenceNumber { get; set; }
 
         [MaxLength(5)]

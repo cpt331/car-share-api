@@ -2,6 +2,10 @@
 {
     public class RegisterViewModel
     {
+        //Register view model provides the objects to handle receiving the
+        //registration details of the user and in addition pass / failure
+        //boolean and a message that will give a display to the user.
+
         public bool Success { get; set; }
         public string Message { get; set; }
         public string FirstName { get; set; }

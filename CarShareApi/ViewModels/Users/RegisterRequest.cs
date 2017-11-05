@@ -5,6 +5,12 @@ namespace CarShareApi.Models.ViewModels
 {
     public class RegisterRequest
     {
+        //Register request provides the objects needed to register a user,
+        //including first and last name, email address, password, date of 
+        //birth, licence details, postal address and phone number. This 
+        //request will interact with both the user table and the 
+        //registration status in the database.
+
         [Required]
         [MaxLength(100)]
         public string FirstName { get; set; }
@@ -19,8 +25,9 @@ namespace CarShareApi.Models.ViewModels
         public string Email { get; set; }
 
         [Required]
-        [StringLength(50, ErrorMessage = "The {0} must be at least {2} " +
-                                         "characters long.", MinimumLength = 6)]
+        [StringLength(50, ErrorMessage = 
+            "The {0} must be at least {2} characters long.", 
+            MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

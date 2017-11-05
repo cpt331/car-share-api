@@ -2,6 +2,10 @@
 {
     public class TemplateUpdateResponse
     {
+        //provides the message to the end user to show whether the the return
+        //was successful or a failure and display a message. if successful 
+        //return additional booking details
+
         public bool Success { get; set; }
         public string Message { get; set; }
         public string[] Errors { get; set; }

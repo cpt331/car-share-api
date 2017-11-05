@@ -4,6 +4,9 @@ namespace CarShareApi.ViewModels
 {
     public class CarViewModel
     {
+        //The car view model allows the user to be able to view details on 
+        //the car including make model car category transmission suburbs 
+        //status and position as well as the billing rate.
         public CarViewModel()
         {
         }

@@ -2,7 +2,8 @@
 {
     public class UpdateCarRequest
     {
-        //object fields
+        //Update Car request provides the user with the necessary Fields to 
+        //make an update to a current car within the system
         public int? Id { get; set; }
 
         public string Model { get; set; }
