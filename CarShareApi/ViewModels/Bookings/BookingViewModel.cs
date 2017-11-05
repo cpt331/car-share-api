@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace CarShareApi.ViewModels.Bookings
+﻿namespace CarShareApi.ViewModels.Bookings
 {
     public class BookingViewModel
     {
+
+        //This is a view model that allows the collection of all booking data
+        //so that it can be displayed to the user (or passed onto another
+        //method). This is collecting info from the bookings table
+
         public string BookingId { get; set; }
         public string CarMake { get; set; }
         public string CarModel { get; set; }
@@ -18,6 +18,5 @@ namespace CarShareApi.ViewModels.Bookings
         public string TotalHours { get; set; }
         public string HourlyRate { get; set; }
         public string TotalAmount { get; set; }
-
     }
 }

@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace CarShareApi.ViewModels.Users
+﻿namespace CarShareApi.ViewModels.Users
 {
     public class RegisterViewModel
     {
+        //Register view model provides the objects to handle receiving the
+        //registration details of the user and in addition pass / failure
+        //boolean and a message that will give a display to the user.
+
         public bool Success { get; set; }
         public string Message { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
         public string DriversLicenceID { get; set; }
         public string DriversLicenceState { get; set; }
         public string AddressLine1 { get; set; }
@@ -17,6 +19,5 @@ namespace CarShareApi.ViewModels.Users
         public string State { get; set; }
         public string Postcode { get; set; }
         public string PhoneNumber { get; set; }
-        public string DateOfBirth { get; set; }
     }
 }

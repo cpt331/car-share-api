@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace CarShareApi.ViewModels
+﻿namespace CarShareApi.ViewModels
 {
     public class CloseBookingCheckRequest
     {
+        //the close booking request allows a user to close their booking
+        //by passing the booking ID and parsing the lat and long so that
+        //the system can perform the neccessary calculations (ie is car 
+        //being returned within x radius of a city. This check is used when
+        //a user is considering checking their vehicle back in and needs a 
+        //quote
+
         public int BookingId { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }

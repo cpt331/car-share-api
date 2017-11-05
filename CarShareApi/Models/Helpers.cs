@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Diagnostics;
 
 namespace CarShareApi.Models
 {
@@ -9,13 +6,12 @@ namespace CarShareApi.Models
     {
         public static string GetIssuerUri()
         {
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
+            //provides resources for debugging and help
+            if (Debugger.IsAttached)
                 return "http://localhost:63130";
-            }
 
-            return "http://careshareapi-env.hdwwh7zgb3.us-east-1.elasticbeanstalk.com";
-            
+            return
+                "https://ewebahapi.azurewebsites.net/";
         }
     }
 }

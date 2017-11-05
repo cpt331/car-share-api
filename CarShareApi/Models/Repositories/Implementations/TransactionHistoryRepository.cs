@@ -1,23 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.Models.Repositories.Implementations
 {
     public class TransactionHistoryRepository : ITransactionHistoryRepository
     {
-        private CarShareContext Context { get; set; }
-
+        //This class inherits the ITransactionHistoryRepository register
         public TransactionHistoryRepository(CarShareContext context)
         {
+            //Inherits the DB context
             Context = context;
         }
 
+        private CarShareContext Context { get; }
+
         public TransactionHistory Add(TransactionHistory item)
         {
+            //Function to add a new tsxhistory item to the DB and save changes
             var transaction = Context.TransactionHistories.Add(item);
             Context.SaveChanges();
             return transaction;
@@ -25,12 +26,15 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public TransactionHistory Find(int id)
         {
-            var transaction = Context.TransactionHistories.FirstOrDefault(x => x.TransactionID == id);
+            //Finds a tsxhistory based on the tsx ID and returns first input
+            var transaction = Context.TransactionHistories.FirstOrDefault(x => 
+            x.TransactionID == id);
             return transaction;
         }
 
         public List<TransactionHistory> FindAll()
         {
+            //Finds all tsxs and returns a list
             return Context.TransactionHistories.ToList();
         }
 
@@ -41,6 +45,7 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public TransactionHistory Update(TransactionHistory item)
         {
+            //The tsxhistory state currently modified is saved to the DB
             Context.Entry(item).State = EntityState.Modified;
             Context.SaveChanges();
             return item;
@@ -48,7 +53,9 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public void Delete(int id)
         {
-            var transaction = Context.TransactionHistories.FirstOrDefault(x => x.TransactionID == id);
+            //Allows the user to delete a tsxhistory based on ID before saving
+            var transaction = Context.TransactionHistories.FirstOrDefault(x => 
+            x.TransactionID == id);
             if (transaction != null)
             {
                 Context.Entry(transaction).State = EntityState.Deleted;

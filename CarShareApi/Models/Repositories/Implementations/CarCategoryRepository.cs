@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.Models.Repositories.Implementations
 {
     public class CarCategoryRepository : ICarCategoryRepository
     {
-        private CarShareContext Context { get; set; }
+        //This class inherits the ICarCategoryRepository register
         public CarCategoryRepository(CarShareContext context)
         {
+            //Inherits the DB context
             Context = context;
         }
 
+        private CarShareContext Context { get; }
+
         public CarCategory Add(CarCategory item)
         {
+            //Function to add a new car category item to the DB and save
             var category = Context.CarCategories.Add(item);
             Context.SaveChanges();
             return category;
@@ -24,12 +26,15 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public CarCategory Find(string id)
         {
-            var category = Context.CarCategories.FirstOrDefault(x => x.Category == id);
+            //Finds a booking based on the car ID and returns first input
+            var category = Context.CarCategories.FirstOrDefault(x => 
+            x.Category == id);
             return category;
         }
 
         public List<CarCategory> FindAll()
         {
+            //Finds all car categories and returns a list
             return Context.CarCategories.ToList();
         }
 
@@ -40,6 +45,7 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public CarCategory Update(CarCategory item)
         {
+            //car category state that is currently modified is saved to the DB
             Context.Entry(item).State = EntityState.Modified;
             Context.SaveChanges();
             return item;
@@ -47,7 +53,9 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public void Delete(string id)
         {
-            var category = Context.CarCategories.FirstOrDefault(x => x.Category == id);
+            //Allows the user to delete a car category based on ID 
+            var category = Context.CarCategories.FirstOrDefault(x => 
+            x.Category == id);
             if (category != null)
             {
                 Context.Entry(category).State = EntityState.Deleted;
@@ -57,6 +65,7 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public void Dispose()
         {
+            //Discards the context
             Context?.Dispose();
         }
     }

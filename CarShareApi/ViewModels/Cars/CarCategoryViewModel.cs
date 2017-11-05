@@ -1,22 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using CarShareApi.Models.Repositories.Data;
+﻿using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.ViewModels
 {
     public class CarCategoryViewModel
     {
-        public string Name { get; set; }
-        public decimal BillingRate { get; set; }
+        //this view model allows the parsing of car category information
+        //as the billing rate is dependant on the car category within the
+        //car category table. this holds two fields being type (ie suv, sedan)
+        //and an hourly rate
 
-        public CarCategoryViewModel() { }
+        public CarCategoryViewModel()
+        {
+        }
 
         public CarCategoryViewModel(CarCategory category)
         {
             Name = category.Category;
             BillingRate = category.BillingRate;
         }
+
+        public string Name { get; set; }
+        public decimal BillingRate { get; set; }
     }
 }

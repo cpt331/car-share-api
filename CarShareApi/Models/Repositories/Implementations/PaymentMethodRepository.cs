@@ -1,24 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.Models.Repositories.Implementations
 {
     public class PaymentMethodRepository : IPaymentMethodRepository
     {
-
-        private CarShareContext Context { get; set; }
+        //This class inherits the IpaymentmethodRepository register
         public PaymentMethodRepository(CarShareContext context)
         {
+            //Inherits the DB context
             Context = context;
         }
+
+        private CarShareContext Context { get; }
 
 
         public PaymentMethod Add(PaymentMethod item)
         {
+            //Function to add a new paymentmethod item to the DB and save
             var paymentMethod = Context.PaymentMethods.Add(item);
             Context.SaveChanges();
             return paymentMethod;
@@ -26,12 +27,15 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public PaymentMethod Find(int id)
         {
-            var paymentMethod = Context.PaymentMethods.FirstOrDefault(x => x.AccountID == id);
+            //Finds a paymentmethod based on the paymentmethod ID and returns first inp
+            var paymentMethod = Context.PaymentMethods.FirstOrDefault(x => 
+            x.AccountID == id);
             return paymentMethod;
         }
 
         public List<PaymentMethod> FindAll()
         {
+            //Finds all paymentmethods and returns a list
             return Context.PaymentMethods.ToList();
         }
 
@@ -42,6 +46,7 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public PaymentMethod Update(PaymentMethod item)
         {
+            //The paymentmethod state that is currently modified is saved
             Context.Entry(item).State = EntityState.Modified;
             Context.SaveChanges();
             return item;
@@ -49,7 +54,9 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public void Delete(int id)
         {
-            var paymentMethod = Context.PaymentMethods.FirstOrDefault(x => x.AccountID == id);
+            //Allows the user to delete a paymentmethod based on ID then save
+            var paymentMethod = Context.PaymentMethods.FirstOrDefault(x => 
+            x.AccountID == id);
             if (paymentMethod != null)
             {
                 Context.Entry(paymentMethod).State = EntityState.Deleted;

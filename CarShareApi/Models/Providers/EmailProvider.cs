@@ -1,78 +1,78 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.Net.Mail;
 
 namespace CarShareApi.Models.Providers
 {
+    //This provider allows an email to be sent through AWS SES service
+    //The Welcomemailer creates the neccessary set up to pass SMTP credentials
+    //before creating the neccesary method to process the message and content
+
     public interface IEmailProvider
     {
-        void Send(string email, string firstName, string otpRecord);
+        void Send(string email, string subject, string title, 
+            string body, string footer);
     }
 
     public class WelcomeMailer : IEmailProvider
     {
-
-        public string SmtpUsername { get; set; }
-        public string SmtpPassword { get; set; }
-        public string SmtpServer { get; set; }
-        public int SmtpPort { get; set; }
-
-        private string email;
-        private string firstName;
-        private string otpRecord;
-
-        public WelcomeMailer(string smtpUsername, string smtpPassword, string smtpServer, int smtpPort)
+        public WelcomeMailer(string smtpUsername, string smtpPassword,
+            string smtpServer, int smtpPort)
         {
+            //Method to pass the SMTP credentials from a backend call
+            //Which protects the SMTP credentials from visibility
             SmtpUsername = smtpUsername;
             SmtpPassword = smtpPassword;
             SmtpServer = smtpServer;
             SmtpPort = smtpPort;
         }
 
-        public void Send(string email, string firstName, string otpRecord)
-        {
-            this.email = email;
-            this.firstName = firstName;
-            this.otpRecord = otpRecord;
-            String from = "shawn.burriss@gmail.com";
-            String fromName = "Ewebah Admin";
-            String subject = "Ewebah - Welcome to the App!";
-            String body =
-                $"<h1>Welcome to Ewebah, {firstName}!</h1>" +
-                "<p>Thank you for registering with  " +
-                "<a href='ewebah.s3-website-us-east-1.amazonaws.com'>Ewebah</a>. Your account is set up! " +
-                "<p>Your activation key to finalise your account is: " +
-                $"<p><b>{otpRecord}</b>" +
-                "<p>Are you ready to ride with us?";
+        public string SmtpUsername { get; set; }
+        public string SmtpPassword { get; set; }
+        public string SmtpServer { get; set; }
+        public int SmtpPort { get; set; }
 
-            MailMessage message = new MailMessage
+        public void Send(string email, string subject, string title, 
+            string body, string footer)
+        {
+            //This method passes content to form the email body
+            //Below are base inputs to form the email
+            var from = "shawn.burriss@gmail.com";
+            var fromName = "Ewebah Admin";
+            string emailSubject = subject;
+            var emailBody =
+                $"<h1>{title}</h1>" +
+                $"<p>{body}" +
+                $"<p>{footer}";
+
+            //This compiles the above inputs to create a message object
+            var message = new MailMessage
             {
                 IsBodyHtml = true,
                 From = new MailAddress(from, fromName),
-                Subject = subject,
-                Body = body
+                Subject = emailSubject,
+                Body = emailBody
             };
             message.To.Add(new MailAddress(email));
 
-            SmtpClient client =
+            //Create a new smtp client and pass the protected crednetials
+            var client =
                 new SmtpClient(SmtpServer, SmtpPort)
                 {
                     // Pass SMTP credentials and enable SSL encryption
-                    Credentials = new NetworkCredential(SmtpUsername, SmtpPassword),
+                    Credentials =
+                        new NetworkCredential(SmtpUsername, SmtpPassword),
                     EnableSsl = true
                 };
             try
             {
+                //attempt to send message otherwise catch error
                 client.Send(message);
             }
             catch (Exception ex)
             {
-                //Console.WriteLine("The email was not sent.");
-                //Console.WriteLine("Error message: " + ex.Message);
+                Console.WriteLine("The email was not sent.");
+                Console.WriteLine("Error message: " + ex.Message);
             }
         }
     }

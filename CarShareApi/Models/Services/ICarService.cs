@@ -1,13 +1,13 @@
-﻿using CarShareApi.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CarShareApi.ViewModels;
 using CarShareApi.ViewModels.Cars;
 
 namespace CarShareApi.Models.Services
 {
+    //This interface provides the overarching activities related to
+    //The car service actions
+
     public interface ICarService : IDisposable
     {
         CarViewModel FindCar(int id);

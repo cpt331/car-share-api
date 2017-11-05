@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Security.Cryptography;
+using System.Text;
 
 namespace CarShareApi.Models
 {
@@ -11,9 +9,10 @@ namespace CarShareApi.Models
         //https://stackoverflow.com/a/212526
         public static string EncryptString(string str)
         {
-            byte[] data = System.Text.Encoding.ASCII.GetBytes(str);
-            data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
-            String hash = System.Text.Encoding.ASCII.GetString(data);
+            var data = Encoding.ASCII.GetBytes(str);
+            data = new SHA256Managed()
+                .ComputeHash(data);
+            var hash = Encoding.ASCII.GetString(data);
             return hash;
         }
     }

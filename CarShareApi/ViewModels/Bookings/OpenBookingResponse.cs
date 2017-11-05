@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace CarShareApi.ViewModels
+﻿namespace CarShareApi.ViewModels
 {
     public class OpenBookingResponse
     {
+        //this allows the outcome of a request by passing the success/failure
+        //of the action, a message that will be displayed to the user and if
+        //a booking exists, the booking ID and check out time
+
         public bool Success { get; set; }
         public string Message { get; set; }
 
         //if booking was successful
         public int? BookingId { get; set; }
+
         public string CheckOutTime { get; set; }
     }
 }

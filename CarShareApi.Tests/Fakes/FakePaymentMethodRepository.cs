@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;using CarShareApi.Models.Repositories;
+using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.Tests.Fakes
 {
     public class FakePaymentMethodRepository : IPaymentMethodRepository
     {
-
-        private List<PaymentMethod> PaymentMethods { get; set; }
-
         public FakePaymentMethodRepository(List<PaymentMethod> paymentMethods)
         {
             PaymentMethods = paymentMethods;
         }
+
+        private List<PaymentMethod> PaymentMethods { get; }
 
         public PaymentMethod Add(PaymentMethod item)
         {
@@ -52,7 +49,6 @@ namespace CarShareApi.Tests.Fakes
 
         public void Dispose()
         {
-            
         }
     }
 }

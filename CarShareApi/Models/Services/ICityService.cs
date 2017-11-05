@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using CarShareApi.ViewModels;
 
 namespace CarShareApi.Models.Services
 {
+    //This interface provides the overarching activities related to
+    //The city service actions
+
     public interface ICityService : IDisposable
     {
         List<CityViewModel> FindAllCities();

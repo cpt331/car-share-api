@@ -1,21 +1,9 @@
-﻿using CarShareApi.Models;
-using CarShareApi.Models.Providers;
-using CarShareApi.Models.Repositories.Implementations;
-using CarShareApi.Models.Services;
-using CarShareApi.Models.Services.Implementations;
-using CarShareApi.Models.ViewModels;
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.OAuth;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Linq;
 using System.Security.Claims;
-using System.Web.Configuration;
 using System.Web.Http;
-using CarShareApi.Models.Repositories.Data;
+using CarShareApi.Models;
+using CarShareApi.Models.Services;
+using CarShareApi.Models.ViewModels;
 using CarShareApi.ViewModels;
 using CarShareApi.ViewModels.Bookings;
 using CarShareApi.ViewModels.Users;
@@ -25,15 +13,14 @@ using NLog;
 namespace CarShareApi.Controllers
 {
     /// <summary>
-    /// Account controller
+    ///     Account controller
     /// </summary>
-    /// 
-   
     [Authorize]
     public class AccountController : ApiController
     {
-        private IUserService UserService;
-        private static Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = 
+            LogManager.GetCurrentClassLogger();
+        private readonly IUserService UserService;
 
         //inject service to make testing easier
         public AccountController(IUserService userService)
@@ -43,10 +30,11 @@ namespace CarShareApi.Controllers
 
 
         /// <summary>
-        /// Return the current logged in user
+        ///     Return the current logged in user
         /// </summary>
         /// <returns>A view model of the user and also information about outstanding bookings</returns>
-        [HttpGet, Route("api/account/current")]
+        [HttpGet]
+        [Route("api/account/current")]
         public UserViewModel Current()
         {
             var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
@@ -58,13 +46,15 @@ namespace CarShareApi.Controllers
             return null;
         }
 
-        [HttpGet, Route("api/account/bookings")]
+        [HttpGet]
+        [Route("api/account/bookings")]
         public BookingHistoryResponse Bookings(int pageNumber = 1, int pageSize = 10)
         {
             var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
             if (userPrincipal.Id.HasValue)
             {
-                var response = UserService.GetBookingHistory(userPrincipal.Id.Value, pageNumber, pageSize);
+                var response = UserService.GetBookingHistory(
+                    userPrincipal.Id.Value, pageNumber, pageSize);
                 return response;
             }
             return new BookingHistoryResponse
@@ -75,46 +65,51 @@ namespace CarShareApi.Controllers
         }
 
         /// <summary>
-        /// Register a new user into the system
+        ///     Register a new user into the system
         /// </summary>
         /// <param name="request">The view model from the client</param>
         /// <returns>A response indicating success and relevant error messages</returns>
-        [HttpPost, Route("api/account/register"), AllowAnonymous]
+        [HttpPost]
+        [Route("api/account/register")]
+        [AllowAnonymous]
         public RegisterResponse Register(RegisterRequest request)
         {
-            Logger.Debug("Register Request Received: {0}", JsonConvert.SerializeObject(request, Formatting.Indented));
+            Logger.Debug("Register Request Received: {0}", 
+                JsonConvert.SerializeObject(request, Formatting.Indented));
 
             RegisterResponse response;
             //use in built data annotations to ensure model has binded correctly
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(x => x.ErrorMessage));
+                var errors = ModelState.Keys.SelectMany(key => 
+                ModelState[key].Errors.Select(x => x.ErrorMessage));
                 response = new RegisterResponse
                 {
                     Success = false,
                     Message = "Form has validation errors",
                     Errors = errors.ToArray()
                 };
-                
             }
             else
             {
                 //send request to the user service and return the response (success or fail)
                 response = UserService.Register(request);
-                
             }
             Logger.Debug("Sent Register Response: {0}",
-                JsonConvert.SerializeObject(response, Formatting.Indented));
+                JsonConvert.SerializeObject(response, 
+                Formatting.Indented));
             return response;
         }
 
-        [HttpGet, Route("api/account/registerupdatereturn")]
+        [HttpGet]
+        [Route("api/account/registerupdatereturn")]
         public RegisterViewModel Register()
         {
             var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
             if (userPrincipal.Id.HasValue)
             {
-                var response = UserService.GetRegistrationRecord(userPrincipal.Id.Value);
+                var response = UserService.GetRegistrationRecord(
+                    userPrincipal.Id.Value);
                 return response;
             }
             return new RegisterViewModel
@@ -124,36 +119,40 @@ namespace CarShareApi.Controllers
             };
         }
 
-        [HttpPost, Route("api/account/registerupdate")]
+        [HttpPost]
+        [Route("api/account/registerupdate")]
         public InterfaceResponse UpdateRegister(RegisterUpdateRequest request)
         {
-            Logger.Debug("Registration details received: {0}", JsonConvert.SerializeObject(request, Formatting.Indented));
+            Logger.Debug("Registration details received: {0}",
+                JsonConvert.SerializeObject(request, Formatting.Indented));
 
             var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
             if (userPrincipal.Id.HasValue)
             {
                 InterfaceResponse response;
-                //use in built data annotations to ensure model has binded correctly
+                //use in built data annotations to ensure model has 
+                //binded correctly
                 if (!ModelState.IsValid)
                 {
-                    var errors = ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(x => x.ErrorMessage));
+                    var errors = ModelState.Keys.SelectMany(key => 
+                    ModelState[key].Errors.Select(x => x.ErrorMessage));
                     response = new InterfaceResponse
                     {
                         Success = false,
                         Message = "Form has validation errors",
                         Errors = errors.ToArray()
                     };
-
                 }
                 else
                 {
-
-                    //send request to the user service and return the response (success or fail)
-                    response = UserService.UpdateRegistration(request, userPrincipal.Id.Value);
-
+                    //send request to the user service and return the 
+                    //response (success or fail)
+                    response = UserService.UpdateRegistration(
+                        request, userPrincipal.Id.Value);
                 }
                 Logger.Debug("Registration update sent Response: {0}",
-                    JsonConvert.SerializeObject(response, Formatting.Indented));
+                    JsonConvert.SerializeObject(
+                        response, Formatting.Indented));
                 return response;
             }
             else
@@ -162,46 +161,51 @@ namespace CarShareApi.Controllers
                 {
                     Success = false,
                     Message = "Invalid user ID",
-                    Errors = new[] { "No user is logged on" }
+                    Errors = new[] {"No user is logged on"}
                 };
                 Logger.Debug("The user ID session is invalid",
-                    JsonConvert.SerializeObject(response, Formatting.Indented));
+                    JsonConvert.SerializeObject(
+                        response, Formatting.Indented));
                 return response;
             }
         }
 
 
-
-        [HttpPost, Route("api/account/paymentmethod")]
-        public AddPaymentMethodResponse AddPaymentMethod(AddPaymentMethodRequest request)
+        [HttpPost]
+        [Route("api/account/paymentmethod")]
+        public AddPaymentMethodResponse AddPaymentMethod(
+            AddPaymentMethodRequest request)
         {
-            Logger.Debug("Payment Method Request Received: {0}", JsonConvert.SerializeObject(request, Formatting.Indented));
+            Logger.Debug("Payment Method Request Received: {0}",
+                JsonConvert.SerializeObject(request, Formatting.Indented));
 
             var userPrincipal = new UserPrincipal(ClaimsPrincipal.Current);
             if (userPrincipal.Id.HasValue)
             {
                 AddPaymentMethodResponse response;
-                //use in built data annotations to ensure model has binded correctly
+                //use in built data annotations to ensure model has 
+                //binded correctly
                 if (!ModelState.IsValid)
                 {
-                    var errors = ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(x => x.ErrorMessage));
+                    var errors = ModelState.Keys.SelectMany(key => 
+                    ModelState[key].Errors.Select(x => x.ErrorMessage));
                     response = new AddPaymentMethodResponse
                     {
                         Success = false,
                         Message = "Form has validation errors",
                         Errors = errors.ToArray()
                     };
-
                 }
                 else
                 {
-                    
-                    //send request to the user service and return the response (success or fail)
-                    response = UserService.AddPaymentMethod(request, userPrincipal.Id.Value);
-
+                    //send request to the user service and return the 
+                    //response (success or fail)
+                    response = UserService.AddPaymentMethod(
+                        request, userPrincipal.Id.Value);
                 }
                 Logger.Debug("Sent Payment Method Response: {0}",
-                    JsonConvert.SerializeObject(response, Formatting.Indented));
+                    JsonConvert.SerializeObject(
+                        response, Formatting.Indented));
                 return response;
             }
             else
@@ -210,24 +214,30 @@ namespace CarShareApi.Controllers
                 {
                     Success = false,
                     Message = "Invalid user ID",
-                    Errors = new []{ "No user is logged on"}
+                    Errors = new[] {"No user is logged on"}
                 };
                 Logger.Debug("The user ID session is invalid",
-                    JsonConvert.SerializeObject(response, Formatting.Indented));
+                    JsonConvert.SerializeObject(
+                        response, Formatting.Indented));
                 return response;
             }
         }
 
-        [HttpPost, Route("api/account/passwordreset"), AllowAnonymous]
-        public PasswordResetResponse PasswordReset(PasswordResetRequest request)
+        [HttpPost]
+        [Route("api/account/passwordreset")]
+        [AllowAnonymous]
+        public PasswordResetResponse PasswordReset(
+            PasswordResetRequest request)
         {
-            Logger.Debug("Password Reset Request Received: {0}", JsonConvert.SerializeObject(request, Formatting.Indented));
+            Logger.Debug("Password Reset Request Received: {0}",
+                JsonConvert.SerializeObject(request, Formatting.Indented));
 
             PasswordResetResponse response;
             //use in built data annotations to ensure model has binded correctly
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(x => x.ErrorMessage));
+                var errors = ModelState.Keys.SelectMany(key => 
+                ModelState[key].Errors.Select(x => x.ErrorMessage));
                 response = new PasswordResetResponse
                 {
                     Success = false,
@@ -237,9 +247,9 @@ namespace CarShareApi.Controllers
             }
             else
             {
-                //send request to the user service and return the response (success or fail)
+                //send request to the user service and return 
+                //the response (success or fail)
                 response = UserService.ResetPassword(request);
-
             }
             Logger.Debug("Sent Password Reset Response: {0}",
                 JsonConvert.SerializeObject(response, Formatting.Indented));
@@ -247,39 +257,37 @@ namespace CarShareApi.Controllers
         }
 
 
-        [HttpPost, Route("api/account/otp"), AllowAnonymous]
-        public OTPResponse OTPActivation(OTPRequest request)
+        [HttpPost]
+        [Route("api/account/otp")]
+        [AllowAnonymous]
+        public OTPResponse OtpActivation(OTPRequest request)
         {
-            Logger.Debug("OTP Activation request received: {0}", JsonConvert.SerializeObject(request, Formatting.Indented));
+            Logger.Debug("OTP Activation request received: {0}",
+                JsonConvert.SerializeObject(request, Formatting.Indented));
 
 
             OTPResponse response;
             //use in built data annotations to ensure model has binded correctly
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(x => x.ErrorMessage));
+                var errors = ModelState.Keys.SelectMany(key => 
+                ModelState[key].Errors.Select(x => x.ErrorMessage));
                 response = new OTPResponse
                 {
                     Success = false,
                     Message = "Form has validation errors",
                     Errors = errors.ToArray()
                 };
-
             }
             else
             {
-
-                //send request to the user service and return the response (success or fail)
-                response = UserService.OTPActivation(request);
-
+                //send request to the user service and return the 
+                //response (success or fail)
+                response = UserService.OtpActivation(request);
             }
             Logger.Debug("Sent OTP Response: {0}",
                 JsonConvert.SerializeObject(response, Formatting.Indented));
             return response;
-            
         }
-
-
-
     }
 }

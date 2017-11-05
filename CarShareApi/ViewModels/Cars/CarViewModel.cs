@@ -1,30 +1,16 @@
-﻿using CarShareApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using CarShareApi.Models.Repositories.Data;
+﻿using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.ViewModels
 {
     public class CarViewModel
     {
-        //object fields
-        public int Id { get; set; }
-        public string Model { get; set; }
-        public string Make { get; set; }
-        public string CarCategory { get; set; }
-        public string Transmission { get; set; }
-        public string Suburb { get; set; }
-        public string Status { get; set; }
-        public decimal LatPos { get; set; }
-        public decimal LongPos { get; set; }
+        //The car view model allows the user to be able to view details on 
+        //the car including make model car category transmission suburbs 
+        //status and position as well as the billing rate.
+        public CarViewModel()
+        {
+        }
 
-        //calculated fields
-        public double? Distance { get; set; }
-        public decimal? BillingRate { get; set; }
-        
-        public CarViewModel() { }
         public CarViewModel(Car car)
         {
             Id = car.VehicleID;
@@ -37,9 +23,24 @@ namespace CarShareApi.ViewModels
             LatPos = car.LatPos;
             LongPos = car.LongPos;
             if (car.CarCategory1 != null)
-            {
                 BillingRate = car.CarCategory1.BillingRate;
-            }
         }
+
+        //object fields
+        public int Id { get; set; }
+
+        public string Model { get; set; }
+        public string Make { get; set; }
+        public string CarCategory { get; set; }
+        public string Transmission { get; set; }
+        public string Suburb { get; set; }
+        public string Status { get; set; }
+        public decimal LatPos { get; set; }
+        public decimal LongPos { get; set; }
+
+        //calculated fields
+        public double? Distance { get; set; }
+
+        public decimal? BillingRate { get; set; }
     }
 }

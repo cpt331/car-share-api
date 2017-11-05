@@ -1,23 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.Models.Repositories.Implementations
 {
     public class CityRepository : ICityRepository
     {
-        private CarShareContext Context { get; set; }
-
+        //This class inherits the IcityRepository register
         public CityRepository(CarShareContext context)
         {
+            //Inherits the DB context
             Context = context;
         }
 
+        private CarShareContext Context { get; }
+
         public City Add(City item)
         {
+            //Function to add a new city item to the DB and save changes
             var city = Context.Cities.Add(item);
             Context.SaveChanges();
             return city;
@@ -25,12 +26,15 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public City Find(string id)
         {
-            var city = Context.Cities.FirstOrDefault(x => x.CityName.Equals(id));
+            //Finds a city based on the city ID and returns first input
+            var city = Context.Cities.FirstOrDefault(x => 
+            x.CityName.Equals(id));
             return city;
         }
 
         public List<City> FindAll()
         {
+            //Finds all cities and returns a list
             return Context.Cities.ToList();
         }
 
@@ -41,6 +45,7 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public City Update(City item)
         {
+            //The city state that is currently modified is saved to the DB
             Context.Entry(item).State = EntityState.Modified;
             Context.SaveChanges();
             return item;
@@ -48,7 +53,9 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public void Delete(string id)
         {
-            var city = Context.Cities.FirstOrDefault(x => x.CityName.Equals(id));
+            //Allows the user to delete a city based on ID before saving
+            var city = Context.Cities.FirstOrDefault(x => 
+            x.CityName.Equals(id));
             if (city != null)
             {
                 Context.Entry(city).State = EntityState.Deleted;

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
 
@@ -10,13 +8,12 @@ namespace CarShareApi.Tests.Fakes
 {
     public class FakeBookingRepository : IBookingRepository
     {
-
-        private List<Booking> Bookings { get; set; }
-
         public FakeBookingRepository(List<Booking> bookings)
         {
             Bookings = bookings;
         }
+
+        private List<Booking> Bookings { get; }
 
         public Booking Add(Booking item)
         {
@@ -62,14 +59,16 @@ namespace CarShareApi.Tests.Fakes
             return Bookings.Where(x => x.VehicleID == vehicleId).ToList();
         }
 
-        public List<Booking> FindByAccountIdAndVehicleId(int accountId, int vehicleId)
+        public List<Booking> FindByAccountIdAndVehicleId(int accountId,
+            int vehicleId)
         {
-            return Bookings.Where(x => x.VehicleID == vehicleId && x.AccountID == accountId).ToList();
+            return Bookings.Where(x =>
+                x.VehicleID == vehicleId && x.AccountID == accountId).ToList();
         }
 
         public void Dispose()
         {
-           //nah
+            //nah
         }
     }
 }

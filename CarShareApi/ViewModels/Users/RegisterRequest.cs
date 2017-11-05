@@ -5,9 +5,16 @@ namespace CarShareApi.Models.ViewModels
 {
     public class RegisterRequest
     {
+        //Register request provides the objects needed to register a user,
+        //including first and last name, email address, password, date of 
+        //birth, licence details, postal address and phone number. This 
+        //request will interact with both the user table and the 
+        //registration status in the database.
+
         [Required]
         [MaxLength(100)]
         public string FirstName { get; set; }
+
         [Required]
         [MaxLength(100)]
         public string LastName { get; set; }
@@ -16,19 +23,26 @@ namespace CarShareApi.Models.ViewModels
         [EmailAddress]
         [MaxLength(100)]
         public string Email { get; set; }
+
         [Required]
-        [StringLength(50, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(50, ErrorMessage = 
+            "The {0} must be at least {2} characters long.", 
+            MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "The password and confirmation " +
+                                            "password do not match.")]
         public string ConfirmPassword { get; set; }
 
         [Required]
         public DateTime? DateOfBirth { get; set; }
+
         [Required]
-        [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 1)]
+        [StringLength(20, ErrorMessage = "The {0} must be at least {2} " +
+                                         "characters long.", MinimumLength = 1)]
         public string LicenceNumber { get; set; }
 
         [MaxLength(5)]

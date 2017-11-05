@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CarShareApi.ViewModels;
 using CarShareApi.ViewModels.Bookings;
 
 namespace CarShareApi.Models.Services
 {
+    //This interface provides the overarching activities related to
+    //The booking service actions
     public interface IBookingService : IDisposable
     {
         OpenBookingResponse OpenBooking(int vehicleId, int accountId);

@@ -146,6 +146,7 @@
     <Compile Include="Fakes\FakeEmailProvider.cs" />
     <Compile Include="Fakes\FakePaymentMethodRepository.cs" />
     <Compile Include="Fakes\FakeRegistrationRepository.cs" />
+    <Compile Include="Fakes\FakeTemplateRepository.cs" />
     <Compile Include="Fakes\FakeTransactionHistoryRepository.cs" />
     <Compile Include="Fakes\FakeUserRepository.cs" />
     <Compile Include="Fakes\TestPrincipal.cs" />
@@ -164,6 +165,7 @@
     <EmbeddedResource Include="Fakes\Data\Categories.json" />
     <EmbeddedResource Include="Fakes\Data\Bookings.json" />
     <EmbeddedResource Include="Fakes\Data\Cities.json" />
+    <EmbeddedResource Include="Fakes\Data\Templates.json" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

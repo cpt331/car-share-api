@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Web;
 
 namespace CarShareApi.Models
 {
@@ -10,6 +7,7 @@ namespace CarShareApi.Models
     {
         public static string Decode(this string s)
         {
+            //method converts encoded information in base64
             var data = Convert.FromBase64String(s);
             return Encoding.UTF8.GetString(data);
         }

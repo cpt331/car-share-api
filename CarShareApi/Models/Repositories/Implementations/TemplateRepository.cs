@@ -1,23 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.Models.Repositories.Implementations
 {
     public class TemplateRepository : ITemplateRepository
     {
-        private CarShareContext Context { get; set; }
+        //This class inherits the ItemplateRepository register
         public TemplateRepository(CarShareContext context)
         {
+            //Inherits the DB context
             Context = context;
         }
+
+        private CarShareContext Context { get; }
 
 
         public Template Add(Template item)
         {
+            //Function to add a new template item to the DB and save changes
             var template = Context.Templates.Add(item);
             Context.SaveChanges();
             return template;
@@ -25,12 +27,14 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public Template Find(int id)
         {
+            //Finds a template based on the template ID and returns first input
             var template = Context.Templates.FirstOrDefault(x => x.ID == id);
             return template;
         }
 
         public List<Template> FindAll()
         {
+            //Finds all templates and returns a list
             return Context.Templates.ToList();
         }
 
@@ -41,6 +45,7 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public Template Update(Template item)
         {
+            //The template state that is currently modified is saved to the DB
             Context.Entry(item).State = EntityState.Modified;
             Context.SaveChanges();
             return item;
@@ -48,6 +53,7 @@ namespace CarShareApi.Models.Repositories.Implementations
 
         public void Delete(int id)
         {
+            //Allows the user to delete a template based on ID before saving
             var template = Context.Templates.FirstOrDefault(x => x.ID == id);
             if (template != null)
             {

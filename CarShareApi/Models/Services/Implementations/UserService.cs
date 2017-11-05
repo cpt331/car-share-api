@@ -1,36 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using CarShareApi.ViewModels;
+﻿using CarShareApi.Models.Providers;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
 using CarShareApi.Models.ViewModels;
-using CarShareApi.Models.Providers;
+using CarShareApi.ViewModels;
 using CarShareApi.ViewModels.Bookings;
 using CarShareApi.ViewModels.Users;
 using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CarShareApi.Models.Services.Implementations
 {
     public class UserService : IUserService
     {
-        private static Logger Logger = LogManager.GetCurrentClassLogger();
-
-        //repositories used by the service for operation
-        private IUserRepository UserRepository { get; set; }
-        private IRegistrationRepository RegistrationRepository { get; set; }
-        private IBookingRepository BookingRepository { get; set; }
-        private IPaymentMethodRepository PaymentMethodRepository { get; set; }
-        private IEmailProvider EmailProvider { get; set; }
-        private ICarRepository CarRepository { get; set; }
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         //repositories are injected to allow easier testing
-        public UserService(IUserRepository userRepository, 
-            IRegistrationRepository registrationRepository, 
-            IBookingRepository bookingRepository, 
-            IPaymentMethodRepository paymentMethodRepository, 
-            IEmailProvider emailProvider, ICarRepository carRepository)
+        public UserService(IUserRepository userRepository,
+            IRegistrationRepository registrationRepository,
+            IBookingRepository bookingRepository,
+            IPaymentMethodRepository paymentMethodRepository,
+            IEmailProvider emailProvider, ICarRepository carRepository,
+            ITemplateRepository templateRepository)
         {
             Logger.Debug("UserService Instantiated");
             UserRepository = userRepository;
@@ -39,10 +31,21 @@ namespace CarShareApi.Models.Services.Implementations
             PaymentMethodRepository = paymentMethodRepository;
             EmailProvider = emailProvider;
             CarRepository = carRepository;
+            TemplateRepository = templateRepository;
         }
 
+        //repositories used by the service for operation
+        private IUserRepository UserRepository { get; }
+
+        private IRegistrationRepository RegistrationRepository { get; }
+        private IBookingRepository BookingRepository { get; }
+        private IPaymentMethodRepository PaymentMethodRepository { get; }
+        private IEmailProvider EmailProvider { get; }
+        private ICarRepository CarRepository { get; }
+        private ITemplateRepository TemplateRepository { get; }
+
         /// <summary>
-        /// Validates username and password provided match a user record in the system
+        ///     Validates username and password provided match a user record in the system
         /// </summary>
         /// <param name="request">The request containing the username and password</param>
         /// <returns>A response indicating success or failure of the operation</returns>
@@ -53,11 +56,7 @@ namespace CarShareApi.Models.Services.Implementations
 
             //if found continue
             if (user != null)
-            {
-                
-                //encrypt the provided password so it can be compared against the encrypted values in the database
                 if (user.Password.Equals(Encryption.EncryptString(request.Password)))
-                {
                     if (user.Status == Constants.UserOTPStatus)
                     {
                         var response = new LogonResponse
@@ -67,12 +66,10 @@ namespace CarShareApi.Models.Services.Implementations
                             HasOpenBooking = false
                         };
                         return response;
-
                     }
                     //if the password check passes, check if the user has an active status
                     else if (user.Status == Constants.UserActiveStatus || user.Status == Constants.UserPartialStatus)
                     {
-
                         var response = new LogonResponse
                         {
                             Id = user.AccountID,
@@ -92,8 +89,6 @@ namespace CarShareApi.Models.Services.Implementations
 
                         return response;
                     }
-                }
-            }
 
             return new LogonResponse
             {
@@ -101,74 +96,65 @@ namespace CarShareApi.Models.Services.Implementations
                 Message = "Invalid email or password.",
                 HasOpenBooking = false
             };
-
         }
 
         /// <summary>
-        /// Registers a user and their associated registration into the database
+        ///     Registers a user and their associated registration into the database
         /// </summary>
         /// <param name="request">The fields used to populate the registration</param>
         /// <returns>A response indicating success or failure of the operation</returns>
         public RegisterResponse Register(RegisterRequest request)
         {
-            
             //ensure the user has not been registered already
-            if(UserRepository.FindByEmail(request.Email) != null)
-            {
+            if (UserRepository.FindByEmail(request.Email) != null)
                 return new RegisterResponse
                 {
                     Success = false,
                     Message = "Unable to register user",
-                    Errors = new string[]
+                    Errors = new[]
                     {
                         "User is already registered"
                     }
                 };
-            }
 
-            
 
-            
             //checks if the user is above the acceptable age
-            DateTime dob = request.DateOfBirth ?? DateTime.Now; //this is because dob could be null
+            var dob = request.DateOfBirth ?? DateTime.Now; //this is because dob could be null
 
             if (dob.Date > DateTime.Now)
-            {
                 return new RegisterResponse
                 {
                     Success = false,
-                    Message = $"You must enter a date before today's date",
-                    Errors = new string[]
+                    Message = "You must enter a date before today's date",
+                    Errors = new[]
                     {
                         "User does not meet the age requirement"
                     }
                 };
-            }
 
 
-            DateTime minAge = DateTime.Now.AddYears(-Constants.UserMinimumAge); //minage is todays date minus 18 years
+            var minAge = DateTime.Now.AddYears(-Constants.UserMinimumAge); //minage is todays date minus 18 years
             if (dob.Date > minAge.Date)
-            {
                 return new RegisterResponse
                 {
                     Success = false,
-                    Message = $"Unable to register user. You must be at least " + Constants.UserMinimumAge + " to register",
-                    Errors = new string[]
+                    Message = "Unable to register user. You must be at least " + Constants.UserMinimumAge +
+                              " to register",
+                    Errors = new[]
                     {
                         "User does not meet the age requirement"
                     }
                 };
-            }
 
             //generate a one time password
-            Random otpgenerator = new Random();
-            String otpRecord = otpgenerator.Next(100000, 999999).ToString();
-                
+            var otpgenerator = new Random();
+            var otpRecord = otpgenerator.Next(100000, 999999).ToString();
+
             //register the user first
             var user = new User
             {
                 FirstName = request.FirstName,
-                LastName =request.LastName,
+                LastName = request.LastName,
                 Email = request.Email,
                 Password = Encryption.EncryptString(request.Password),
                 OTP = otpRecord,
@@ -177,7 +163,7 @@ namespace CarShareApi.Models.Services.Implementations
                 Status = Constants.UserOTPStatus
             };
 
-            
+
             //Mail.SMTPMailer(request.Email, request.FirstName, otpRecord);
             UserRepository.Add(user);
 
@@ -197,90 +183,120 @@ namespace CarShareApi.Models.Services.Implementations
             };
             RegistrationRepository.Add(registration);
 
-            EmailProvider.Send(request.Email, request.FirstName, otpRecord);
-            //WelcomeMailer welcome = new WelcomeMailer(request.Email, request.FirstName, otpRecord);
+            var emailTemplate = TemplateRepository.FindAll().FirstOrDefault();
+
+            if (emailTemplate == null)
+            {
+                return new RegisterResponse
+                {
+                    Success = false,
+                    Message = "An error has occurred",
+                    Errors = new[]
+                    {
+                        "User account registered but no email sent. No email template defined."
+                    }
+                };
+            }
+
+            //convert the email template to replace the keys within the template
+            string subject = EmailKeyReplacer(emailTemplate.Subject, user);
+            string title = EmailKeyReplacer(emailTemplate.Title, user);
+            string body = EmailKeyReplacer(emailTemplate.Body, user);
+            string footer = EmailKeyReplacer(emailTemplate.Footer, user);
+
+            //This will send an email based on the fields passed
+            EmailProvider.Send(request.Email, subject, title, body, footer);
 
             //return successful operation
             return new RegisterResponse
             {
                 Success = true,
-                Message = $"User {user.Email} has been created. An email to validate this email address will be sent shortly."
+                Message =
+                    $"User {user.Email} has been created. An email to validate this email address will be sent shortly."
             };
         }
 
+        public string EmailKeyReplacer(string field, User user)
+        {
+            //this method passes a field from the email template and the user 
+            //account details then replaces the keys within the field so that
+            //it can be output clearly in HTML
+
+            field = field.Replace(Constants.TemplateNameField, user.FirstName);
+            field = field.Replace(Constants.TemplateEmailField, user.Email);
+            field = field.Replace(Constants.TemplateOTPField, user.OTP);
+            return field;
+    }
+
         public AddPaymentMethodResponse AddPaymentMethod(AddPaymentMethodRequest request, int accountId)
         {
-            
-            DateTime expiry = new DateTime(request.ExpiryYear, request.ExpiryMonth, DateTime.DaysInMonth(request.ExpiryYear, request.ExpiryMonth));
+            var expiry = new DateTime(request.ExpiryYear, request.ExpiryMonth,
+                DateTime.DaysInMonth(request.ExpiryYear, request.ExpiryMonth));
 
             var user = UserRepository.Find(accountId);
             if (user == null)
-            {
                 return new AddPaymentMethodResponse
                 {
                     Message = $"Account {accountId} does not exist",
                     Success = false
                 };
-            }
 
             if (user.Status != Constants.UserActiveStatus)
-            {
                 return new AddPaymentMethodResponse
                 {
-                    Message = $"Only activated users can add payment methods",
+                    Message = "Only activated users can add payment methods",
                     Success = false
                 };
-            }
 
             var existingPaymentMethod = PaymentMethodRepository.Find(accountId);
             if (existingPaymentMethod != null)
-            {
                 return new AddPaymentMethodResponse
                 {
                     Message = $"Payment method already exists for account {accountId}",
                     Success = false
                 };
-            }
 
             if (string.IsNullOrEmpty(request.CardNumber) || string.IsNullOrEmpty(request.CardVerificationValue))
-            {
                 return new AddPaymentMethodResponse
                 {
-                    Message = $"A credit card is required",
+                    Message = "A credit card is required",
                     Success = false
                 };
-            }
 
-            int sumOfDigits = request.CardNumber.Where((e) => e >= '0' && e <= '9')
-                    .Reverse()
-                    .Select((e, i) => ((int)e - 48) * (i % 2 == 0 ? 1 : 2))
-                    .Sum((e) => e / 10 + e % 10);
+            var sumOfDigits = request.CardNumber.Where(e => e >= '0' && e <= '9')
+                .Reverse()
+                .Select((e, i) => ((int) e - 48) * (i % 2 == 0 ? 1 : 2))
+                .Sum(e => e / 10 + e % 10);
 
             if (sumOfDigits % 10 != 0)
-            {
                 return new AddPaymentMethodResponse
                 {
-                    Message = $"The entered card number is invalid.",
+                    Message = "The entered card number is invalid.",
                     Success = false
                 };
-            }
 
             if (DateTime.Now > expiry)
-            {
                 return new AddPaymentMethodResponse
                 {
-                    Message = $"The entered credit card has expired.",
+                    Message = "The entered credit card has expired.",
                     Success = false
                 };
-            }
 
-            String cardType = null;
+            string cardType;
             switch (request.CardNumber.Substring(0, 1))
             {
-                case "3": cardType = "AMEX"; break;
-                case "4": cardType = "Visa"; break;
-                case "5": cardType = "Mastercard"; break;
-                default: cardType = "Mastercard"; break;
+                case "3":
+                    cardType = "AMEX";
+                    break;
+                case "4":
+                    cardType = "Visa";
+                    break;
+                case "5":
+                    cardType = "Mastercard";
+                    break;
+                default:
+                    cardType = "Mastercard";
+                    break;
             }
 
             try
@@ -297,7 +313,7 @@ namespace CarShareApi.Models.Services.Implementations
                 };
                 PaymentMethodRepository.Add(payment);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new AddPaymentMethodResponse
                 {
@@ -305,16 +321,16 @@ namespace CarShareApi.Models.Services.Implementations
                     Success = false
                 };
             }
-            
+
             return new AddPaymentMethodResponse
             {
                 Success = true,
-                Message = $"Payment method has been successfull added!"
+                Message = "Payment method has been successfull added!"
             };
         }
 
         /// <summary>
-        /// Return a list of bookings for a user
+        ///     Return a list of bookings for a user
         /// </summary>
         /// <param name="accountId">The user account id</param>
         /// <param name="pageNumber">The page number of the list</param>
@@ -326,19 +342,16 @@ namespace CarShareApi.Models.Services.Implementations
 
             //check user is real
             if (user == null)
-            {
                 return new BookingHistoryResponse
                 {
                     Success = false,
                     Message = $"User account {accountId} does not exist"
                 };
-            }
 
             //grab all user bookings
             var bookings = BookingRepository.FindByAccountId(accountId) ?? new List<Booking>();
 
             if (!bookings.Any())
-            {
                 return new BookingHistoryResponse
                 {
                     Success = false,
@@ -346,14 +359,13 @@ namespace CarShareApi.Models.Services.Implementations
                     PageNumber = pageNumber,
                     PageSize = pageSize,
                     TotalPages = 0,
-                    Message = $"No bookings for this user exist"
+                    Message = "No bookings for this user exist"
                 };
-            }
 
             //only grab closed bookings
             bookings = bookings
                 .Where(x => x.BookingStatus.Equals(Constants.BookingClosedStatus))
-                .OrderByDescending(x=>x.CheckIn)
+                .OrderByDescending(x => x.CheckIn)
                 .ToList();
 
 
@@ -364,7 +376,7 @@ namespace CarShareApi.Models.Services.Implementations
                 Count = bookings.Count,
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                TotalPages = (int)Math.Ceiling(Convert.ToDouble(bookings.Count) / Convert.ToDouble(pageSize))
+                TotalPages = (int) Math.Ceiling(Convert.ToDouble(bookings.Count) / Convert.ToDouble(pageSize))
             };
 
             //grab the records that relate to the requested page only
@@ -375,9 +387,7 @@ namespace CarShareApi.Models.Services.Implementations
             foreach (var booking in bookingsPage)
             {
                 if (booking.Car == null)
-                {
                     booking.Car = CarRepository.Find(booking.VehicleID);
-                }
 
                 if (booking.AmountBilled != null)
                 {
@@ -406,28 +416,23 @@ namespace CarShareApi.Models.Services.Implementations
 
 
         /// <summary>
-        /// Finds a user from the database and their associated registration if present
+        ///     Finds a user from the database and their associated registration if present
         /// </summary>
         /// <param name="id">The account ID of the user</param>
         /// <returns>A user object with populated registration</returns>
         public UserViewModel FindUser(int id)
         {
-
             var user = UserRepository.Find(id);
 
             //if the registration wasn't returned by the user repository then explicitly load from the
             //registration repository
             if (user.Registration == null)
-            {
                 user.Registration = RegistrationRepository.Find(user.AccountID);
-            }
 
             //if the payment method wasn't returned by the user repository then explicitly load from the
             //registration repository
             if (user.PaymentMethod == null)
-            {
                 user.PaymentMethod = PaymentMethodRepository.Find(user.AccountID);
-            }
 
             var viewModel = new UserViewModel(user);
 
@@ -444,7 +449,7 @@ namespace CarShareApi.Models.Services.Implementations
         }
 
         /// <summary>
-        /// Find all users in the system
+        ///     Find all users in the system
         /// </summary>
         /// <returns>A list of users</returns>
         public List<UserViewModel> FindUsers()
@@ -458,23 +463,23 @@ namespace CarShareApi.Models.Services.Implementations
 
             //check user is real
             if (user == null)
-            {
                 return new RegisterViewModel
                 {
                     Success = false,
                     Message = $"User account {accountId} does not exist"
                 };
-            }
 
             //grab users registration record and check if it exists
             var registration = RegistrationRepository.Find(accountId);
 
             if (registration == null)
-            {
                 return new RegisterViewModel
                 {
                     Success = false,
                     Message = $"User account {accountId} registration record doesn't exists",
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
                     DriversLicenceID = "",
                     DriversLicenceState = "",
                     AddressLine1 = "",
@@ -482,27 +487,24 @@ namespace CarShareApi.Models.Services.Implementations
                     Suburb = "",
                     State = "",
                     Postcode = "",
-                    PhoneNumber = "",
-                    DateOfBirth = DateTime.Now.ToString("dd/MM/yyyy")
+                    PhoneNumber = ""
                 };
-            }
-            else
+            return new RegisterViewModel
             {
-                return new RegisterViewModel
-                {
-                    Success = true,
-                    Message = $"User account {accountId} registration record exists",
-                    DriversLicenceID = registration.DriversLicenceID,
-                    DriversLicenceState = registration.DriversLicenceState,
-                    AddressLine1 = registration.AddressLine1,
-                    AddressLine2 = registration.AddressLine2,
-                    Suburb = registration.Suburb,
-                    State = registration.State,
-                    Postcode = registration.Postcode,
-                    PhoneNumber = registration.PhoneNumber,
-                    DateOfBirth = registration.DateOfBirth.ToString("dd/MM/yyyy")
-                };
-            }
+                Success = true,
+                Message = $"User account {accountId} registration record exists",
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                DriversLicenceID = registration.DriversLicenceID,
+                DriversLicenceState = registration.DriversLicenceState,
+                AddressLine1 = registration.AddressLine1,
+                AddressLine2 = registration.AddressLine2,
+                Suburb = registration.Suburb,
+                State = registration.State,
+                Postcode = registration.Postcode,
+                PhoneNumber = registration.PhoneNumber
+            };
         }
 
         public InterfaceResponse UpdateRegistration(RegisterUpdateRequest request, int accountId)
@@ -511,46 +513,14 @@ namespace CarShareApi.Models.Services.Implementations
 
             //check user is real
             if (user == null)
-            {
                 return new InterfaceResponse
                 {
                     Success = false,
                     Message = $"User account {accountId} does not exist"
                 };
-            }
-
-            DateTime dob = request.DateOfBirth ?? DateTime.Now; //this is because dob could be null
-
-            if (dob.Date > DateTime.Now)
-            {
-                return new InterfaceResponse
-                {
-                    Success = false,
-                    Message = $"You must enter a date before today's date",
-                    Errors = new string[]
-                    {
-                        "User does not meet the age requirement"
-                    }
-                };
-            }
-
-            DateTime minAge = DateTime.Now.AddYears(-Constants.UserMinimumAge); //minage is todays date minus 18 years
-            if (dob.Date > minAge.Date)
-            {
-                return new InterfaceResponse
-                {
-                    Success = false,
-                    Message = $"You must be at least " + Constants.UserMinimumAge + " to register",
-                    Errors = new string[]
-                    {
-                        "User does not meet the age requirement"
-                    }
-                };
-            }
 
             var record = RegistrationRepository.Find(accountId);
 
-            
 
             if (record == null)
             {
@@ -559,7 +529,6 @@ namespace CarShareApi.Models.Services.Implementations
                     AccountID = user.AccountID,
                     AddressLine1 = request.AddressLine1,
                     AddressLine2 = request.AddressLine2,
-                    DateOfBirth = request.DateOfBirth.Value,
                     DriversLicenceID = request.LicenceNumber,
                     DriversLicenceState = request.LicenceState,
                     PhoneNumber = request.PhoneNumber,
@@ -572,108 +541,98 @@ namespace CarShareApi.Models.Services.Implementations
             else
             {
                 record.AccountID = user.AccountID;
+                user.FirstName = request.FirstName;
+                user.LastName = request.LastName;
+                user.Email = request.Email;
                 record.AddressLine1 = request.AddressLine1;
                 record.AddressLine2 = request.AddressLine2;
-                record.DateOfBirth = request.DateOfBirth.Value;
                 record.DriversLicenceID = request.LicenceNumber;
                 record.DriversLicenceState = request.LicenceState;
                 record.PhoneNumber = request.PhoneNumber;
                 record.Postcode = request.Postcode;
                 record.State = request.State;
                 record.Suburb = request.Suburb;
+                UserRepository.Update(user);
                 RegistrationRepository.Update(record);
             }
 
             return new InterfaceResponse
             {
                 Success = true,
-                Message = $"Registration record updated"
+                Message = "Registration record updated"
             };
-
         }
 
         public PasswordResetResponse ResetPassword(PasswordResetRequest request)
         {
-            string licence = request.LicenceNumber;
-            DateTime? dob = request.DateOfBirth;
-            
+            var licence = request.LicenceNumber;
+            var dob = request.DateOfBirth;
+
             var user = UserRepository.FindByEmail(request.Email);
             if (user == null)
-            {
                 return new PasswordResetResponse
                 {
                     Success = false,
-                    Message = $"Password reset failed email mismatch"
+                    Message = "Password reset failed email mismatch"
                 };
-            }
 
             var registration = RegistrationRepository.Find(user.AccountID);
-            if(registration == null)
-            {
+            if (registration == null)
                 return new PasswordResetResponse
                 {
                     Success = false,
-                    Message = $"Password reset failed no registration"
+                    Message = "Password reset failed no registration"
                 };
-            }
 
             if (licence != registration.DriversLicenceID || dob != registration.DateOfBirth)
-            {
                 return new PasswordResetResponse
                 {
                     Success = false,
-                    Message = $"Password reset failed drivers licence and dob"
+                    Message = "Password reset failed drivers licence and dob"
                 };
-            }
 
             user.Password = Encryption.EncryptString(request.Password);
             UserRepository.Update(user);
             return new PasswordResetResponse
             {
                 Success = true,
-                Message = $"Password successfully reset"
+                Message = "Password successfully reset"
             };
         }
 
-        public OTPResponse OTPActivation(OTPRequest request)
+        public OTPResponse OtpActivation(OTPRequest request)
         {
-            string email = request.Email;
-            string otp = request.OTP;
-            
+            var email = request.Email;
+            var otp = request.OTP;
+
             var user = UserRepository.FindByEmail(request.Email);
             if (user == null)
-            {
                 return new OTPResponse
                 {
                     Success = false,
-                    Message = $"A user with this email address doesn't exist"
+                    Message = "A user with this email address doesn't exist"
                 };
-            }
 
             if (user.Status != Constants.UserOTPStatus)
-            {
                 return new OTPResponse
                 {
                     Success = false,
-                    Message = $"User account has already been activated"
+                    Message = "User account has already been activated"
                 };
-            }
 
-            if (otp != user.OTP.Substring(0,6))
-            {
+            if (otp != user.OTP.Substring(0, 6))
                 return new OTPResponse
                 {
                     Success = false,
-                    Message = $"The incorrect passcode has been applied. Check your email"
+                    Message = "The incorrect passcode has been applied. Check your email"
                 };
-            }
 
             user.Status = Constants.UserActiveStatus;
             UserRepository.Update(user);
             return new OTPResponse
             {
                 Success = true,
-                Message = $"Your account has now been activated"
+                Message = "Your account has now been activated"
             };
         }
 
