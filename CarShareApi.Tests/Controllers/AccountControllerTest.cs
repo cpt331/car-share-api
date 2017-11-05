@@ -57,6 +57,7 @@ namespace CarShareApi.Tests.Controllers
         private IUserRepository UserRepository { get; set; }
         private ICarRepository CarRepository { get; set; }
         private IBookingRepository BookingRepository { get; set; }
+        private ITemplateRepository TemplateRepository { get; set; }
         private IPaymentMethodRepository PaymentMethodRepository { get; set; }
         private UserService UserService { get; set; }
         private AccountController Controller { get; set; }
@@ -85,9 +86,15 @@ namespace CarShareApi.Tests.Controllers
                 JsonConvert.DeserializeObject<List<Booking>>(bookingsJson);
             BookingRepository = new FakeBookingRepository(bookings);
 
+            var templatesJson = GetInputFile("Templates.json").ReadToEnd();
+            var templates =
+                JsonConvert.DeserializeObject<List<Template>>(templatesJson);
+            TemplateRepository = new FakeTemplateRepository(templates);
+
             UserService = new UserService(UserRepository,
                 RegistrationRepository, BookingRepository,
-                PaymentMethodRepository, EmailProvider, CarRepository);
+                PaymentMethodRepository, EmailProvider, CarRepository,
+                TemplateRepository);
 
             Controller = new AccountController(UserService);
             Controller.Configuration = configuration;
@@ -486,7 +493,7 @@ namespace CarShareApi.Tests.Controllers
         }
 
         [TestMethod]
-        public void Register_UserIsRegistered_UserCanLogon()
+        public void Register_UserIsRegistered_UserCantLogon()
         {
             var model = new RegisterRequest
             {
@@ -511,7 +518,7 @@ namespace CarShareApi.Tests.Controllers
                 Password = model.Password
             });
 
-            Assert.IsTrue(logonResponse.Success);
+            Assert.IsFalse(logonResponse.Success);
         }
 
 
