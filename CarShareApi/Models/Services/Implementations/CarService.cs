@@ -10,14 +10,22 @@ namespace CarShareApi.Models.Services.Implementations
 {
     public class CarService : ICarService
     {
-        public CarService(ICarRepository carRepository, ICarCategoryRepository carCategoryRepository)
+
+        private ICityRepository CityRepository { get; set; }
+        private ICarRepository CarRepository { get; }
+        private ICarCategoryRepository CarCategoryRepository { get; }
+
+        public CarService(
+            ICarRepository carRepository, 
+            ICarCategoryRepository carCategoryRepository,
+            ICityRepository cityRepository)
         {
             CarRepository = carRepository;
             CarCategoryRepository = carCategoryRepository;
+            CityRepository = cityRepository;
         }
 
-        private ICarRepository CarRepository { get; }
-        private ICarCategoryRepository CarCategoryRepository { get; }
+        
 
         public List<CarViewModel> FindCarsByLocation(double lat, double lng)
         {
@@ -113,11 +121,36 @@ namespace CarShareApi.Models.Services.Implementations
                 car = new Car();
             }
 
+            //look through cities and ensure one is close enough for check in
+            var cities = CityRepository.FindAll();
+            City selectedCity = null;
+            foreach (var city in cities)
+            {
+                //use microsofts haversine formula (returns metres)
+                var cityCoordinate = new GeoCoordinate((double)city.LatPos, (double)city.LongPos);
+                var currentCoordinate = new GeoCoordinate((double)request.LatPos, (double)request.LongPos);
+                var distance = cityCoordinate.GetDistanceTo(currentCoordinate);
+                if (distance < Constants.BookingMaxRangeFromCityCentre)
+                {
+                    selectedCity = city;
+                    break;
+                }
+            }
+
+            if (selectedCity == null)
+            {
+                return new UpdateCarResponse
+                {
+                    Message = $"No cities are within a {Constants.BookingMaxRangeFromCityCentre}m radius",
+                    Success = false
+                };
+            }
+
             car.CarCategory = request.CarCategory;
             car.Make = request.Make;
             car.Model = request.Model;
             car.Status = request.Status;
-            car.Suburb = request.Suburb;
+            car.Suburb = selectedCity.CityName;
             car.LatPos = request.LatPos;
             car.LongPos = request.LongPos;
             car.Transmission = request.Transmission;

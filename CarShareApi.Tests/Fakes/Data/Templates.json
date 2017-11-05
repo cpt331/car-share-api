@@ -1,0 +1,9 @@
+﻿[
+  {
+    "ID":  1, 
+    "Subject": "Welcome to Ewebah!",
+    "Title": "Hi (@@NAME@@),",
+    "Body": "Body",
+    "Footer": "Regards!"
+  }
+]
