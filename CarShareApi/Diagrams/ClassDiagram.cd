@@ -1,0 +1,723 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="View Models">
+    <Position X="23.537" Y="8.64" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Database Entities">
+    <Position X="21.246" Y="8.639" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Booking Module">
+    <Position X="18.528" Y="1.34" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="User Module">
+    <Position X="8.804" Y="1.34" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="View Models">
+    <Position X="13.297" Y="8.113" Height="0.75" Width="4.502" />
+  </Comment>
+  <Comment CommentText="Database Entities">
+    <Position X="11.009" Y="8.132" Height="0.75" Width="1.982" />
+  </Comment>
+  <Comment CommentText="Car Module">
+    <Position X="27.295" Y="1.34" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="View Models">
+    <Position X="32.092" Y="7.781" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Database Entities">
+    <Position X="29.75" Y="7.75" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Admin Module">
+    <Position X="1.544" Y="1.34" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Database Entities">
+    <Position X="3.701" Y="7.055" Height="0.75" Width="1.982" />
+  </Comment>
+  <Comment CommentText="View Models">
+    <Position X="5.989" Y="7.037" Height="0.75" Width="2.193" />
+  </Comment>
+  <Comment CommentText="City Module">
+    <Position X="34.172" Y="1.34" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="View Models">
+    <Position X="37.78" Y="7.788" Height="0.75" Width="1.381" />
+  </Comment>
+  <Comment CommentText="Database Entities">
+    <Position X="36.1" Y="7.794" Height="0.75" Width="1.327" />
+  </Comment>
+  <Comment CommentText="Service">
+    <Position X="27.259" Y="7.734" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Service">
+    <Position X="34.215" Y="7.771" Height="0.75" Width="1.314" />
+  </Comment>
+  <Comment CommentText="Service">
+    <Position X="18.529" Y="8.609" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Service">
+    <Position X="8.773" Y="8.094" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Service">
+    <Position X="1.542" Y="7.09" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Email Functionality">
+    <Position X="40.035" Y="1.871" Height="0.75" Width="1.48" />
+  </Comment>
+  <Comment CommentText="Database">
+    <Position X="42.069" Y="1.889" Height="0.75" Width="1.48" />
+  </Comment>
+  <Comment CommentText="Authentication">
+    <Position X="40.024" Y="7.815" Height="0.75" Width="1.48" />
+  </Comment>
+  <Comment CommentText="System">
+    <Position X="40.03" Y="15.789" Height="0.75" Width="3.985" />
+  </Comment>
+  <Class Name="CarShareApi.Models.Constants">
+    <Position X="40" Y="22.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AQhIGAIAEAAAIBoACAAAAAEoAAEAAEAAgABIgCAAAEA=</HashCode>
+      <FileName>Models\Constants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Encryption">
+    <Position X="42.25" Y="16.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Encryption.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.EwebahConfig">
+    <Position X="40" Y="16.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAFAAAQAAAAAAAAAAAAAAACAACAAAARAAAABAAAAAA=</HashCode>
+      <FileName>Models\EwebahConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Extensions">
+    <Position X="42.25" Y="18" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Models\Extensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Helpers">
+    <Position X="42.25" Y="19.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Models\Helpers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.UnityResolver" BaseTypeListCollapsed="true">
+    <Position X="40" Y="19.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAACAAAAAACAAAAAAAAAAAAAAAAAAIAAAAAEA=</HashCode>
+      <FileName>Models\UnityResolver.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CarShareApi.Models.UserPrincipal">
+    <Position X="40" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAACAAAAAAEAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\UserPrincipal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Filters.AssignOAuth2SecurityRequirements" BaseTypeListCollapsed="true">
+    <Position X="40" Y="11.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Filters\AssignOAuth2SecurityRequirements.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CarShareApi.Models.Providers.CarShareAuthorisationServerProvider">
+    <Position X="40" Y="12.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAICAAAAAAAAgAAAAAQAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Providers\CarShareAuthorisationServerProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Providers.WelcomeMailer" BaseTypeListCollapsed="true">
+    <Position X="40" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAQAAAAAAAAAEAAAAACAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Providers\EmailProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Data.CarShareContext">
+    <Position X="42" Y="3" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>EAAABKCCAEAggAAAACAAAQAAEAgAQBAAAAAAGAABAAA=</HashCode>
+      <FileName>Models\Repositories\Data\CarShareContext.Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Data.Booking">
+    <Position X="21.25" Y="9.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAwMRAAAAyIQAAAAAAAAgBAAAIAAAEAAAAA=</HashCode>
+      <FileName>Models\Repositories\Data\Booking.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Data.BookingStatu">
+    <Position X="21.25" Y="14.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\Data\BookingStatu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Data.Car">
+    <Position X="29.75" Y="8.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAABAIEAACgAAkAAAAAAAAAAAAAgAAAAAgAAAMAgAA=</HashCode>
+      <FileName>Models\Repositories\Data\Car.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Data.CardType">
+    <Position X="11" Y="18.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\Data\CardType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Data.CarRego">
+    <Position X="29.75" Y="17.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAQAAAAAAAAAAAAAAAAAgAAAAAAABAAACAA=</HashCode>
+      <FileName>Models\Repositories\Data\CarRego.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Data.CarStatu">
+    <Position X="29.75" Y="15.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\Data\CarStatu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Data.City">
+    <Position X="36" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAIAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\Data\City.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Data.PaymentMethod">
+    <Position X="11" Y="20.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAABAAAAgAAAAAAAAgAAAAAAAAkAAAAAAAAAAAAAEAQ=</HashCode>
+      <FileName>Models\Repositories\Data\PaymentMethod.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Data.Receipt">
+    <Position X="21.25" Y="16.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>QAgAAAAAAAAAQAgAAAAQgAQgAAQAAAIAAAAABAAQAQA=</HashCode>
+      <FileName>Models\Repositories\Data\Receipt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Data.Registration">
+    <Position X="11" Y="13.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAgAAgAAwAAAAQAQAAAAAAAABAAQQAA=</HashCode>
+      <FileName>Models\Repositories\Data\Registration.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Data.Template">
+    <Position X="3.75" Y="8" Width="2" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAgEAAAIABAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\Data\Template.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Data.TransactionHistory">
+    <Position X="21.25" Y="20.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAABAACAAAAIAAAAACAAAAAgAABAQAAAAAAAEAEBAAA=</HashCode>
+      <FileName>Models\Repositories\Data\TransactionHistory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Data.TransactionStatu">
+    <Position X="21.25" Y="24.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\Data\TransactionStatu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Data.User">
+    <Position X="11" Y="9" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AgABAGAEAKAgAAABIgAAAAAAAAAAAAACAAAAAAAEAAg=</HashCode>
+      <FileName>Models\Repositories\Data\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Data.UserStatu">
+    <Position X="11" Y="16.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\Data\UserStatu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Implementations.BookingRepository" BaseTypeListCollapsed="true">
+    <Position X="18.5" Y="4.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAiAAAAAAAEQQQAAAAAEIAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\Implementations\BookingRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Implementations.CarCategoryRepository" BaseTypeListCollapsed="true">
+    <Position X="29.75" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAiAAAAAAAAAQAAAAAAEIAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\Implementations\CarCategoryRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Implementations.CarRepository" BaseTypeListCollapsed="true">
+    <Position X="27.25" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAiAAAAAAAAAQAAAAAAEIAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\Implementations\CarRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Implementations.CityRepository" BaseTypeListCollapsed="true">
+    <Position X="34.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAiAAAAAAAAAQAAAAAAEIAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\Implementations\CityRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Implementations.PaymentMethodRepository" BaseTypeListCollapsed="true">
+    <Position X="13.25" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAiAAAAAAAAAQAAAAAAEIAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\Implementations\PaymentMethodRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Implementations.RegistrationRepository" BaseTypeListCollapsed="true">
+    <Position X="11" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAiAAAAAAAAAQAAAAAAEIAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\Implementations\RegistrationRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Implementations.TemplateRepository" BaseTypeListCollapsed="true">
+    <Position X="1.5" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAgAAAAAAAAAQAAAAAAEIAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\Implementations\TemplateRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Implementations.TransactionHistoryRepository" BaseTypeListCollapsed="true">
+    <Position X="21.25" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAiAAAAAAAAAQAAAAAAEIAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\Implementations\TransactionHistoryRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Implementations.UserRepository" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAiAAAAAAAAAQAAAAAAEIAEgAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\Implementations\UserRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CarShareApi.Models.Services.Implementations.AdminService" BaseTypeListCollapsed="true">
+    <Position X="1.5" Y="9.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAEAAAQAAQAA=</HashCode>
+      <FileName>Models\Services\Implementations\AdminService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CarShareApi.Models.Services.Implementations.BookingService" BaseTypeListCollapsed="true">
+    <Position X="18.5" Y="11.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAIAAAACAgAAACAwAQCAAQAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Services\Implementations\BookingService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CarShareApi.Models.Services.Implementations.CarService" BaseTypeListCollapsed="true">
+    <Position X="27.25" Y="11.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>hABQAAAAASAAAAAAAQAAGAAAAAAAAAAABEAAAAAAAAA=</HashCode>
+      <FileName>Models\Services\Implementations\CarService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CarShareApi.Models.Services.Implementations.CityService" BaseTypeListCollapsed="true">
+    <Position X="34.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAYAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Services\Implementations\CityService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CarShareApi.Models.Services.Implementations.UserService" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="12.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gAQAAAEAACIgAAAAggAAAAAIAAABAAAQCAEABAAAxAA=</HashCode>
+      <FileName>Models\Services\Implementations\UserService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CarShareApi.Models.ViewModels.LogonRequest">
+    <Position X="13.25" Y="13" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Users\LogonRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.ViewModels.LogonResponse">
+    <Position X="13.25" Y="14.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAgAAIAAAAAAAAAABAgAAAAAAAAAAIAAAAAQ=</HashCode>
+      <FileName>ViewModels\Users\LogonResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.ViewModels.RegisterRequest">
+    <Position X="15.75" Y="9" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAACAAAAgAAgAA0AAAAAAQAAACAAAABAAQIAg=</HashCode>
+      <FileName>ViewModels\Users\RegisterRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.ViewModels.RegisterResponse">
+    <Position X="15.75" Y="13" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAgAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>ViewModels\Users\RegisterResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.CloseBookingCheckRequest">
+    <Position X="23.5" Y="9.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAIAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Bookings\CloseBookingCheckRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.CloseBookingCheckResponse">
+    <Position X="23.5" Y="11.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQCAAIAAAAAAAAAgAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>ViewModels\Bookings\CloseBookingCheckResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.CloseBookingRequest">
+    <Position X="23.5" Y="15.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAIAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Bookings\CloseBookingRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.CloseBookingResponse">
+    <Position X="23.5" Y="17.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQCAAIAAAAAAAAAgAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>ViewModels\Bookings\CloseBookingResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.OpenBookingResponse">
+    <Position X="23.5" Y="13.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAgAAAAAAABAAIAAAAAA=</HashCode>
+      <FileName>ViewModels\Bookings\OpenBookingResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.CarCategoryViewModel">
+    <Position X="32" Y="11.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Cars\CarCategoryViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.CarSearchCriteria">
+    <Position X="32" Y="8.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAECAAAgAAAAIAAAAAAAAAAAAAAgAIAIAAAA=</HashCode>
+      <FileName>ViewModels\Cars\CarSearchCriteria.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.CarViewModel">
+    <Position X="32" Y="18" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAIEAACAQAkAAAAAAAAAAAAAAABAAAgAAAIAgAA=</HashCode>
+      <FileName>ViewModels\Cars\CarViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.UpdateCarRequest">
+    <Position X="32" Y="13.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAIEAACAAAEAAAAAAAAAAAAAAAAAAAgAAAIAgAA=</HashCode>
+      <FileName>ViewModels\Cars\UpdateCarRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.CityViewModel">
+    <Position X="37.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAICIAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\CityViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.UserViewModel">
+    <Position X="15.75" Y="25.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAiAAIAgIAgAA0AABAAAQAAAAAAAABAAQAAQ=</HashCode>
+      <FileName>ViewModels\Users\UserViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Admin.TemplateField">
+    <Position X="6" Y="11.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Admin\TemplateField.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Bookings.BookingHistoryResponse">
+    <Position X="13.25" Y="22" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AACAAgAAAAAgAAAAAAAAAAQAAgAAAAAAAAAAMAAAAAA=</HashCode>
+      <FileName>ViewModels\Bookings\BookingHistoryResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Bookings.BookingViewModel">
+    <Position X="23.5" Y="20" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAYCAAAAiAQAAAAAAAAgAIAgAAAAAAAAEA=</HashCode>
+      <FileName>ViewModels\Bookings\BookingViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Bookings.TransactionRequest">
+    <Position X="23.5" Y="25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>QAABAAAAAAAIAAAAAAAAAAAgAAAAQAAAAAAAEAAAAAA=</HashCode>
+      <FileName>ViewModels\Bookings\TransactionRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Bookings.TransactionResponse">
+    <Position X="23.5" Y="23.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAgAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>ViewModels\Bookings\TransactionResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Cars.UpdateCarResponse">
+    <Position X="32" Y="16.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAgAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>ViewModels\Cars\UpdateCarResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Users.AddPaymentMethodRequest">
+    <Position X="13.25" Y="9" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAgAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAEAQ=</HashCode>
+      <FileName>ViewModels\Users\AddPaymentMethodRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Users.AddPaymentMethodResponse">
+    <Position X="13.25" Y="11.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAgAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>ViewModels\Users\AddPaymentMethodResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Users.InterfaceResponse">
+    <Position X="13.25" Y="20.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAgAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>ViewModels\Users\InterfaceResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Users.OTPRequest">
+    <Position X="15.75" Y="14.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Users\OTPRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Users.OTPResponse">
+    <Position X="15.75" Y="16.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAgAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>ViewModels\Users\OTPResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Users.PasswordResetRequest">
+    <Position X="15.75" Y="18" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAEAAAAAAQAAACAAAAAAAAIAA=</HashCode>
+      <FileName>ViewModels\Users\PasswordResetRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Users.PasswordResetResponse">
+    <Position X="15.75" Y="20.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAgAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>ViewModels\Users\PasswordResetResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Users.RegisterUpdateRequest">
+    <Position X="13.25" Y="17" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAACAAAAgAAgAA0AAAAAAAAAAAAAAABAAQAAg=</HashCode>
+      <FileName>ViewModels\Users\RegisterUpdateRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Users.RegisterViewModel">
+    <Position X="15.75" Y="22" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAACAAAAgAAAAAwAAAAwAAAAAAAAAAJAAQQAg=</HashCode>
+      <FileName>ViewModels\Users\RegisterViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.Models.Repositories.Data.CarCategory">
+    <Position X="29.75" Y="13" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAACAQAAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Models\Repositories\Data\CarCategory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Admin.TemplateUpdateRequest">
+    <Position X="6" Y="8" Width="2" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAEAAAIABAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Admin\TemplateUpdateRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Admin.TemplateUpdateResponse">
+    <Position X="6" Y="10" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAgAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>ViewModels\Admin\TemplateUpdateResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarShareApi.ViewModels.Admin.TemplateViewModel">
+    <Position X="6" Y="13.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAEAAAIABAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Admin\TemplateViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="CarShareApi.Models.Providers.IEmailProvider">
+    <Position X="40" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Providers\EmailProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CarShareApi.Models.Repositories.IBookingRepository">
+    <Position X="18.5" Y="2.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEQAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\IBookingRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CarShareApi.Models.Repositories.ICarCategoryRepository">
+    <Position X="29.75" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\ICarCategoryRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CarShareApi.Models.Repositories.ICarRepository">
+    <Position X="27.25" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\ICarRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CarShareApi.Models.Repositories.ICityRepository" Collapsed="true">
+    <Position X="34.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\ICityRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CarShareApi.Models.Repositories.IPaymentMethodRepository">
+    <Position X="13.25" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\IPaymentMethodRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CarShareApi.Models.Repositories.IRegistrationRepository">
+    <Position X="11" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\IRegistrationRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CarShareApi.Models.Repositories.IRepository&lt;T, TK&gt;" Collapsed="true">
+    <Position X="13.75" Y="1.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAAAAAAAQAAAAAAEIAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\IRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CarShareApi.Models.Repositories.ITemplateRepository">
+    <Position X="1.5" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\ITemplateRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CarShareApi.Models.Repositories.ITransactionHistoryRepository">
+    <Position X="21.25" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\ITransactionHistoryRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CarShareApi.Models.Repositories.IUserRepository">
+    <Position X="8.75" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repositories\IUserRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CarShareApi.Models.Services.IAdminService">
+    <Position X="1.5" Y="8" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAEAAAQAAAAA=</HashCode>
+      <FileName>Models\Services\IAdminService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CarShareApi.Models.Services.IBookingService">
+    <Position X="18.5" Y="9.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAQAAAQAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Services\IBookingService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CarShareApi.Models.Services.ICarService">
+    <Position X="27.25" Y="8.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BABQAAAAAQAAAAAAAQAAEAAAAAAAAAAABEAAAAAAAAA=</HashCode>
+      <FileName>Models\Services\ICarService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CarShareApi.Models.Services.ICityService">
+    <Position X="34.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Services\ICityService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CarShareApi.Models.Services.IUserService">
+    <Position X="8.75" Y="9" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gAQAAAAAAAAAAAAAgAAAAAAAAAABAAAQCAEABAAABAA=</HashCode>
+      <FileName>Models\Services\IUserService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
