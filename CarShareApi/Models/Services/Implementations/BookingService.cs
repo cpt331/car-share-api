@@ -80,6 +80,15 @@ namespace CarShareApi.Models.Services.Implementations
                     Success = false
                 };
 
+            //check is payment method exists
+            var payment = PaymentMethodRepository.Find(accountId);
+            if (payment == null)
+                return new OpenBookingResponse
+                {
+                    Message = "You enter a payment method before booking",
+                    Success = false
+                };
+
             //sanity check to ensure the vehicle has no other bookings
             var hasOpenVehicleBookings = BookingRepository
                 .FindByVehicleId(vehicleId)
