@@ -47,8 +47,7 @@ namespace CarShareApi.Models.Services.Implementations
 
         public OpenBookingResponse OpenBooking(int vehicleId, int accountId)
         {
-            //this method allows a car to be checked out
-
+            //this method allows a car to be checked ou
             //check car exists and is correct status
             var car = CarRepository.Find(vehicleId);
             if (car == null)
@@ -153,66 +152,27 @@ namespace CarShareApi.Models.Services.Implementations
             };
         }
 
+
         public CloseBookingResponse CloseBooking(CloseBookingRequest request,
             int accountId)
         {
             //get booking by id and ensure it exists
             var openBooking = BookingRepository.Find(request.BookingId);
-            if (openBooking == null || openBooking.BookingStatus !=
-                Constants.BookingOpenStatus)
-                return new CloseBookingResponse
-                {
-                    Message =
-                        "No open bookings were found for " +
-                        "this account and vehicle",
-                    Success = false
-                };
-
-            //check car exists and is correct status
             var car = CarRepository.Find(openBooking.VehicleID);
-            if (car == null)
-                return new CloseBookingResponse
-                {
-                    Message = $"Vehicle {openBooking.VehicleID} " +
-                              "does not exist",
-                    Success = false
-                };
-            if (car.Status != Constants.CarBookedStatus)
-                return new CloseBookingResponse
-                {
-                    Message =
-                        $"{car.Make} {car.Model} is not booked " +
-                        $"and can not be returned",
-                    Success = false
-                };
-
-
-            //check user exists
             var user = UserRepository.Find(accountId);
-            if (user == null)
+
+            if (openBooking == null || openBooking.BookingStatus !=
+                Constants.BookingOpenStatus || car == null || car.Status !=
+                Constants.CarBookedStatus || user == null)
                 return new CloseBookingResponse
                 {
-                    Message = $"Account {accountId} does not exist",
+                    Message = ValidateClosedBooking(openBooking, car, user),
                     Success = false
                 };
 
             //look through cities and ensure one is close enough for check in
-            var cities = CityRepository.FindAll();
-            City selectedCity = null;
-            foreach (var city in cities)
-            {
-                //use microsofts haversine formula (returns metres)
-                var cityCoordinate = new GeoCoordinate((double) city.LatPos,
-                    (double) city.LongPos);
-                var currentCoordinate = new GeoCoordinate(
-                    (double) request.Latitude, (double) request.Longitude);
-                var distance = cityCoordinate.GetDistanceTo(currentCoordinate);
-                if (distance < Constants.BookingMaxRangeFromCityCentre)
-                {
-                    selectedCity = city;
-                    break;
-                }
-            }
+            var selectedCity =
+                ValidateCity(request.Latitude, request.Longitude);
 
             //if city doesn't exist throw error
             if (selectedCity == null)
@@ -251,6 +211,7 @@ namespace CarShareApi.Models.Services.Implementations
             //return a successful message that booking was closed
             return new CloseBookingResponse
             {
+                //return message to show booking and billing details
                 City = selectedCity.CityName,
                 HourlyRate = openBooking.BillingRate.ToString("C"),
                 Message =
@@ -265,64 +226,24 @@ namespace CarShareApi.Models.Services.Implementations
         public CloseBookingCheckResponse CloseBookingCheck(
             CloseBookingCheckRequest request, int accountId)
         {
-
             //get booking by id and ensure it exists
             var openBooking = BookingRepository.Find(request.BookingId);
-            if (openBooking == null || openBooking.BookingStatus !=
-                Constants.BookingOpenStatus)
-                return new CloseBookingCheckResponse
-                {
-                    Message =
-                        "No open bookings were found for " +
-                        "this account and vehicle",
-                    Success = false
-                };
-
-            //check car exists and is correct status
             var car = CarRepository.Find(openBooking.VehicleID);
-            if (car == null)
-                return new CloseBookingCheckResponse
-                {
-                    Message = $"Vehicle {openBooking.VehicleID} " +
-                              "does not exist",
-                    Success = false
-                };
-            if (car.Status != Constants.CarBookedStatus)
-                return new CloseBookingCheckResponse
-                {
-                    Message =
-                        $"{car.Make} {car.Model} is not booked " +
-                        "and can not be returned",
-                    Success = false
-                };
-
-            //check user exists
             var user = UserRepository.Find(accountId);
-            if (user == null)
+
+            //cycle through all errors and return the appropriate message
+            if (openBooking == null || openBooking.BookingStatus !=
+                Constants.BookingOpenStatus || car == null || car.Status !=
+                Constants.CarBookedStatus || user == null)
                 return new CloseBookingCheckResponse
                 {
-                    Message = $"Account {accountId} does not exist",
+                    Message = ValidateClosedBooking(openBooking, car, user),
                     Success = false
                 };
 
             //look through cities and ensure one is close enough for check in
-            var cities = CityRepository.FindAll();
-            City selectedCity = null;
-            foreach (var city in cities)
-            {
-                //use microsofts haversine formula (returns metres)
-                var cityCoordinate = new GeoCoordinate((double) city.LatPos,
-                    (double) city.LongPos);
-                var currentCoordinate = new GeoCoordinate(
-                    (double) request.Latitude, (double) request.Longitude);
-                var distance = cityCoordinate.GetDistanceTo(currentCoordinate);
-                if (distance < Constants.BookingMaxRangeFromCityCentre)
-                {
-                    selectedCity = city;
-                    break;
-                }
-            }
-
+            var selectedCity = ValidateCity(request.Latitude,
+                request.Longitude);
             if (selectedCity == null)
                 return new CloseBookingCheckResponse
                 {
@@ -332,12 +253,14 @@ namespace CarShareApi.Models.Services.Implementations
                     Success = false
                 };
 
+            //assign variables to show the billing details
             var ts = DateTime.Now - openBooking.CheckOut;
             var totalHours = (int) Math.Ceiling(ts.TotalHours);
             var totalAmount = totalHours * (double) openBooking.BillingRate;
 
             return new CloseBookingCheckResponse
             {
+                //return values to show the current booking
                 City = selectedCity.CityName,
                 HourlyRate = openBooking.BillingRate.ToString("C"),
                 Message =
@@ -400,7 +323,6 @@ namespace CarShareApi.Models.Services.Implementations
                     "Transaction history has been " +
                     $"recorded for booking {bookingId}"
             };
-
         }
 
         public void Dispose()
@@ -411,6 +333,53 @@ namespace CarShareApi.Models.Services.Implementations
             UserRepository?.Dispose();
             CityRepository?.Dispose();
             TransactionHistoryRepository?.Dispose();
+        }
+
+        public string ValidateClosedBooking(Booking booking, Car car,
+            User user)
+        {
+            //if booking doesnt exist or booking is not the correct
+            //status then return this error
+            if (booking == null || booking.BookingStatus !=
+                Constants.BookingOpenStatus)
+                return "No open bookings were found for  " +
+                       "this account and vehicle";
+            //if the car doesn't exist within the booking throw an error
+            if (car == null)
+                return $"Vehicle {booking.VehicleID} does not exist";
+            //if the car at question doesnt have a booked status throw error
+            if (car.Status != Constants.CarBookedStatus)
+                return $"{car.Make} {car.Model} is not booked and " +
+                       "can not be returned";
+            //sanity check to catch user account issues
+            if (user == null)
+                return "Account does not exist";
+            return "";
+        }
+
+        public City ValidateCity(decimal lat, decimal longitude)
+        {
+            //look through cities and ensure one is close enough for check in
+            var cities = CityRepository.FindAll();
+            City selectedCity = null;
+            foreach (var city in cities)
+            {
+                //use microsofts haversine formula (returns metres)
+                //then assign current coordinates to work out the distance
+                var cityCoordinate = new GeoCoordinate((double) city.LatPos,
+                    (double) city.LongPos);
+                var currentCoordinate = new GeoCoordinate(
+                    (double) lat, (double) longitude);
+                var distance = cityCoordinate.GetDistanceTo(currentCoordinate);
+                if (distance < Constants.BookingMaxRangeFromCityCentre)
+                {
+                    //loop through all stored cities and if city is within
+                    //the city limit assign the variable to return
+                    selectedCity = city;
+                    break;
+                }
+            }
+            return selectedCity;
         }
     }
 }
