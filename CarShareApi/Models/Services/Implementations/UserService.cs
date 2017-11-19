@@ -475,8 +475,11 @@ namespace CarShareApi.Models.Services.Implementations
             if (registration == null)
                 return new RegisterViewModel
                 {
+                    //if no registration record for the user exists publish the 
+                    //base user information from user table
                     Success = false,
-                    Message = $"User account {accountId} registration record doesn't exists",
+                    Message = $"User account {accountId} registration record " +
+                              "doesn't exists",
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Email = user.Email,
@@ -491,11 +494,13 @@ namespace CarShareApi.Models.Services.Implementations
                 };
             return new RegisterViewModel
             {
+                //if registration record for the user exists publish the 
+                //full user information from user table
                 Success = true,
                 Message = $"User account {accountId} registration record exists",
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Email = user.Email,
+                //Email = user.Email,
                 DriversLicenceID = registration.DriversLicenceID,
                 DriversLicenceState = registration.DriversLicenceState,
                 AddressLine1 = registration.AddressLine1,
@@ -509,6 +514,10 @@ namespace CarShareApi.Models.Services.Implementations
 
         public InterfaceResponse UpdateRegistration(RegisterUpdateRequest request, int accountId)
         {
+
+            //this function allows the user to send their new rego details
+            //to update their account
+
             var user = UserRepository.Find(accountId);
 
             //check user is real
@@ -524,6 +533,7 @@ namespace CarShareApi.Models.Services.Implementations
 
             if (record == null)
             {
+                //create a new record if no record exists currently
                 var registration = new Registration
                 {
                     AccountID = user.AccountID,
@@ -540,10 +550,11 @@ namespace CarShareApi.Models.Services.Implementations
             }
             else
             {
+                //if a record exists override existing values
                 record.AccountID = user.AccountID;
                 user.FirstName = request.FirstName;
                 user.LastName = request.LastName;
-                user.Email = request.Email;
+                //user.Email = request.Email;
                 record.AddressLine1 = request.AddressLine1;
                 record.AddressLine2 = request.AddressLine2;
                 record.DriversLicenceID = request.LicenceNumber;
