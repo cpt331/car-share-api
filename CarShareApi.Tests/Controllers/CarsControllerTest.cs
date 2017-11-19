@@ -68,7 +68,7 @@ namespace CarShareApi.Tests.Controllers
                 Model = "CLS250",
                 Transmission = "AT",
                 Status = "Available",
-                LatPos = (decimal)-27.571280,
+                LatPos = (decimal)-17.571280,
                 LongPos = (decimal)152.964494
             };
 
@@ -76,7 +76,7 @@ namespace CarShareApi.Tests.Controllers
             UpdateCarResponse result = Controller.Update(request);
 
             //Assert
-            Assert.AreEqual("No cities are within a 10000m radius", result.Message);
+            Assert.AreEqual("No cities are within a 50000m radius", result.Message);
         }
 
         [TestMethod]
