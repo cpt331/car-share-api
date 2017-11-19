@@ -24,7 +24,7 @@
 
         public const string BookingClosedStatus = "Closed";
         public const string BookingCancelledStatus = "Cancelled";
-        public const double BookingMaxRangeFromCityCentre = 10000; //metres
+        public const double BookingMaxRangeFromCityCentre = 50000; //metres
 
         //transaction constants
         public const string TransactionUnpaidStatus = "Unpaid";
