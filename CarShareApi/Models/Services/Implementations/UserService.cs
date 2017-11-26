@@ -228,11 +228,14 @@ namespace CarShareApi.Models.Services.Implementations
             return field;
     }
 
-        public AddPaymentMethodResponse AddPaymentMethod(AddPaymentMethodRequest request, int accountId)
+        public AddPaymentMethodResponse AddPaymentMethod(
+            AddPaymentMethodRequest request, int accountId)
         {
+            //this class allows a user to create and edit their payment details
             var expiry = new DateTime(request.ExpiryYear, request.ExpiryMonth,
                 DateTime.DaysInMonth(request.ExpiryYear, request.ExpiryMonth));
 
+            //find the user and validate if they exist
             var user = UserRepository.Find(accountId);
             if (user == null)
                 return new AddPaymentMethodResponse
@@ -241,6 +244,7 @@ namespace CarShareApi.Models.Services.Implementations
                     Success = false
                 };
 
+            //validate that the user must be activated in the system first
             if (user.Status != Constants.UserActiveStatus)
                 return new AddPaymentMethodResponse
                 {
@@ -248,26 +252,24 @@ namespace CarShareApi.Models.Services.Implementations
                     Success = false
                 };
 
-            var existingPaymentMethod = PaymentMethodRepository.Find(accountId);
-            if (existingPaymentMethod != null)
-                return new AddPaymentMethodResponse
-                {
-                    Message = $"Payment method already exists for account {accountId}",
-                    Success = false
-                };
-
-            if (string.IsNullOrEmpty(request.CardNumber) || string.IsNullOrEmpty(request.CardVerificationValue))
+            //validate that the card number entered and cvv is not empty
+            if (string.IsNullOrEmpty(request.CardNumber) || 
+                string.IsNullOrEmpty(request.CardVerificationValue))
                 return new AddPaymentMethodResponse
                 {
                     Message = "A credit card is required",
                     Success = false
                 };
+            request.CardNumber = request.CardNumber.Replace(" ", "");
 
-            var sumOfDigits = request.CardNumber.Where(e => e >= '0' && e <= '9')
+            //luhn check to validate that the entered card number is correct
+            var sumOfDigits = request.CardNumber.Where(
+                e => e >= '0' && e <= '9')
                 .Reverse()
                 .Select((e, i) => ((int) e - 48) * (i % 2 == 0 ? 1 : 2))
                 .Sum(e => e / 10 + e % 10);
 
+            //if luhn check fails
             if (sumOfDigits % 10 != 0)
                 return new AddPaymentMethodResponse
                 {
@@ -275,6 +277,7 @@ namespace CarShareApi.Models.Services.Implementations
                     Success = false
                 };
 
+            //if the card expiry exceeds the historic date
             if (DateTime.Now > expiry)
                 return new AddPaymentMethodResponse
                 {
@@ -282,6 +285,7 @@ namespace CarShareApi.Models.Services.Implementations
                     Success = false
                 };
 
+            //calculate the card type
             string cardType;
             switch (request.CardNumber.Substring(0, 1))
             {
@@ -301,17 +305,36 @@ namespace CarShareApi.Models.Services.Implementations
 
             try
             {
-                var payment = new PaymentMethod
+                //if an existing payment method exists update the old one
+                var existingPaymentMethod = 
+                    PaymentMethodRepository.Find(accountId);
+                if (existingPaymentMethod != null)
                 {
-                    AccountID = accountId,
-                    CardNumber = request.CardNumber,
-                    CardName = request.CardName,
-                    CardType = cardType,
-                    ExpiryMonth = request.ExpiryMonth,
-                    ExpiryYear = request.ExpiryYear,
-                    CardVerificationValue = request.CardVerificationValue
+                    existingPaymentMethod.CardName = request.CardName;
+                    existingPaymentMethod.CardNumber = request.CardNumber;
+                    existingPaymentMethod.CardType = cardType;
+                    existingPaymentMethod.ExpiryMonth = request.ExpiryMonth;
+                    existingPaymentMethod.ExpiryYear = request.ExpiryYear;
+                    existingPaymentMethod.CardVerificationValue =
+                        request.CardVerificationValue;
+                    PaymentMethodRepository.Update(existingPaymentMethod);
+                }
+                else
+                {
+                //otherwise create a new payment method
+                    var payment = new PaymentMethod
+                    {
+                        AccountID = accountId,
+                        CardNumber = request.CardNumber,
+                        CardName = request.CardName,
+                        CardType = cardType,
+                        ExpiryMonth = request.ExpiryMonth,
+                        ExpiryYear = request.ExpiryYear,
+                        CardVerificationValue = request.CardVerificationValue
+                    };
+                    PaymentMethodRepository.Add(payment);
                 };
-                PaymentMethodRepository.Add(payment);
+
             }
             catch (Exception e)
             {
@@ -475,8 +498,11 @@ namespace CarShareApi.Models.Services.Implementations
             if (registration == null)
                 return new RegisterViewModel
                 {
+                    //if no registration record for the user exists publish the 
+                    //base user information from user table
                     Success = false,
-                    Message = $"User account {accountId} registration record doesn't exists",
+                    Message = $"User account {accountId} registration record " +
+                              "doesn't exists",
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Email = user.Email,
@@ -491,11 +517,13 @@ namespace CarShareApi.Models.Services.Implementations
                 };
             return new RegisterViewModel
             {
+                //if registration record for the user exists publish the 
+                //full user information from user table
                 Success = true,
                 Message = $"User account {accountId} registration record exists",
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Email = user.Email,
+                //Email = user.Email,
                 DriversLicenceID = registration.DriversLicenceID,
                 DriversLicenceState = registration.DriversLicenceState,
                 AddressLine1 = registration.AddressLine1,
@@ -509,6 +537,10 @@ namespace CarShareApi.Models.Services.Implementations
 
         public InterfaceResponse UpdateRegistration(RegisterUpdateRequest request, int accountId)
         {
+
+            //this function allows the user to send their new rego details
+            //to update their account
+
             var user = UserRepository.Find(accountId);
 
             //check user is real
@@ -524,6 +556,7 @@ namespace CarShareApi.Models.Services.Implementations
 
             if (record == null)
             {
+                //create a new record if no record exists currently
                 var registration = new Registration
                 {
                     AccountID = user.AccountID,
@@ -540,10 +573,11 @@ namespace CarShareApi.Models.Services.Implementations
             }
             else
             {
+                //if a record exists override existing values
                 record.AccountID = user.AccountID;
                 user.FirstName = request.FirstName;
                 user.LastName = request.LastName;
-                user.Email = request.Email;
+                //user.Email = request.Email;
                 record.AddressLine1 = request.AddressLine1;
                 record.AddressLine2 = request.AddressLine2;
                 record.DriversLicenceID = request.LicenceNumber;
