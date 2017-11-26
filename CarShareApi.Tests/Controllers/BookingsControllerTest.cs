@@ -69,7 +69,18 @@ namespace CarShareApi.Tests.Controllers
             RegistrationRepository = new FakeRegistrationRepository();
             PaymentMethodRepository =
                 new FakePaymentMethodRepository(
-                    new List<PaymentMethod>()); //todo make this
+                    new List<PaymentMethod>()
+                    {
+                        new PaymentMethod
+                        {
+                            AccountID =1,
+                            CardName = "Visa",
+                            CardNumber = "123456789",
+                            CardVerificationValue = "551",
+                            ExpiryMonth = 11,
+                            ExpiryYear = 2020
+                        }
+                    }); //todo make this
 
             BookingService = new BookingService(
                 BookingRepository,
