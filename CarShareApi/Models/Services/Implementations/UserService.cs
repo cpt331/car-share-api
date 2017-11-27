@@ -146,6 +146,19 @@ namespace CarShareApi.Models.Services.Implementations
                     }
                 };
 
+            //validaite that the input phone number is within 10 digits
+            string phoneNo = request.PhoneNumber.Replace(" ","");
+            if (phoneNo.Length > 10)
+                return new RegisterResponse
+                {
+                    Success = false,
+                    Message = "Phone number must be 10 digits long",
+                    Errors = new[]
+                    {
+                        "User's phone number is not valid"
+                    }
+                };
+
             //generate a one time password
             var otpgenerator = new Random();
             var otpRecord = otpgenerator.Next(100000, 999999).ToString();
@@ -158,7 +171,6 @@ namespace CarShareApi.Models.Services.Implementations
                 Email = request.Email,
                 Password = Encryption.EncryptString(request.Password),
                 OTP = otpRecord,
-                //Status = Constants.UserActiveStatus,
                 UserGroup = Constants.UserGroupName,
                 Status = Constants.UserOTPStatus
             };
@@ -176,7 +188,7 @@ namespace CarShareApi.Models.Services.Implementations
                 DateOfBirth = request.DateOfBirth.Value,
                 DriversLicenceID = request.LicenceNumber,
                 DriversLicenceState = request.LicenceState,
-                PhoneNumber = request.PhoneNumber,
+                PhoneNumber = phoneNo,
                 Postcode = request.Postcode,
                 State = request.State,
                 Suburb = request.Suburb
