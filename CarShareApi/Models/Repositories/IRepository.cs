@@ -1,4 +1,13 @@
-﻿using System.Collections.Generic;
+﻿//======================================
+//
+//Name: IRepository.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CarShareApi.Models.Repositories

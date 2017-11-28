@@ -1,4 +1,13 @@
-﻿using System;
+﻿//======================================
+//
+//Name: UserViewModel.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System;
 using CarShareApi.Models;
 using CarShareApi.Models.Repositories.Data;
 

@@ -1,4 +1,13 @@
-﻿using System;
+﻿//======================================
+//
+//Name: IBookingService.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System;
 using CarShareApi.ViewModels;
 using CarShareApi.ViewModels.Bookings;
 

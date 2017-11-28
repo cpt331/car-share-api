@@ -1,4 +1,13 @@
-﻿namespace CarShareApi.ViewModels.Users
+﻿//======================================
+//
+//Name: InterfaceResponse.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+namespace CarShareApi.ViewModels.Users
 {
     public class InterfaceResponse
     {

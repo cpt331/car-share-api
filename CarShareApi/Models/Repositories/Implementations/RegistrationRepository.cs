@@ -1,4 +1,13 @@
-﻿using System.Collections.Generic;
+﻿//======================================
+//
+//Name: RegistrationRepository.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using CarShareApi.Models.Repositories.Data;

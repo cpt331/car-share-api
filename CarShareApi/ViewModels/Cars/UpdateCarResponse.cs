@@ -1,4 +1,13 @@
-﻿namespace CarShareApi.ViewModels.Cars
+﻿//======================================
+//
+//Name: UpdateCarResponse.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+namespace CarShareApi.ViewModels.Cars
 {
     public class UpdateCarResponse
     {

@@ -1,4 +1,13 @@
-﻿using System;
+﻿//======================================
+//
+//Name: CarsControllerTest.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -59,6 +68,7 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void CarUpdate_OutsideCityLimits_DoesNotUpdate()
         {
+            //Unit testing against locations outside allowable drop off zone
             //Arrange
             var request = new UpdateCarRequest
             {
@@ -82,6 +92,7 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void CarUpdate_InsideCityLimits_DoesUpdate()
         {
+            //testing within allowable drop off zone
             //Arrange
             var request = new UpdateCarRequest
             {
@@ -105,6 +116,7 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void CarSearch_InSuburb_OnlyReturnsThatSuburb()
         {
+            //check to see cars are within the suburb search
             // Arrange
             var criteria = new CarSearchCriteria
             {
@@ -124,6 +136,7 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void CarSearch_ByMake_OnlyReturnsThatMake()
         {
+            //check on car search when searching vehicle make
             // Arrange
             var criteria = new CarSearchCriteria
             {
@@ -143,6 +156,7 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void CarSearch_ByModel_OnlyReturnsThatModel()
         {
+            //check on car search when searching vehicle model
             // Arrange
             var criteria = new CarSearchCriteria
             {
@@ -162,6 +176,7 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void CarSearch_WithMaxResults_DoesNotExceedLimit()
         {
+            //check on car search does not exceed other paging restrictions
             // Arrange
             var criteria = new CarSearchCriteria
             {
@@ -179,6 +194,7 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void CarSearch_Everything_OnlyActiveCars()
         {
+            //check on car search when ensuring only active cars are returned
             // Arrange
             var criteria = new CarSearchCriteria();
 
@@ -195,6 +211,7 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void CarSearch_NearLocation_ReturnsCalculcatedDistances()
         {
+            //check on car search when searching vehicles nearby
             // Arrange
             var criteria = new CarSearchCriteria
             {
@@ -214,6 +231,7 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void CarSearch_NearLocationAndRadius_ReturnsCarsWithinRadius()
         {
+            //check on car search when searching nearby within a distance
             // Arrange
             var criteria = new CarSearchCriteria
             {

@@ -1,4 +1,13 @@
-﻿namespace CarShareApi.Models
+﻿//======================================
+//
+//Name: Constants.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+namespace CarShareApi.Models
 {
     public static class Constants
     {

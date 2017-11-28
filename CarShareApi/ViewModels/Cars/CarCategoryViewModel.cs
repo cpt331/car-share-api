@@ -1,4 +1,13 @@
-﻿using CarShareApi.Models.Repositories.Data;
+﻿//======================================
+//
+//Name: CarCategoryViewModel.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.ViewModels
 {

@@ -1,4 +1,13 @@
-﻿using System.Security.Claims;
+﻿//======================================
+//
+//Name: UserPrincipal.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: 
+//
+//======================================
+
+using System.Security.Claims;
 
 namespace CarShareApi.Models
 {

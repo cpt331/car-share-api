@@ -1,4 +1,13 @@
-﻿using System;
+﻿//======================================
+//
+//Name: UserRepository.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;

@@ -1,4 +1,13 @@
-﻿using System.Linq;
+﻿//======================================
+//
+//Name: AccountController.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System.Linq;
 using System.Security.Claims;
 using System.Web.Http;
 using CarShareApi.Models;

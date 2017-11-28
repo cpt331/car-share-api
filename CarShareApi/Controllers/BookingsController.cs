@@ -1,4 +1,13 @@
-﻿using System.Security.Claims;
+﻿//======================================
+//
+//Name: BookingsController.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System.Security.Claims;
 using System.Web.Http;
 using CarShareApi.Models;
 using CarShareApi.Models.Services;

@@ -1,4 +1,13 @@
-﻿using System;
+﻿//======================================
+//
+//Name: IUserService.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System;
 using System.Collections.Generic;
 using CarShareApi.Models.ViewModels;
 using CarShareApi.ViewModels;

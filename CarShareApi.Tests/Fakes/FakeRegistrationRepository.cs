@@ -1,4 +1,13 @@
-﻿using System;
+﻿//======================================
+//
+//Name: FakeRegistrationRepository.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
@@ -11,6 +20,8 @@ namespace CarShareApi.Tests.Fakes
     {
         public FakeRegistrationRepository()
         {
+            //implemented Registration repository to allow for appropriate methods
+            //to enable testing
             if (MemoryCache.Default.Contains("Registrations"))
                 Registrations =
                     MemoryCache.Default["Registrations"] as List<Registration>;
@@ -19,6 +30,7 @@ namespace CarShareApi.Tests.Fakes
             {
                 Registrations = new List<Registration>
                 {
+                    //Create four users testing only
                     new Registration
                     {
                         AccountID = 1,
@@ -81,33 +93,39 @@ namespace CarShareApi.Tests.Fakes
 
         public Registration Add(Registration item)
         {
+            //add registration recordto the registration repo
             Registrations.Add(item);
             return item;
         }
 
         public void Delete(int id)
         {
+            //remove the registration record from the table
             Registrations.RemoveAll(x => x.AccountID == id);
         }
 
         public Registration Find(int id)
         {
+            //find car category based on account ID
             return Registrations.FirstOrDefault(x => x.AccountID == id);
         }
 
         public List<Registration> FindAll()
         {
+            //return all Registrations to list
             return Registrations;
         }
 
         public IQueryable<Registration> Query()
         {
+            //return querable Registrations list
             return Registrations.AsQueryable();
         }
 
 
         public Registration Update(Registration item)
         {
+            //update the registration record with new items
             Registrations.RemoveAll(x => x.AccountID == item.AccountID);
             Registrations.Add(item);
             return item;
@@ -115,7 +133,7 @@ namespace CarShareApi.Tests.Fakes
 
         public void Dispose()
         {
-            //nah
+            //not implemented
         }
     }
 }

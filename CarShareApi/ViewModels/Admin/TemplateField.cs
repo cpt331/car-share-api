@@ -1,4 +1,13 @@
-﻿namespace CarShareApi.ViewModels.Admin
+﻿//======================================
+//
+//Name: TemplateField.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+namespace CarShareApi.ViewModels.Admin
 {
     public class TemplateField
     {

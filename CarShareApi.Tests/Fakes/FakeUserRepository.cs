@@ -1,4 +1,13 @@
-﻿using System;
+﻿//======================================
+//
+//Name: FakeUserRepository.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
@@ -10,6 +19,8 @@ namespace CarShareApi.Tests.Fakes
 {
     public class FakeUserRepository : IUserRepository
     {
+        //implemented user repository to allow for appropriate methods
+        //to enable testing
         public FakeUserRepository()
         {
             if (MemoryCache.Default.Contains("Users"))
@@ -19,6 +30,7 @@ namespace CarShareApi.Tests.Fakes
             {
                 Users = new List<User>
                 {
+                    //Create four users for testing only
                     new User
                     {
                         AccountID = 1,
@@ -65,6 +77,7 @@ namespace CarShareApi.Tests.Fakes
 
         public User Add(User item)
         {
+            //add new user to the user table
             item.AccountID = new Random().Next(int.MinValue, int.MaxValue);
             Users.Add(item);
             return item;
@@ -72,11 +85,13 @@ namespace CarShareApi.Tests.Fakes
 
         public void Delete(int id)
         {
+            //remove the user from the table
             Users.RemoveAll(x => x.AccountID == id);
         }
 
         public User Find(int id)
         {
+            //find first user based on account id
             return Users.FirstOrDefault(x => x.AccountID == id);
         }
 

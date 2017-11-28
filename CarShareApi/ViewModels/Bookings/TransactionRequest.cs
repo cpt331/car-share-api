@@ -1,4 +1,13 @@
-﻿using System;
+﻿//======================================
+//
+//Name: TransactionRequest.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System;
 
 namespace CarShareApi.ViewModels.Bookings
 {

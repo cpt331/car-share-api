@@ -1,4 +1,13 @@
-﻿using System.Collections.Generic;
+﻿//======================================
+//
+//Name: CityViewModel.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System.Collections.Generic;
 using CarShareApi.Models.Repositories.Data;
 
 namespace CarShareApi.ViewModels

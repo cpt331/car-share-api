@@ -1,4 +1,13 @@
-﻿using CarShareApi.Models.Providers;
+﻿//======================================
+//
+//Name: UserService.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using CarShareApi.Models.Providers;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
 using CarShareApi.Models.ViewModels;

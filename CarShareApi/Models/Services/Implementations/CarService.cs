@@ -1,4 +1,13 @@
-﻿using System.Collections.Generic;
+﻿//======================================
+//
+//Name: CarService.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
 using CarShareApi.Models.Repositories;

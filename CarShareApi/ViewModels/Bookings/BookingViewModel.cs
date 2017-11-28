@@ -1,4 +1,13 @@
-﻿namespace CarShareApi.ViewModels.Bookings
+﻿//======================================
+//
+//Name: BookingViewModel.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+namespace CarShareApi.ViewModels.Bookings
 {
     public class BookingViewModel
     {

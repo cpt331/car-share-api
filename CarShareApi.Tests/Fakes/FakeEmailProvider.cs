@@ -1,13 +1,24 @@
-﻿using System;
+﻿//======================================
+//
+//Name: FakeEmailProvider.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System;
 using CarShareApi.Models.Providers;
 
 namespace CarShareApi.Tests.Fakes
 {
     public class FakeEmailProvider : IEmailProvider
     {
+        //email testing by implementing the smtp mailer
         public void Send(string email, string firstName, string otpRecord)
         {
-            //do nothing
+            //write records to console for testing
+            //this would normally be the email content
             Console.WriteLine($"email: {email}");
             Console.WriteLine($"firstName: {firstName}");
             Console.WriteLine($"otpRecord: {otpRecord}");
@@ -16,7 +27,8 @@ namespace CarShareApi.Tests.Fakes
         public void Send(string email, string subject, 
             string title, string body, string footer)
         {
-            //do nothing
+            //write records to console for testing
+            //this would normally be the email header content
             Console.WriteLine($"email: {email}");
             Console.WriteLine($"subject: {subject}");
             Console.WriteLine($"title: {title}");

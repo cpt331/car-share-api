@@ -1,4 +1,13 @@
-﻿namespace CarShareApi.Models.ViewModels
+﻿//======================================
+//
+//Name: RegisterResponse.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+namespace CarShareApi.Models.ViewModels
 {
     public class RegisterResponse
     {

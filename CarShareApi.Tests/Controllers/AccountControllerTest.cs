@@ -1,4 +1,13 @@
-﻿using System;
+﻿//======================================
+//
+//Name: AccountControllerTest.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,6 +33,8 @@ namespace CarShareApi.Tests.Controllers
     [TestClass]
     public class AccountControllerTest
     {
+        //attempt to preload the valid and invalid emails addresses
+        //for testing
         private readonly string InvalidEmails = @"plainaddress
                 #@%^%#$@#$@#.com
                 @example.com
@@ -67,6 +78,8 @@ namespace CarShareApi.Tests.Controllers
         [TestInitialize]
         public void SetupTests()
         {
+            //initiating the testing by parsing testing data into
+            //the appropriate interfaces
             var configuration = new HttpConfiguration();
 
             UserRepository = new FakeUserRepository();
@@ -107,6 +120,7 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public async Task Login_InvalidUser_ReturnsBadRequest()
         {
+            //testing for response on invalid user details
             var logonRequest = new LogonRequest
             {
                 Email = "fds",
@@ -136,6 +150,8 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public async Task Login_ValidUser_ReturnsToken()
         {
+            //unit testing to ensure that a valid user and credentials
+            //return a token
             var logonRequest = new LogonRequest
             {
                 Email = "user1@gmail.com",
@@ -171,6 +187,8 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public async Task Account_TokenProvided_ReturnsUser()
         {
+            //unit testing to ensure that the user who has provided
+            //correct credentials can also access all user data
             Console.WriteLine("Starting test");
             var logonRequest = new LogonRequest
             {
@@ -233,6 +251,7 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public async Task Account_NoTokenProvided_ReturnsNull()
         {
+            //testing to see if a user can login without a token
             Console.WriteLine("Starting test");
 
 
@@ -264,6 +283,8 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void Register_NoEmailProvided_ReturnsValidationError()
         {
+            //test to see if registration can be pushed without a valid
+            //email address
             var model = new RegisterRequest
             {
                 Email = "",
@@ -287,6 +308,8 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void Register_NoLicenceProvided_ReturnsValidationError()
         {
+            //test to see if licence can be pushed without a valid
+            //licence
             var model = new RegisterRequest
             {
                 Email = "user3@gmail.com",
@@ -310,6 +333,8 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void Register_NoDateOfBirthProvided_ReturnsValidationError()
         {
+            //test to see if date of birth can be pushed without a valid
+            //dob
             var model = new RegisterRequest
             {
                 Email = "user2@gmail.com",
@@ -333,6 +358,8 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void Register_NoFirstNameProvided_ReturnsValidationError()
         {
+            //test to see if first name in registration can be pushed without a 
+            //valid name
             var model = new RegisterRequest
             {
                 Email = "homer.simpson6@gmail.com",
@@ -356,6 +383,8 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void Register_NoLastNameProvided_ReturnsValidationError()
         {
+            //test to see if last name in registration can be pushed without a 
+            //valid name
             var model = new RegisterRequest
             {
                 Email = "homer.simpson5@gmail.com",
@@ -379,6 +408,7 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void Register_PasswordMisMatch_ReturnsValidationError()
         {
+            //test to see if both passwords match on input when registering
             var model = new RegisterRequest
             {
                 Email = "homer.simpson4@gmail.com",
@@ -402,6 +432,9 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void Register_InvalidEmailsProvided_ReturnsValidationError()
         {
+            //test to see if emailin registration can be pushed without a 
+            //valid email
+
             //Test invalid emails
             foreach (var line in InvalidEmails
                 .Split(new[] {Environment.NewLine},
@@ -468,6 +501,7 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void Register_UserIsRegistered_RegistrationIsPresent()
         {
+            //test to see if user can register when an account already exists
             var model = new RegisterRequest
             {
                 Email = "homer.simpson3@gmail.com",
@@ -525,6 +559,8 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void Register_UserIsRegistered_PasswordIsEncrypted()
         {
+            //check on password encrpytion is correct by passing
+            //clear text password
             Console.WriteLine("Starting test");
             var model = new RegisterRequest
             {

@@ -1,4 +1,13 @@
-﻿using System.Security.Cryptography;
+﻿//======================================
+//
+//Name: Encryption.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: 
+//
+//======================================
+
+using System.Security.Cryptography;
 using System.Text;
 
 namespace CarShareApi.Models

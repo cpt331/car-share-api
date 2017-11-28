@@ -1,4 +1,13 @@
-﻿using System;
+﻿//======================================
+//
+//Name: Extensions.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: 
+//
+//======================================
+
+using System;
 using System.Text;
 
 namespace CarShareApi.Models

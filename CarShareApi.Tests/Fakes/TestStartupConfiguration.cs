@@ -1,4 +1,13 @@
-﻿using System.Web.Http;
+﻿//======================================
+//
+//Name: TestStartupConfiguration.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System.Web.Http;
 using CarShareApi.Models;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Services;
@@ -8,6 +17,9 @@ namespace CarShareApi.Tests.Fakes
 {
     public class TestStartupConfiguration : Startup
     {
+        //class assists in testing by 
+        //1) creation of all repositories and then
+        //2) testing all the tables being handled
         public static HttpConfiguration HttpConfiguration;
 
         public static IUserRepository UserRepository;
@@ -26,6 +38,7 @@ namespace CarShareApi.Tests.Fakes
 
         public override HttpConfiguration GetInjectionConfiguration()
         {
+            
             var container = new UnityContainer();
             if (UserRepository != null)
                 container.RegisterInstance(UserRepository);

@@ -1,4 +1,13 @@
-﻿using System;
+﻿//======================================
+//
+//Name: BookingService.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System;
 using System.Device.Location;
 using System.Linq;
 using CarShareApi.Models.Repositories;

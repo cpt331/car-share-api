@@ -1,4 +1,13 @@
-﻿namespace CarShareApi.ViewModels
+﻿//======================================
+//
+//Name: CloseBookingRequest.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+namespace CarShareApi.ViewModels
 {
     public class CloseBookingRequest
     {

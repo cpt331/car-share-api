@@ -1,4 +1,13 @@
-﻿using System;
+﻿//======================================
+//
+//Name: BookingsControllerTest.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -16,9 +25,11 @@ using Newtonsoft.Json;
 
 namespace CarShareApi.Tests.Controllers
 {
+    //this class provides the unit testing for bookings
     [TestClass]
     public class BookingsControllerTest
     {
+        //set up all interfaces
         private BookingsController Controller { get; set; }
 
         private IUserRepository UserRepository { get; set; }
@@ -41,6 +52,7 @@ namespace CarShareApi.Tests.Controllers
         [TestInitialize]
         public void SetupTests()
         {
+            //initiating testin configurations / connections
             var configuration = new HttpConfiguration();
 
             var carsJson = GetInputFile("Cars.json").ReadToEnd();
@@ -112,7 +124,7 @@ namespace CarShareApi.Tests.Controllers
         [TestMethod]
         public void BookingOpen_VehicleIsAvailable_CarIsBooked()
         {
-            //Controller.RequestContext.Principal = 
+            //pass login and check if vehicle is open and can be booked
             Thread.CurrentPrincipal = new TestPrincipal(
                 new Claim("name", "John Doe"),
                 new Claim(ClaimTypes.PrimarySid, "1"));

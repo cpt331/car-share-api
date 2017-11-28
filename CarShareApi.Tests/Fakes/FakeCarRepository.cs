@@ -1,4 +1,13 @@
-﻿using System;
+﻿//======================================
+//
+//Name: FakeCarRepository.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CarShareApi.Models.Repositories;
@@ -8,13 +17,17 @@ namespace CarShareApi.Tests.Fakes
 {
     public class FakeCarRepository : ICarRepository
     {
+        //implemented car repository to allow for appropriate methods
+        //to enable testing
         public FakeCarRepository(List<Car> cars)
         {
+            //implements the car table data set
             Cars = cars;
         }
 
         public FakeCarRepository()
         {
+            //Create three cars for vehicle repo (testing only)
             Cars = new List<Car>
             {
                 new Car
@@ -49,6 +62,7 @@ namespace CarShareApi.Tests.Fakes
 
         public Car Add(Car item)
         {
+            //add item to the car repo
             item.VehicleID = new Random().Next(int.MinValue, int.MaxValue);
             Cars.Add(item);
             return item;
@@ -56,27 +70,32 @@ namespace CarShareApi.Tests.Fakes
 
         public void Delete(int id)
         {
+            //remove the car from the table
             Cars.RemoveAll(x => x.VehicleID == id);
         }
 
         public Car Find(int id)
         {
+            //find car based on vehicle ID
             return Cars.FirstOrDefault(x => x.VehicleID == id);
         }
 
         public List<Car> FindAll()
         {
+            //find all cars and return as a list
             return Cars;
         }
 
         public IQueryable<Car> Query()
         {
+            //return querable car list
             return Cars.AsQueryable();
         }
 
 
         public Car Update(Car item)
         {
+            //update the cars table with new items
             Cars.RemoveAll(x => x.VehicleID == item.VehicleID);
             Cars.Add(item);
             return item;
@@ -84,7 +103,7 @@ namespace CarShareApi.Tests.Fakes
 
         public void Dispose()
         {
-            //nah
+            //not implemented
         }
     }
 }

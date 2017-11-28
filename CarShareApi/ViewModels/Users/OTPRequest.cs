@@ -1,4 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿//======================================
+//
+//Name: OTPRequest.cs
+//Version: 1.0
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System.ComponentModel.DataAnnotations;
 
 namespace CarShareApi.ViewModels.Users
 {
