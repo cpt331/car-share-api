@@ -1,4 +1,14 @@
-﻿using System.Collections.Generic;
+﻿//======================================
+//
+//Name: CarShareAuthorisationServerProvider.cs
+//Version: 1.0
+//Date: 03/12/2017
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CarShareApi.Models.Services;

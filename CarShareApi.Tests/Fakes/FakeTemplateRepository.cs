@@ -2,16 +2,14 @@
 //
 //Name: FakeTemplateRepository.cs
 //Version: 1.0
+//Date: 03/12/2017
 //Developer: Steven Innes
 //Contributor: Shawn Burriss
 //
 //======================================
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CarShareApi.Models.Repositories;
 using CarShareApi.Models.Repositories.Data;
 

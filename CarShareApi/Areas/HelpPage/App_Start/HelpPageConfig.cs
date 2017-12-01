@@ -1,3 +1,13 @@
+//======================================
+//
+//Name: HelpPageConfig.cs
+//Version: 1.0
+//Date: 03/12/2017
+//Developer: Steven Innes
+//Contributor: Shawn Burriss
+//
+//======================================
+
 // Uncomment the following to provide samples for PageResult<T>. Must also add the Microsoft.AspNet.WebApi.OData
 // package to your project.
 ////#define Handle_PageResultOfT
